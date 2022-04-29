@@ -36,8 +36,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('basic.auth0', [AuthController::class, 'register']);
 Route::post('basic.auth1', [AuthController::class, 'adminRegister']);
-Route::post('basic.auth2', [AuthController::class, 'sAdminRegister']);
-Route::post('basic.verify/{code}', [AuthController::class, 'verifyEmail']);
+Route::post('basic.auth3', [AuthController::class, 'sAdminRegister']);
+Route::get('basic.verify/{code}', [AuthController::class, 'verifyEmail']);
 
 Route::post('forgot-password', [AuthController::class, 'forgetPass'])->middleware('guest');
 Route::post('reset-password', [AuthController::class, 'resetPass'])->middleware('guest');
@@ -56,47 +56,50 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin;
     Route::resource('admin', AdminController::class, ['only' => ['index', 'show', 'update', 'destroy']]);
     Route::get('admin-home', [AdminController::class, 'home']);
-    Route::patch('admin-refresh', [AdminController::class, 'refresh']);
+    Route::patch('admin-refresh/{id}', [AdminController::class, 'refresh']);
     
     // Blog;
     Route::resource('blog', BlogController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
-    Route::patch('blog-refresh', [BlogController::class, 'refresh']);
-    Route::post('blog-image', [ImageController::class, 'postImageUploader']);
+    Route::patch('blog-refresh/{id}', [BlogController::class, 'refresh']);
+    Route::post('uploads', [ImageController::class, 'postImageUploader']);
 
     // Category;
     Route::resource('category', CategoryController::class, ['only' => ['store', 'update', 'destroy']]);
-    Route::patch('category-refresh', [CategoryController::class, 'refresh']);
+    Route::patch('category-refresh/{id}', [CategoryController::class, 'refresh']);
+    Route::post('category-link', [CategoryController::class, 'categoryLinks']);
     
     // Color;
     Route::resource('color', ColorController::class, ['only' => ['store', 'update', 'destroy']]);
-    Route::patch('color-refresh', [ColorController::class, 'refresh']);
+    Route::patch('color-refresh/{id}', [ColorController::class, 'refresh']);
     
     // Order;
     Route::apiResource('order', OrderController::class);
     Route::get('order-home', [OrderController::class, 'home']);
-    Route::patch('order-refresh', [OrderController::class, 'refresh']);
+    Route::patch('order-refresh/{id}', [OrderController::class, 'refresh']);
 
     // Product;
-    Route::patch('product-refresh', [ProductController::class, 'refresh']);
+    Route::resource('product', ProductController::class, ['only' => 'store', 'destroy']);
+    Route::put('product/{id}', [ProductController::class, 'update']);
+    Route::patch('product-refresh/{id}', [ProductController::class, 'refresh']);
 
     // Profile;
     Route::apiResource('profile', ProfileController::class);
-    Route::patch('profile-refresh', [ProfileController::class, 'refresh']);
+    Route::patch('profile-refresh/{id}', [ProfileController::class, 'refresh']);
 
     // Promotion;
     Route::resource('promotion', PromotionalController::class, ['only' => ['store', 'update', 'destroy']]);
-    Route::patch('promotion-refresh', [PromotionalController::class, 'refresh']);
+    Route::patch('promotion-refresh/{id}', [PromotionalController::class, 'refresh']);
 
     // Role;
     Route::apiResource('role', RoleController::class);
 
     // ShippingAddress
     Route::apiResource('shipping', ShippinginfoController::class);
-    Route::patch('shipping-refresh', [ShippinginfoController::class, 'refresh']);
+    Route::patch('shipping-refresh/{id}', [ShippinginfoController::class, 'refresh']);
 
     // Size;
     Route::resource('size', SizeController::class, ['only' => ['store', 'update', 'destroy']]);
-    Route::patch('size-refresh', [SizeController::class, 'refresh']);
+    Route::patch('size-refresh/{id}', [SizeController::class, 'refresh']);
 
     // Tracking;
     Route::apiResource('tracking', TrackingController::class);

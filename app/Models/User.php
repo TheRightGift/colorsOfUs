@@ -12,6 +12,33 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const DEFAULT_TYPE = 0;
+    const ADMIN_TYPE = 1;
+    const TECH_ADMIN_TYPE = 2;
+    const SUPER_ADMIN_TYPE = 3;
+
+    public function isAdmin() {        
+        return $this->user_type == self::ADMIN_TYPE;    
+    }
+
+    public function isTechAdmin() {        
+        return $this->user_type == self::TECH_ADMIN_TYPE;    
+    }
+
+    public function isSuperAdmin() {        
+        return $this->user_type == self::SUPER_ADMIN_TYPE;    
+    } 
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -20,7 +47,8 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'user_type'
+        'user_type',
+        'activation_token'
     ];
 
     /**

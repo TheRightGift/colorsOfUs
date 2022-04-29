@@ -29,7 +29,7 @@ class LoginController extends Controller
                     'intended' => 'admin', 
                     'status' => 'ok',
                     'token' => $token,
-                    'user' => Auth::user(),
+                    'user' => Auth::user()->admin,
                 ]);
             }
             else if (Auth::user()->user_type == 2) {
@@ -37,7 +37,7 @@ class LoginController extends Controller
                     'intended' => 'tech_admin',
                     'status' => 'ok',
                     'token' => $token,
-                    'user' => Auth::user(),
+                    'user' => Auth::user()->admin,
                 ]);
             }
             else if (Auth::user()->user_type == 3) {
@@ -45,7 +45,7 @@ class LoginController extends Controller
                     'intended' => 'super',
                     'status' => 'ok',
                     'token' => $token,
-                    'user' => Auth::user(),
+                    'user' => Auth::user()->admin,
                 ]);
             }
             else {
@@ -53,7 +53,7 @@ class LoginController extends Controller
                     'intended' => 'dashboard',
                     'status' => 'ok',
                     'token' => $token,
-                    'user' => Auth::user(),
+                    'user' => Auth::user()->profile,
                 ]);
             }
             // return redirect()->intended('dashboard');

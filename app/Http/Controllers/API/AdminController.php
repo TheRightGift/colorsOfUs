@@ -17,7 +17,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admin = Admin::withTrashed()->with('role', 'user.withTrashed')->paginate();
+        $admin = Admin::withTrashed()->with('role', 'user')->paginate();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
     }
 

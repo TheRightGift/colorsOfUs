@@ -13,6 +13,7 @@ use App\Notifications\PasswordUpdate;
 use App\Notifications\SignupNotification;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Profile;
 use App\Models\Admin;
 use Auth;
 use Validator;
@@ -31,6 +32,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed|min:8',
+            'firstname' => 'required',
+            'lastname' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors(), 'status' => 401]);
@@ -39,20 +42,27 @@ class AuthController extends Controller
             'email',
             'password',
         ]);
+        
         $data['password'] = bcrypt($data['password']);
         $data['user_type'] = \App\Models\User::DEFAULT_TYPE;
         $data['activation_token'] = Str::random(60);
-        $admin = User::where('user_type', 1)->get();
         $user = User::create($data);
+
+        // Profiles;
+        $profile = $request->only(
+            'lastname',
+            'firstname',
+            'user_id',
+        );
+        $profile['user_id'] = $user->id;
+        $profile = Profile::create($profile);
+
         if ($user) {
             $user->notify(new SignUpActivate($data['activation_token']));
-            // foreach ($admin as $key => $value) {
-            //     $value->notify(new SignupNotification($user));
-            // }
             return response()->json([
                 'user' => $user,
-                'token' => $user->createToken('accessToken')->accessToken,
-                'status' => 200
+                'status' => 200,
+                'profile' => $profile,
             ]);
         }
         else {
@@ -137,24 +147,40 @@ class AuthController extends Controller
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed|min:8',
             'user_type' => 'integer',
+            'firstname' => 'required',
+            'lastname' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return response()->json(['error' => $validator->errors(), 'status' => 401]);
         }
         $data = $request->only([
             'email',
             'password',
             'user_type',
-            'address',
         ]);
         $data['password'] = bcrypt($data['password']);
         $data['user_type'] = User::SUPER_ADMIN_TYPE;
         $user = User::create($data);
-        return response()->json([
-            'user' => $user,
-            'token' => $user->createToken('accessToken')->accessToken,
-            'status' => 200
-        ]);
+
+        // Admin;
+        $profile = $request->only(
+            'lastname',
+            'firstname',
+            'user_id',
+        );
+        $profile['user_id'] = $user->id;
+        $profile = Admin::create($profile);
+        if ($user) {
+            return response()->json([
+                'user' => $user,
+                'profile' => $profile,
+                'status' => 200
+            ]);
+        }
+        else {
+            return response('Creation error', 400);
+        }
+        
     }
 
      /**
