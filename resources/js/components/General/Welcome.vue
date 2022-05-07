@@ -53,7 +53,7 @@
                                                                     class="
                                                                         htc__btn
                                                                     "
-                                                                    href="collections/all.html"
+                                                                    href="collections"
                                                                     >Shop Now</a
                                                                 >
                                                             </div>
@@ -221,6 +221,7 @@
                                         </div>
                                     </div>
 
+                                    <!-- End Product MEnu -->
                                     <div class="row">
                                         <div
                                             class="
@@ -229,83 +230,61 @@
                                                 mt--60
                                             "
                                         >
-                                            <!-- Start Single Product -->
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
+                                            <div>
+                                                <div
+                                                    class="
+                                                        col-md-3
+                                                        col-sm-6
+                                                        col-xs-12
+                                                    "
+                                                    v-for="product in products"
+                                                    :key="product.id"
+                                                >
+                                                    <div class="product foo">
                                                         <div
                                                             class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/tails-batna.html"
-                                                                ><img
-                                                                    src="/img/24_31bcf067-b291-4710-8f3b-9c65740d775d_grande9a28.jpg?v=1509598509"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
+                                                                product__inner
                                                             "
                                                         >
                                                             <div
                                                                 class="
-                                                                    bst__pro__hover__action
+                                                                    pro__thumb
                                                                 "
                                                             >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/tails-batna.html"
-                                                                        >Tails
-                                                                        batna</a
-                                                                    >
-                                                                </h2>
-                                                                <span
+                                                                <a
                                                                     class="
-                                                                        bst__pro__prize
+                                                                        image
                                                                     "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$80.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                        old__pro_price
+                                                                    :href="
+                                                                        'products/' +
+                                                                        product.title
                                                                     "
-                                                                    ><span
-                                                                        class="
-                                                                            money
+                                                                    ><img
+                                                                        :src="
+                                                                            product
+                                                                                .images[0]
+                                                                                .url
                                                                         "
-                                                                        >$100.00</span
-                                                                    ></span
-                                                                >
+                                                                        alt=""
+                                                                /></a>
+                                                            </div>
 
+                                                            <div
+                                                                class="
+                                                                    product__hover__info
+                                                                "
+                                                            >
                                                                 <ul
                                                                     class="
-                                                                        bst__pro__action
+                                                                        product__action
                                                                     "
                                                                 >
                                                                     <li>
                                                                         <a
                                                                             data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('tails-batna')"
+                                                                            data-target="#productModal"
+                                                                            href="#!"
+                                                                            @click="quickView(product)"
                                                                             title="Quick View"
                                                                             class="
                                                                                 quick-view
@@ -320,13 +299,17 @@
                                                                         ></a>
                                                                     </li>
 
-                                                                    <li>
+                                                                    <li v-if="product.colors.length == 0 && product.sizes.length == 0">
                                                                         <a
                                                                             class="
                                                                                 cart__menu
                                                                             "
                                                                             href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653259751459, 1); return false;"
+                                                                            @click="
+                                                                                addToCart(
+                                                                                    product
+                                                                                )
+                                                                            "
                                                                             title="Add to Cart"
                                                                             ><span
                                                                                 class="
@@ -335,861 +318,89 @@
                                                                             ></span
                                                                         ></a>
                                                                     </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
                                                                 </ul>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/dummy-product-name-7.html"
-                                                                ><img
-                                                                    src="/img/2_2bf4d525-4704-4698-ac75-a500e662d757_grandecad5.jpg?v=1509598437"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
                                                             <div
                                                                 class="
-                                                                    bst__pro__hover__action
+                                                                    add__to__wishlist
                                                                 "
                                                             >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/dummy-product-name-7.html"
-                                                                        >dummy
-                                                                        Product
-                                                                        name</a
-                                                                    >
-                                                                </h2>
-                                                                <span
+                                                                <a
                                                                     class="
-                                                                        bst__pro__prize
+                                                                        wishlist
                                                                     "
-                                                                    ><span
+                                                                    href="account/login.html"
+                                                                >
+                                                                    <span
+                                                                        data-toggle="tooltip"
+                                                                        title="Add Wishlist"
                                                                         class="
-                                                                            money
+                                                                            ti-heart
                                                                         "
-                                                                        >$60.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <ul
-                                                                    class="
-                                                                        bst__pro__action
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('dummy-product-name-7')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653251395619, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
+                                                                    ></span>
+                                                                </a>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
                                                         <div
                                                             class="
-                                                                best__product__thumb
+                                                                product__details
                                                             "
                                                         >
-                                                            <a
-                                                                href="products/dummy-product-name-4.html"
-                                                                ><img
-                                                                    src="/img/33_grandea12e.jpg?v=1509598461"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
-                                                            <div
+                                                            <h2>
+                                                                <a
+                                                                    :href="
+                                                                        'collections/' +
+                                                                        product.title
+                                                                    "
+                                                                    >{{
+                                                                        product.title
+                                                                    }}</a
+                                                                >
+                                                            </h2>
+                                                            <ul
                                                                 class="
-                                                                    bst__pro__hover__action
+                                                                    product__price
                                                                 "
                                                             >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/dummy-product-name-4.html"
-                                                                        >dummy
-                                                                        Product
-                                                                        name</a
-                                                                    >
-                                                                </h2>
-                                                                <span
+                                                                <li
                                                                     class="
-                                                                        bst__pro__prize
+                                                                        old__price
                                                                     "
-                                                                    ><span
+                                                                >
+                                                                    <span
                                                                         class="
                                                                             money
                                                                         "
-                                                                        >$56.20</span
-                                                                    ></span
-                                                                >
+                                                                        >&#8358;100.00</span
+                                                                    >
+                                                                </li>
 
-                                                                <ul
+                                                                <li
                                                                     class="
-                                                                        bst__pro__action
+                                                                        new__price
                                                                     "
                                                                 >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('dummy-product-name-4')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653254279203, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        >&#8358;{{
+                                                                            formatPrice(
+                                                                                product.amount
+                                                                            )
+                                                                        }}.00</span
+                                                                    >
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/wall-watch.html"
-                                                                ><img
-                                                                    src="/img/26_grande6.jpg?"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    bst__pro__hover__action
-                                                                "
-                                                            >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/wall-watch.html"
-                                                                        >Wall
-                                                                        watch</a
-                                                                    >
-                                                                </h2>
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$100.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                        old__pro_price
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$120.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <ul
-                                                                    class="
-                                                                        bst__pro__action
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('wall-watch')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653256146979, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/computer-headphone.html"
-                                                                ><img
-                                                                    src="/img/25_grande6.jpg"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    bst__pro__hover__action
-                                                                "
-                                                            >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/computer-headphone.html"
-                                                                        >Computer
-                                                                        headphone</a
-                                                                    >
-                                                                </h2>
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$50.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <ul
-                                                                    class="
-                                                                        bst__pro__action
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('computer-headphone')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653259685923, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/dummy-product-name-6.html"
-                                                                ><img
-                                                                    src="/img/6_grande5.jpg"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    bst__pro__hover__action
-                                                                "
-                                                            >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/dummy-product-name-6.html"
-                                                                        >dummy
-                                                                        Product
-                                                                        name</a
-                                                                    >
-                                                                </h2>
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$80.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <ul
-                                                                    class="
-                                                                        bst__pro__action
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('dummy-product-name-6')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653251788835, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/dummy-product-name-5.html"
-                                                                ><img
-                                                                    src="/img/25_grande.jpg"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    bst__pro__hover__action
-                                                                "
-                                                            >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/dummy-product-name-5.html"
-                                                                        >dummy
-                                                                        Product
-                                                                        name</a
-                                                                    >
-                                                                </h2>
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$79.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                        old__pro_price
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$82.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <ul
-                                                                    class="
-                                                                        bst__pro__action
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('dummy-product-name-5')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653253296163, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-3 col-sm-4 col-xs-12
-                                                "
-                                            >
-                                                <div class="best__product foo">
-                                                    <div
-                                                        class="
-                                                            best__product__inner
-                                                        "
-                                                    >
-                                                        <div
-                                                            class="
-                                                                best__product__thumb
-                                                            "
-                                                        >
-                                                            <a
-                                                                href="products/dummy-product-name-3.html"
-                                                                ><img
-                                                                    src="/img/11._grande.jpg"
-                                                                    alt=""
-                                                            /></a>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                bst__pro__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    bst__pro__hover__action
-                                                                "
-                                                            >
-                                                                <h2>
-                                                                    <a
-                                                                        href="products/dummy-product-name-3.html"
-                                                                        >dummy
-                                                                        Product
-                                                                        name</a
-                                                                    >
-                                                                </h2>
-                                                                <span
-                                                                    class="
-                                                                        bst__pro__prize
-                                                                    "
-                                                                    ><span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >$60.00</span
-                                                                    ></span
-                                                                >
-
-                                                                <ul
-                                                                    class="
-                                                                        bst__pro__action
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        <a
-                                                                            data-toggle="modal"
-                                                                            href="javascript:void(0);"
-                                                                            onclick="quiqview('dummy-product-name-3')"
-                                                                            title="Quick View"
-                                                                            class="
-                                                                                quick-view
-                                                                                modal-view
-                                                                                detail-link
-                                                                            "
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-plus
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                cart__menu
-                                                                            "
-                                                                            href="javascript:void(0);"
-                                                                            onclick="Shopify.addItem(4653293961251, 1); return false;"
-                                                                            title="Add to Cart"
-                                                                            ><span
-                                                                                class="
-                                                                                    ti-shopping-cart
-                                                                                "
-                                                                            ></span
-                                                                        ></a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="account/login.html"
-                                                                        >
-                                                                            <span
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- End Single Product -->
                                         </div>
                                     </div>
+                                    <!-- Start Load More BTn -->
+
+                                    <!-- End Load More BTn -->
                                 </div>
                             </section>
                             <!-- End Our Product Area -->
@@ -1214,7 +425,7 @@
                                                 "
                                             >
                                                 <h2 class="title__line">
-                                                    Recent News
+                                                    Recent Posts
                                                 </h2>
                                             </div>
                                         </div>
@@ -1237,6 +448,8 @@
                                                     col-md-4 col-sm-4 col-xs-12
                                                     mb--30
                                                 "
+                                                v-for="blog in blogs"
+                                                :key="blog.id"
                                             >
                                                 <div class="blog foo">
                                                     <div class="blog__inner">
@@ -1244,10 +457,17 @@
                                                             class="blog__thumb"
                                                         >
                                                             <a
-                                                                href="blogs/news/lipsum-dolor-sit-amet-consectetu-adipisicing-elit-sed-do-eius-8.html"
+                                                                :href="
+                                                                    'blogs/' +
+                                                                    blog.title
+                                                                "
                                                             >
                                                                 <img
-                                                                    src="/img/30_1024x1024.jpg"
+                                                                    :src="
+                                                                        blog
+                                                                            .images[0]
+                                                                            .url
+                                                                    "
                                                                     alt=""
                                                                 />
                                                             </a>
@@ -1265,13 +485,25 @@
                                                                         class="
                                                                             date
                                                                         "
-                                                                        >01</span
+                                                                        >{{
+                                                                            moment(
+                                                                                blog.created_at
+                                                                            ).format(
+                                                                                "D"
+                                                                            )
+                                                                        }}</span
                                                                     >
                                                                     <span
                                                                         class="
                                                                             month
                                                                         "
-                                                                        >Nov</span
+                                                                        >{{
+                                                                            moment(
+                                                                                blog.created_at
+                                                                            ).format(
+                                                                                "MMM"
+                                                                            )
+                                                                        }}</span
                                                                     >
                                                                 </div>
                                                             </div>
@@ -1293,16 +525,7 @@
                                                                 >
                                                                     <li>
                                                                         By :
-                                                                        uniqlo-2
                                                                         Admin
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a
-                                                                            href="blogs/news/lipsum-dolor-sit-amet-consectetu-adipisicing-elit-sed-do-eius-8.html#comments"
-                                                                            >1
-                                                                            comment</a
-                                                                        >
                                                                     </li>
                                                                 </ul>
                                                                 <h2
@@ -1311,15 +534,16 @@
                                                                     "
                                                                 >
                                                                     <a
-                                                                        href="blogs/news/lipsum-dolor-sit-amet-consectetu-adipisicing-elit-sed-do-eius-8.html"
-                                                                        >Lipsum
-                                                                        dolor
-                                                                        sit amet
-                                                                        consectetu
-                                                                        adipisicing
-                                                                        elit sed
-                                                                        do
-                                                                        eius</a
+                                                                        :href="
+                                                                            'blogs/' +
+                                                                            blog.title
+                                                                        "
+                                                                        >{{
+                                                                            synopsis(
+                                                                                blog.body,
+                                                                                80
+                                                                            )
+                                                                        }}</a
                                                                     >
                                                                 </h2>
                                                                 <div
@@ -1331,215 +555,10 @@
                                                                         class="
                                                                             read__more__btn
                                                                         "
-                                                                        href="blogs/news/lipsum-dolor-sit-amet-consectetu-adipisicing-elit-sed-do-eius-8.html"
-                                                                        >Read
-                                                                        more</a
-                                                                    >
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-4 col-sm-4 col-xs-12
-                                                    mb--30
-                                                "
-                                            >
-                                                <div class="blog foo">
-                                                    <div class="blog__inner">
-                                                        <div
-                                                            class="blog__thumb"
-                                                        >
-                                                            <a
-                                                                href="blogs/news/neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-9.html"
-                                                            >
-                                                                <img
-                                                                    src="/img/29_1024x1024.jpg"
-                                                                    alt=""
-                                                                />
-                                                            </a>
-                                                            <div
-                                                                class="
-                                                                    blog__post__time
-                                                                "
-                                                            >
-                                                                <div
-                                                                    class="
-                                                                        post__time--inner
-                                                                    "
-                                                                >
-                                                                    <span
-                                                                        class="
-                                                                            date
+                                                                        :href="
+                                                                            'blogs/' +
+                                                                            blog.title
                                                                         "
-                                                                        >01</span
-                                                                    >
-                                                                    <span
-                                                                        class="
-                                                                            month
-                                                                        "
-                                                                        >Nov</span
-                                                                    >
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                blog__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    blog__hover__action
-                                                                "
-                                                            >
-                                                                <ul
-                                                                    class="
-                                                                        bl__meta
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        By :
-                                                                        uniqlo-2
-                                                                        Admin
-                                                                    </li>
-                                                                </ul>
-                                                                <h2
-                                                                    class="
-                                                                        blog__des
-                                                                    "
-                                                                >
-                                                                    <a
-                                                                        href="blogs/news/neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-9.html"
-                                                                        >Neque
-                                                                        porro
-                                                                        quisquam
-                                                                        est qui
-                                                                        dolorem
-                                                                        ipsum
-                                                                        quia
-                                                                        dolor
-                                                                        sit
-                                                                        amet</a
-                                                                    >
-                                                                </h2>
-                                                                <div
-                                                                    class="
-                                                                        blog__btn
-                                                                    "
-                                                                >
-                                                                    <a
-                                                                        class="
-                                                                            read__more__btn
-                                                                        "
-                                                                        href="blogs/news/neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-9.html"
-                                                                        >Read
-                                                                        more</a
-                                                                    >
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="
-                                                    col-md-4 col-sm-4 col-xs-12
-                                                    mb--30
-                                                "
-                                            >
-                                                <div class="blog foo">
-                                                    <div class="blog__inner">
-                                                        <div
-                                                            class="blog__thumb"
-                                                        >
-                                                            <a
-                                                                href="blogs/news/neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-8.html"
-                                                            >
-                                                                <img
-                                                                    src="/img/17_1024x1024.jpg"
-                                                                    alt=""
-                                                                />
-                                                            </a>
-                                                            <div
-                                                                class="
-                                                                    blog__post__time
-                                                                "
-                                                            >
-                                                                <div
-                                                                    class="
-                                                                        post__time--inner
-                                                                    "
-                                                                >
-                                                                    <span
-                                                                        class="
-                                                                            date
-                                                                        "
-                                                                        >01</span
-                                                                    >
-                                                                    <span
-                                                                        class="
-                                                                            month
-                                                                        "
-                                                                        >Nov</span
-                                                                    >
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                blog__hover__info
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    blog__hover__action
-                                                                "
-                                                            >
-                                                                <ul
-                                                                    class="
-                                                                        bl__meta
-                                                                    "
-                                                                >
-                                                                    <li>
-                                                                        By :
-                                                                        uniqlo-2
-                                                                        Admin
-                                                                    </li>
-                                                                </ul>
-                                                                <h2
-                                                                    class="
-                                                                        blog__des
-                                                                    "
-                                                                >
-                                                                    <a
-                                                                        href="blogs/news/neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-8.html"
-                                                                        >Neque
-                                                                        porro
-                                                                        quisquam
-                                                                        est qui
-                                                                        dolorem
-                                                                        ipsum
-                                                                        quia
-                                                                        dolor
-                                                                        sit
-                                                                        amet</a
-                                                                    >
-                                                                </h2>
-                                                                <div
-                                                                    class="
-                                                                        blog__btn
-                                                                    "
-                                                                >
-                                                                    <a
-                                                                        class="
-                                                                            read__more__btn
-                                                                        "
-                                                                        href="blogs/news/neque-porro-quisquam-est-qui-dolorem-ipsum-quia-dolor-sit-amet-8.html"
                                                                         >Read
                                                                         more</a
                                                                     >
@@ -1565,16 +584,92 @@
                 </div>
             </div>
         </div>
+        <quickview-component :product="product" :formatPrice="formatPrice" :synopsis="synopsis" :modalOpened="quickViewOpened"/>
     </div>
 </template>
 
 <script>
     import FooterComponent from "./FooterComponent.vue";
     import HeaderComponent from "./HeaderComponent.vue";
+    import moment from "moment";
+    import QuickviewComponent from './QuickviewComponent.vue';
     export default {
-        components: { HeaderComponent, FooterComponent },
+        components: { HeaderComponent, FooterComponent, QuickviewComponent },
+        data() {
+            return {
+                blogs: [],
+                product: {},
+                products: [],
+            };
+        },
+        methods: {
+            addToCart(res) {
+                this.$store.commit("addToCart", res);
+                $(".cart__menu").on("click", function () {
+                    $(".shopping__cart").addClass("shopping__cart__on"),
+                        $(".body__overlay").addClass("is-visible");
+                });
+                this.$toasted.show("Product added to cart!", {
+                    duration: 3000,
+                    position: "top-right",
+                    action: {
+                        text: "View Cart",
+                        onClick: (e, toastObject) => {
+                            // toastObject.goAway(0);
+                            window.location.href = `/cart`;
+                        },
+                    },
+                });
+            },
+            formatPrice(value) {
+                let val = value / 1;
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            getBlogs() {
+                axios
+                    .get(`api/blog-published`)
+                    .then((res) => {
+                        this.blogs = res.data.blogposts.data.slice(0, 3);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            getProducts() {
+                axios
+                    .get(`api/product`)
+                    .then((res) => {
+                        this.products = res.data.products.data
+                            .reverse()
+                            .slice(0, 20);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            moment(arg) {
+                return moment(arg);
+            },
+            quickView(product) {
+                this.product = product;
+            },
+            quickViewOpened () {
+                console.log('modal opened');
+            },
+            synopsis(inputString, len) {
+                var div = document.createElement("div");
+                div.innerHTML = inputString;
+                return div.textContent.slice(0, len);
+            },
+        },
         mounted() {
-            console.log("Component mounted.");
+            this.getBlogs();
+            this.getProducts();
         },
     };
 </script>
+<style scoped>
+    a.image img {
+        height: 270px;
+    }
+</style>

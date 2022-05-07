@@ -67,48 +67,14 @@
                     <span>Admins</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/product">
-                    <i class="fas fa-store"></i>
-                    <span>Products</span>
+            
+            <li class="nav-item" v-if="$store.state.rewop == 3 || 2">
+                <a class="nav-link collapsed" href="/blogpost">
+                    <i class="fas fa-blog"></i>
+                    <span>Blogposts</span>
                 </a>
             </li>
-            <li
-                class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
-            >
-                <a class="nav-link collapsed" href="/order">
-                    <i class="fas fa-shopping-basket"></i>
-                    <span>Orders</span>
-                </a>
-            </li>
-            <li
-                class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
-            >
-                <a class="nav-link collapsed" href="/customer">
-                    <i class="far fa-address-book"></i>
-                    <span>Customers</span>
-                </a>
-            </li>
-            <li
-                class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
-            >
-                <a class="nav-link collapsed" href="/size">
-                    <i class="fa fa-cogs" aria-hidden="true"></i>
-                    <span>Size</span>
-                </a>
-            </li>
+
             <li
                 class="nav-item"
                 v-if="
@@ -121,6 +87,7 @@
                     <span>Category</span>
                 </a>
             </li>
+
             <li
                 class="nav-item"
                 v-if="
@@ -134,12 +101,52 @@
                 </a>
             </li>
             
-            <!-- <li class="nav-item" v-if="$store.state.rewop == 1">
-                <a class="nav-link collapsed" href="/task">
-                    <i class="fas fa-tasks"></i>
-                    <span>Tasks</span>
+            <li
+                class="nav-item"
+                v-if="
+                    $store.state.rewop == 3 ||
+                    $store.state.rewop == 2
+                "
+            >
+                <a class="nav-link collapsed" href="/customer">
+                    <i class="far fa-address-book"></i>
+                    <span>Customers</span>
                 </a>
-            </li> -->
+            </li>
+
+            <li
+                class="nav-item"
+                v-if="
+                    $store.state.rewop == 3 ||
+                    $store.state.rewop == 2
+                "
+            >
+                <a class="nav-link collapsed" href="/order">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/product">
+                    <i class="fas fa-store"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+            
+            <li
+                class="nav-item"
+                v-if="
+                    $store.state.rewop == 3 ||
+                    $store.state.rewop == 2
+                "
+            >
+                <a class="nav-link collapsed" href="/size">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                    <span>Size</span>
+                </a>
+            </li>
+            
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block" />
 

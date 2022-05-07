@@ -61,8 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Blog;
     Route::resource('blog', BlogController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
     Route::patch('blog-refresh/{id}', [BlogController::class, 'refresh']);
-    Route::post('uploads', [ImageController::class, 'postImageUploader']);
-
+    
     // Category;
     Route::resource('category', CategoryController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::patch('category-refresh/{id}', [CategoryController::class, 'refresh']);
@@ -76,34 +75,37 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('order', OrderController::class);
     Route::get('order-home', [OrderController::class, 'home']);
     Route::patch('order-refresh/{id}', [OrderController::class, 'refresh']);
-
+    
     // Product;
-    Route::resource('product', ProductController::class, ['only' => 'store', 'destroy']);
+    Route::resource('product', ProductController::class, ['only' => 'store']);
     Route::put('product/{id}', [ProductController::class, 'update']);
+    Route::delete('product/{id}', [ProductController::class, 'destroy']);
     Route::patch('product-refresh/{id}', [ProductController::class, 'refresh']);
-
+    
     // Profile;
     Route::apiResource('profile', ProfileController::class);
     Route::patch('profile-refresh/{id}', [ProfileController::class, 'refresh']);
-
+    
     // Promotion;
     Route::resource('promotion', PromotionalController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::patch('promotion-refresh/{id}', [PromotionalController::class, 'refresh']);
-
+    
     // Role;
     Route::apiResource('role', RoleController::class);
-
+    
     // ShippingAddress
     Route::apiResource('shipping', ShippinginfoController::class);
     Route::patch('shipping-refresh/{id}', [ShippinginfoController::class, 'refresh']);
-
+    
     // Size;
     Route::resource('size', SizeController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::patch('size-refresh/{id}', [SizeController::class, 'refresh']);
-
+    
     // Tracking;
     Route::apiResource('tracking', TrackingController::class);
-
+    
+    Route::post('uploads', [ImageController::class, 'postImageUploader']);
+    
     // Wishlist;
     Route::resource('wishlist', WishlistController::class, ['only' => ['index', 'store', 'destroy', 'show']]);
 });

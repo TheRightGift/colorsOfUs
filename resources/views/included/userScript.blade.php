@@ -7,7 +7,7 @@
 		type="text/javascript"></script>
 		<script src="{{asset('/js/assets/plugins.js')}}"
 			type="text/javascript"></script>
-	<script src="{{asset('/js/assets/slick.min.js')}}"
+	<script src="{{asset('js/assets/slick.min.js')}}"
 		type="text/javascript"></script>
 	<script src="{{asset('/js/assets/owl.carousel.min.js')}}"
 		type="text/javascript"></script>
@@ -55,6 +55,7 @@
 	<script src="{{asset('/js/assets/colorsOfUs.js')}}">
 		
 	</script>
+    <script src="{{asset('/js/assets/zoomOnHover.js')}}"></script>
 
-
+	{{-- {!! ssr('js/entry-server.js')->render() !!} --}}
     <script src="{{mix('js/app.js')}}"></script>

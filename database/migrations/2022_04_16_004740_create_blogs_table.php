@@ -19,7 +19,7 @@ class CreateBlogsTable extends Migration
             $table->longText('body');
             $table->string('postedBy')->nullable();
             $table->string('views')->nullable();
-            $table->enum('status',['published', 'saved']);
+            $table->enum('status',['published', 'draft']);
             $table->unsignedBigInteger('category_id');
             $table->softDeletes();
             $table->timestamps();

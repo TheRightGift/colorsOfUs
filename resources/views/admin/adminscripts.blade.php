@@ -1,3 +1,4 @@
+<script src="{{asset('/js/assets/zoomOnHover.js')}}"></script>
 <!-- Custom scripts for all pages-->
 <script src="{{ mix('/js/app.js') }}"></script>
 

@@ -20,7 +20,45 @@ class ProductController extends Controller
         $trashed = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
     }
-
+    // public function sortType ($sortBy) {
+    //     // ZA, AZ, 0, 1, 01, 10, RM
+    //     $type;
+    //     $sort;
+    //     switch ($sortBy) {
+    //         case 'ZA':
+    //             $type = 'title';
+    //             break;
+    //         case 'AZ':
+    //             $type = 'title' ;
+    //             break;
+    //         case '0':
+    //             $type = 'price';
+    //             $sort = 'asc';
+    //             break;
+    //         case '1':
+    //             $type = 'price';
+    //             $sort = 'desc';
+    //             break;
+    //         case '01':
+    //             $type = 'date';
+    //             $sort = 'asc';
+    //             break;
+    //         case '10':
+    //             $type = 'price';
+    //             $sort = 'desc';
+    //             break;
+    //         case 'RM':
+    //             $type = 'recommended';
+    //             break;
+                                                                                                
+    //         default:
+    //             break;
+    //     }
+    //     $data = new foo;
+    //     $data->$type;
+    //     $data->$sort;
+    //     return $data;
+    // }
     /**
      * Display a listing of the Product.
      *
@@ -28,29 +66,55 @@ class ProductController extends Controller
      */
     public function sort($sortBy, $category)
     {
-        if (($sortBy == 'asc' || $sortBy == 'desc') && $category != 'null') {
-            $product = Product::orderBy('amount', $sortBy)->whereRelations('categories', 'categories.id', $id)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            // $product = Product::orderBy('amount', $sortBy)->where('category_id', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::orderBy('amount', $sortBy)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
+        // ZA, AZ, 0, 1, 01, 10, RM
+        $data = new Product();
+
+        $type;
+        $sort;
+        $order = 'orderBy';
+        switch ($sortBy) {
+            case 'ZA':
+                $type = 'title';
+                $sort = 'desc';
+                break;
+            case 'AZ':
+                $type = 'title';
+                $sort = 'asc';
+                break;
+            case '0':
+                $type = 'amount';
+                $sort = 'asc';
+                break;
+            case '1':
+                $type = 'amount';
+                $sort = 'desc';
+                break;
+            case 'D01':
+                $type = 'created_at';
+                $sort = 'desc';
+                break;
+            case 'D10':
+                $type = 'created_at';
+                $sort = 'asc';
+                break;
+            case 'RM':
+                $type = 'recommended';
+                $order = 'where';
+                $sort = '1';
+                break;
+                                                                                                
+            default:
+                break;
         }
-        else if ($sortBy == 'asc' || $sortBy == 'desc') {
-            $product = Product::orderBy('amount', $sortBy)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::orderBy('amount', $sortBy)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
+        if ($category != 'null') {
+            $product = $data->$order($type, $sort)->whereRelation('categories', 'categories.name', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+            $trashed = $data->$order($type, $sort)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
         }
-        else if ($sortBy == 'latest' && $category != 'null') {
-            // $product = Product::where('category_id', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            // $trashed = Product::where('category_id', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
-            $product = Product::whereRelations('categories', 'categories.id', $id)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::whereRelations('categories', 'categories.id', $id)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
+        else if ($category == 'null') {
+            $product = $data->$order($type, $sort)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+            $trashed = $data->$order($type, $sort)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
         }
-        else if ($sortBy == 'latest') {
-            $product = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
-        }
+        return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
     }
 
     /**
@@ -60,30 +124,52 @@ class ProductController extends Controller
      */
     public function filter(Request $request)
     {
-        // Cos the JS returns only the index, and index that are truthy is valid
-        $color = array_keys($request->color, true);
-        $price = $request->price;
-        $category = array_keys($request->category, true);
-        if (count($color) && count($category) && !empty($price)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->whereRelations('categories', 'categories.id', $category)->whereBetween('amount', $price)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+        // dd($request);
+        $data = new Product();
+
+        $type;
+        $sort;
+        $order = 'orderBy';
+        switch ($request->sortBy) {
+            case 'ZA':
+                $type = 'title';
+                $sort = 'desc';
+                break;
+            case 'AZ':
+                $type = 'title';
+                $sort = 'asc';
+                break;
+            case '0':
+                $type = 'amount';
+                $sort = 'asc';
+                break;
+            case '1':
+                $type = 'amount';
+                $sort = 'desc';
+                break;
+            case 'D01':
+                $type = 'created_at';
+                $sort = 'desc';
+                break;
+            case 'D10':
+                $type = 'created_at';
+                $sort = 'asc';
+                break;
+            case 'RM':
+                $type = 'recommended';
+                $order = 'where';
+                $sort = '1';
+                break;
+                                                                                                
+            default:
+                break;
         }
-        else if (count($color) && count($category)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->whereRelations('categories', 'categories.id', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($category) && !empty($price)) {
-            $result = Product::whereRelations('categories', 'categories.id', $category)->whereBetween('amount', $price)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($color) && !empty($price)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->whereBetween('amount', $price)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($color)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($category)) {
-            $result = Product::whereRelations('categories', 'categories.id', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-        }
-        else if (!empty($price)) {
-            $result = Product::whereBetween('amount', $price)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+        $filterType = $request->type;
+        $filter = $request->filter;
+
+        if ($filterType != "" && $filter != "") {
+            $result = $data->$order($type, $sort)->whereRelation($filterType, $filterType.'.id', $filter)
+                        ->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate(2);
         }
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $result]);
     }
@@ -127,7 +213,7 @@ class ProductController extends Controller
             'created_at' => now(),
         ]);
         $sizes = $request->sizes != '' ? explode(',', $request->sizes) : '';
-        $colors = $request->sizes != '' ? explode(',', $request->colors) : '';
+        $colors = $request->colors != '' ? explode(',', $request->colors) : '';
         
         $product->categories()->sync([$request->category_id]);
         !empty($colors) ? $product->colors()->sync($colors) : null;
@@ -157,7 +243,8 @@ class ProductController extends Controller
     public function show($title)
     {
         $product = Product::where('title', $title)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->first();
-        $related_product = Product::whereRelations('categories', 'categories.id', $product['category_id'])->with('colors', 'sizes', 'images')->get();
+        $category = $product->categories->first()->id;
+        $related_product = $product->whereRelation('categories', 'categories.id', $category)->with('categories', 'colors', 'sizes', 'images')->get();
         return response()->json(['product' => $product, 'related' => $related_product, 'message' => 'Product retrieved successfuly', 'status' => 1], 200);
     }
 
@@ -187,7 +274,7 @@ class ProductController extends Controller
             $imgDeletedIds = explode(',', $request->deletedImgIds);
             $res = Image::whereIn('id', $imgDeletedIds)->forceDelete();
             foreach ($imgDeleted as $key => $value) {
-                $imageToDelete = public_path('/img/uploads/'.$value);
+                $imageToDelete = public_path($value);
                 if (file_exists($imageToDelete))
                 {
                     unlink($imageToDelete);
@@ -208,7 +295,12 @@ class ProductController extends Controller
            }  
        }
         $update = $product->update($request->only(['title', 'recommended', 'desc', 'amount', 'stock', 'updated_at' => now()]));
-        $product->categories()->sync(['category_id' => $request->category_id]);
+        $sizes = $request->sizes != '' ? explode(',', $request->sizes) : '';
+        $colors = $request->colors != '' ? explode(',', $request->colors) : '';
+        // dd($sizes, $colors);
+        $product->categories()->sync([$request->category_id]);
+        !empty($colors) ? $product->colors()->sync($colors) : $product->colors()->detach();
+        !empty($sizes) ? $product->sizes()->sync($sizes) : $product->sizes()->detach();
 
         return response()->json(['message' => 'Product updated successfully', 'status' => $update, 'products' => $product->get()]);
     }

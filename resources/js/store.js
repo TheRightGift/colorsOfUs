@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 let cart = window.localStorage.getItem('coloursOfUscart');
 let cartCount = window.localStorage.getItem('coloursOfUscartCount');
 let token = window.localStorage.getItem('coloursOfUs');
@@ -6,30 +8,106 @@ let user = window.localStorage.getItem('coloursOfUsUser');
 let customer = window.localStorage.getItem('coloursOfUscustomerid');
 let rewop = window.localStorage.getItem('rewop');
 let wishlist = [];
+function pushToCart(state, item) {
+    state.cart.unshift(item);
+    if (item.input) {
+        Vue.set(item, 'quantity', item.input);
+        Vue.set(item, 'selectedColor', item.colorFilter);
+        Vue.set(item, 'selectedFilter', item.sizeFilter);
+    }
+    else Vue.set(item, 'quantity', 1);
+    Vue.set(item, 'totalPrice', item.input ? item.input * item.amount : item.amount);
+};
+function founded(found, state, item, products) {
+    // if (!found && products.length > 0) {
+    //     console.log('here');
+    //     let prd = products[0];
+    //     prd.selectedColor = item.colorFilter;
+    //     prd.selectedSize = item.sizeFilter;
+    //     if (item.input) {
+    //         prd.quantity = parseInt(item.input);
+    //     }
+    //     else prd.quantity++;
+    //     prd.totalPrice = prd.quantity * prd.amount;
+    //     state.cart.push(prd);
+    // }
+    if (found) {
+        if (item.input) {
+            found.quantity = parseInt(found.quantity) + parseInt(item.input);
+        }
+        else found.quantity++;
+        found.totalPrice = found.quantity * found.amount;
+    }
+    else {
+        pushToCart(state, item)
+    }
+}
 let store = {
+    strict: true,  // Turning on strict mode
     state: {
         cart: cart ? JSON.parse(cart) : [],
         cartCount: cartCount ? parseInt(cartCount) : 0,
         token: token,
         intended: intended,
         user: JSON.parse(user),
-        customer: customer ? parseInt(customer): null,
-        rewop: rewop ? parseInt(rewop): null,
+        customer: customer ? parseInt(customer) : null,
+        rewop: rewop ? parseInt(rewop) : null,
         wishlist: wishlist,
     },
     mutations: {
         addToCart(state, item) {
-            let found = state.cart.find(product => product.id == item.id);
-
-            if (found) {
-                found.quantity++;
-                found.totalPrice = found.quantity * found.amount;
-            } else {
-                state.cart.push(item);
-
-                Vue.set(item, 'quantity', 1);
-                Vue.set(item, 'totalPrice', item.amount);
+            // If product has colorFilter || sizeFilter / both
+            // Run a filter search and return the first
+            // Else run a fin req
+            console.log(item, 'i');
+            let found;
+            let bothFilters = item.colorFilter && item.sizeFilter;
+            let eitherFilters = item.colorFilter || item.sizeFilter;
+            if ((bothFilters) || (eitherFilters)) {
+                let products = state.cart.filter(product => product.id == item.id);
+                if (bothFilters) {
+                    found = products.find(product => product.selectedSize.id == item.sizeFilter.id && product.selectedColor.id == item.colorFilter.id)
+                }
+                else if (item.sizeFilter) {
+                    found = products.find(product => product.selectedSize.id == item.sizeFilter.id)
+                }
+                else if (item.colorFilter) {
+                    found = products.find(product => product.selectedColor.id == item.colorFilter.id);
+                }
+                founded(found, state, item, products);
+                console.log(products, item);
             }
+            else {
+                found = state.cart.find(product => product.id == item.id);
+                founded(found, state, item);
+            }
+            console.log(found);
+            // if (found) {
+            //     // if (item.colorFilter && item.sizeFilter) {
+            //     //     console.log(item.colorFilter, item.sizeFilter);
+            //     //     if (item.colorFilter[0].id == found.selectedColor[0].id && item.sizeFilter[0].id == found.selectedSize[0].id) {
+
+            //     //     }
+            //     //     else if (item.colorFilter[0].id != found.selectedColor[0].id || item.sizeFilter[0].id != found.selectedSize[0].id) {
+
+            //     //     }
+            //     //     // check if found item has same color and size
+            //     //     // if it has add up to the previous quantity
+            //     //     // else run a new cart
+            //     // }
+            //     // // else if (item.colorFilter || item.sizeFilter) {
+            //     //     console.log('either is missing!');
+            //     // }
+            //     else if (!item.colorFilter || !item.sizeFilter) {
+            //         if (item.input) {
+            //             found.quantity = parseInt(found.quantity) + parseInt(item.input);
+            //         }
+            //         else found.quantity++;
+            //     }
+            //     found.totalPrice = found.quantity * found.amount;
+            // } else {
+            //     pushToCart(state, item);
+            // }
 
             state.cartCount = state.cart.length;
             this.commit('saveCart');
@@ -49,9 +127,10 @@ let store = {
             window.localStorage.removeItem('intended');
             window.localStorage.removeItem('coloursOfUs');
         },
+
         removeFromCart(state, item) {
             let index = state.cart.indexOf(item);
-        
+
             if (index > -1) {
                 state.cart.splice(index, 1);
                 state.cartCount = state.cart.length;
@@ -62,7 +141,15 @@ let store = {
             let found = state.cart.find(product => product.id == item.item.id);
 
             if (found) {
-                item.action == true ? found.quantity++ : found.quantity--;
+                if (item.action == true) {
+                    found.quantity++;
+                }
+                else if (item.action == false) {
+                    found.quantity--;
+                }
+                else if (item.action == 2) {
+                    found.quantity = item.input;
+                }
                 found.totalPrice = found.quantity * found.amount;
             }
 
@@ -92,7 +179,7 @@ let store = {
         },
         removeFromWishList(state, data) {
             let index = state.wishlist.indexOf(data);
-        
+
             if (index > -1) {
                 state.wishlist.splice(index, 1);
             }

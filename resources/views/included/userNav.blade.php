@@ -949,4 +949,5 @@
 
         
     </style>
+    {{-- <script defer src="{{ mix('js/entry-client.js') }}"></script> --}}
 </head>

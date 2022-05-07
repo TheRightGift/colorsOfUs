@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         $categories = new Category();
         $trashed = $categories->onlyTrashed()->with('sizes', 'colors')->get();
-        $untrashed = $categories->with('sizes', 'colors')->get();
+        $untrashed = $categories->with('sizes', 'colors', 'products.images')->get();
         return response()->json(['message' => 'Categories fetched successfuly', 'trashed' => $trashed, 'untrashed' => $untrashed]);
     }
 

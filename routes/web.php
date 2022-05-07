@@ -54,6 +54,36 @@ Route::get('sbminbackoffice', function () {
     return view('admin.register');
 });
 
+// Unprotected User routes
+Route::get('/cart', function () {
+    return view('user.cart');
+});
+
+Route::get('/contact', function () {
+    return view('user.contact');
+});
+
+Route::get('/products/{title}', function () {
+    return view('user.product');
+});
+
+Route::get('/products', function () {
+    return view('user.products');
+});
+
+Route::get('/blogs', function () {
+    return view('user.blogs');
+});
+
+Route::get('/blog/{title}', function () {
+    return view('user.blog');
+});
+
+Route::get('/categories', function () {
+    return view('user.categories');
+});
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/admins', function () {
         return view('adminview');
@@ -89,5 +119,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/color', function () {
         return view('admin.color');
+    });
+
+    Route::get('/blogpost', function () {
+        return view('admin.blogpost');
     });
 });

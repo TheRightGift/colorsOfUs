@@ -11,10 +11,21 @@
                                 <div class="ft__widget">
                                     <div class="ft__logo">
                                         <a href="index.html"
-                                            ><img
+                                            >
+                                            <!-- <img
                                                 src="/img/uniqlo_medium1.png"
                                                 alt="logo"
-                                        /></a>
+                                        /> -->
+                                        <a href="/"
+                                    style="font-size: 1.6em; color: black; "
+                                        >
+                                        <!-- <img
+                                            src="/img/2_medium.png"
+                                            alt="logo"
+                                    /> -->
+                                        COLORSOFUS
+                                    </a>
+                                        </a>
                                     </div>
                                     <div class="footer__details">
                                         <p>
@@ -176,14 +187,14 @@
                                 <div class="copyright__inner">
                                     <div class="copyright">
                                         <p>
-                                            © 2018
-                                            <a href="#">Uniqlo</a>
+                                            © {{new Date().getFullYear()}}
+                                            <a href="#">ColorsOfUs</a>
                                             All Right Reserved.
                                         </p>
                                     </div>
                                     <ul class="footer__menu">
                                         <li>
-                                            <a href="account/login4236.html"
+                                            <a :href="$store.state.intended"
                                                 >My Account</a
                                             >
                                         </li>
@@ -195,7 +206,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="pages/contact.html"
+                                            <a href="contact"
                                                 >Contact Us</a
                                             >
                                         </li>

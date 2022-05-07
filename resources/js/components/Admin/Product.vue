@@ -720,7 +720,6 @@
                                                         >
                                                             <img
                                                                 :src="
-                                                                    '/images/products/' +
                                                                     trashed
                                                                         .images[0]
                                                                         .url
@@ -789,7 +788,7 @@
                                                                 .length != 0
                                                         "
                                                     >
-                                                        <div class="row">
+                                                        <div class="row justify-content-center">
                                                             <div
                                                                 class="
                                                                     card
@@ -1059,7 +1058,7 @@
                             </div>
 
                             Select "Delete" below if you are sure to remove
-                            above user as admin.
+                            Product <b>{{product.title}}</b>.
                         </div>
                         <div class="modal-footer">
                             <button
@@ -1125,7 +1124,7 @@
         [{ color: [] }, { background: [] }],
         [{ font: [] }],
         [{ align: [] }],
-        ["link", "image", "video"],
+        ["link", "image"],
         // ["clean"]
     ];
     export default {
@@ -1223,12 +1222,11 @@
                 this.product.classe_id = "null";
                 this.product.subject_id = "null";
                 this.product.category_id = "null";
-                this.product.imgOne = {};
-                this.product.imgTwo = {};
-                this.product.imgThree = {};
-                this.product.imgFour = {};
-                this.product.imgFive = {};
-                this.product.imgSix = {};
+                this.fileList = [];
+                this.imageList = [];
+                this.product.recommended = "";
+                this.product.colors = []
+                this.product.sizes = [];
             },
             createproduct() {
                 if (!this.validateForm()) {
@@ -1252,13 +1250,13 @@
                 this.deletedImgs.length > 0
                     ? formData.append("deletedImgs", this.deletedImgs)
                     : null;
-                // this.deletedImgs.length > 0
-                //     ? formData.append("deletedImgIds", this.deletedImgIds)
-                //     : null;
+                this.deletedImgs.length > 0
+                    ? formData.append("deletedImgIds", this.deletedImgIds)
+                    : null;
                 formData.append("amount", this.product.amount);
                 formData.append("recommended", this.product.recommended);
                 formData.append("desc", this.product.desc);
-                formData.append("stock", this.product.stock);
+                this.product.stock == null ? null : formData.append("stock", this.product.stock);
                 if (this.product.colors != null) {
                     let colors = [];
                     this.product.colors.forEach(el => {
@@ -1282,7 +1280,7 @@
                 axiosFunction(url, formData, { headers: { "Content-Type": "multipart/form-data" },})
                     .then((res) => {
                         if (res.data.status == 1) {
-                            window.scrollTo(5, 20);
+                            this.viewUp();
                             this.product = {};
                             this.successState(
                                 true,
@@ -1294,8 +1292,8 @@
                                 ? (this.products = res.data.products)
                                 : null;
                             setTimeout(() => {
-                                // window.location.reload();
-                            }, 1000);
+                                window.location.reload();
+                            }, 2000);
                         }
                     })
                     .catch((err) => {
@@ -1332,8 +1330,7 @@
                 this.sizes = selCategory[0].sizes;
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList);
-                this.update ? this.deletedImgs.push(file) : null; //Pushes removed images
+                this.update ? (this.deletedImgs.push(file.url),this.deletedImgIds.push(file.id) ): null; //Pushes removed images
                 let list = this.update ? this.fileList : this.imageList;
                 const findId = (rol) => rol.uid === file.uid; 
                 list.splice(
@@ -1442,7 +1439,7 @@
             },
             restoreArch(product) {
                 axios
-                    .patch(`api/product/${product.id}`)
+                    .patch(`api/product-refresh/${product.id}`)
                     .then((res) => {
                         if (res.status == 201) {
                             this.products.data.push(product);
@@ -1453,6 +1450,10 @@
                                 1
                             );
                         }
+                        this.$toasted.show("Product restored!", {
+                            duration: 3000,
+                            position: "top-right",
+                        });
                     })
                     .catch((err) => {
                         console.log(err);
@@ -1500,6 +1501,12 @@
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
+    a {
+        color: #000;
+    }
+    a:hover {
+        color: rgb(250, 140, 140);
+    }
     .loadingPage {
         text-align: center;
         height: 50vh;
@@ -1508,29 +1515,6 @@
     .loadingPage i {
         position: absolute;
         top: 25vh;
-    }
-</style>
-<style scoped>
-    .cursor-pointer {
-        cursor: pointer;
-    }
-    .card-img-top {
-        height: 235px !important;
-    }
-
-    @media (max-width: 768px) {
-        .flexedItem {
-            display: flex;
-            justify-content: space-between;
-        }
-        .hidden-xs {
-            display: none;
-        }
-    }
-    @media (min-width: 1366px) {
-        .hidden-lg {
-            display: none;
-        }
     }
     .avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
@@ -1554,5 +1538,28 @@
         width: 178px;
         height: 178px;
         display: block;
+    }
+</style>
+<style scoped>
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .card-img-top {
+        height: 235px !important;
+    }
+
+    @media (max-width: 768px) {
+        .flexedItem {
+            display: flex;
+            justify-content: space-between;
+        }
+        .hidden-xs {
+            display: none;
+        }
+    }
+    @media (min-width: 1366px) {
+        .hidden-lg {
+            display: none;
+        }
     }
 </style>

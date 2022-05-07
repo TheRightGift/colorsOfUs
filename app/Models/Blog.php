@@ -11,7 +11,7 @@ class Blog extends Model
     use HasFactory, SoftDeletes;
 
 
-    protected $fillable = ['title', 'body', 'postedBy', 'views', 'category_id', 'created_at', 'deleted_at', 'updated_at'];
+    protected $fillable = ['title', 'body', 'postedBy', 'views', 'status', 'category_id', 'created_at', 'deleted_at', 'updated_at'];
 
     public function category(){
         return $this->belongsTo(Category::class);

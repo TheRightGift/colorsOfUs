@@ -11,13 +11,14 @@ use Validator;
 class BlogController extends Controller
 {
 
-    protected function dataToValidate()
+    protected function dataToValidate(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
 			'body' => 'required',
             'title' => 'required|max:300|unique:blogs', 
             'category_id' => 'required',
-            'status' => 'required|integer',            
+            'status' => 'required|integer',
+            'imageUrl' => 'nullable'           
 		]);
         return $validator;
     }
@@ -28,8 +29,9 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::withTrashed()->with('category')->paginate();
-        return response()->json(['message' => 'Blogposts fetched successfuly', 'blogposts' => $blogs]);
+        $blogs = Blog::with('category', 'images')->paginate();
+        $blogsTrashed = Blog::onlyTrashed()->with('category', 'images')->paginate();
+        return response()->json(['message' => 'Blogposts fetched successfuly', 'blogposts' => $blogs, 'trashed' => $blogsTrashed]);
     }
 
     /**
@@ -39,8 +41,9 @@ class BlogController extends Controller
      */
     public function published()
     {
-        $blogs = Blog::where('status', 'published')->with('category')->paginate();
-        return response()->json(['message' => 'Blogposts fetched successfuly', 'blogposts' => $blogs]);
+        $blogs = Blog::where('status', 'published')->with('images', 'category')->paginate();
+        $blogsTrashed = Blog::onlyTrashed()->where('status', 'published')->with('images', 'category')->paginate();
+        return response()->json(['message' => 'Blogposts fetched successfuly', 'blogposts' => $blogs, 'trashed' => $blogsTrashed]);
     }
 
     /**
@@ -51,18 +54,27 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->dataToValidate();
+        $data = $this->dataToValidate($request);
         if ($data->fails()){
             return response()->json(['errors' => $data->errors()->all()]);
         }
         else {
+            $input = $data->validated();
             $blog = Blog::create([
-                'body' => $data->body,
-                'title' => $data->title,
-                'category_id' => $data->category_id,
-                'status' => $data->status == 1 ? 'published' : 'saved',
+                'body' => $input['body'],
+                'title' => $input['title'],
+                'category_id' => $input['category_id'],
+                'status' => $input['status'],
             ]);
-            return response()->json(['blogpost' => $blog, 'message' => 'Insert is successful'], 200);
+
+            $blog->images()->create([
+                'url' => $input['imageUrl'],
+                'imageable_id' => $blog['id'],
+                'imageable_type' => Blog::class,
+            ]);
+
+
+            return response()->json(['blogpost' => $blog, 'message' => 'Insert is successful', 'status' => 1], 200);
         } 
     }
 
@@ -74,9 +86,12 @@ class BlogController extends Controller
      */
     public function show($blog)
     {
-        $blog = Blog::where('title', $title)->firstOrFail();
-        $product = Product::whereRelations('categories', 'categories.id', $blog['category_id'])->with('images')->get(); //Get related products by categories ie products that are in same category with blog viwing;
-        return response()->json(['blogpost' => $blog, 'product' => $product, 'message' => 'Blogpost retrieved successfuly'], 200);
+        $data = new Blog();
+        $blog = $data->where('title', $blog)->with('images')->firstOrFail();
+        $blogs = $data->with('images')->where('status', 'published')->latest()->take(6)->get();
+        $archives = $data->where('status', 'published')->oldest()->take(10)->get();
+        $product = Product::whereRelation('categories', 'categories.id', $blog['category_id'])->with('images')->get(); //Get related products by categories ie products that are in same category with blog viwing;
+        return response()->json(['blogpost' => $blog, 'product' => $product, 'recent' => $blogs, 'archives' => $archives, 'message' => 'Blogpost retrieved successfuly'], 200);
     }
 
     /**
@@ -88,19 +103,13 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $this->dataToValidate();
-        if ($data->fails()){
-            return response()->json(['errors' => $data->errors()->all()]);
-        }
-        else {
-            $blog = Blog::find($id)->update($request->only([
-                'body' => $data->body,
-                'title' => $data->title,
-                'category_id' => $data->category_id,
-                'status' => $data->status == 1 ? 'published' : 'saved',
-            ]));
-            return response()->json(['blogpost' => $blog, 'message' => 'Update is successful'], 200);
-        } 
+        $blog = Blog::find($id)->update($request->only([
+            'body',
+            'title',
+            'category_id',
+            'status',
+        ]));
+        return response()->json(['blogpost' => $blog, 'message' => 'Update is successful', 'status' => 1], 200);
     }
 
     /**

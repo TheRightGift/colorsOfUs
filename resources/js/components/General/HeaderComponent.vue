@@ -2,139 +2,64 @@
     <div>
         <!-- Start Header Style -->
         <div id="shopify-section-header" class="shopify-section">
-            <header id="header" :class="{'header--3 bg__white': !home, 'htc-header header--2': home}">
+            <header
+                id="header"
+                :class="{
+                    'header--3 bg__white': !home,
+                    'htc-header header--2': home,
+                }"
+            >
                 <!-- Start Mainmenu Area -->
                 <div
                     id="sticky-header-with-topbar"
-                    class="mainmenu__area sticky__header" :class="{'header--2': home}"
+                    class="mainmenu__area sticky__header"
+                    :class="{ 'header--2': home }"
                 >
                     <div class="container">
                         <div class="row">
                             <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                                 <div class="logo">
-                                    <a href="index.html"
-                                        ><img src="/img/2_medium.png" alt="logo"
-                                    /></a>
+                                    <a href="/"
+                                    style="font-size:1.6em; color: black; font-weight: 900"
+                                        >
+                                        <!-- <img
+                                            src="/img/2_medium.png"
+                                            alt="logo"
+                                    /> -->
+                                        COLORSOFUS
+                                    </a>
                                 </div>
                             </div>
                             <!-- Start MAinmenu Ares -->
                             <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
                                 <nav class="mainmenu__nav hidden-xs hidden-sm">
                                     <ul class="main__menu">
-                                        <li class="drop">
-                                            <a href="index.html">Home</a>
-                                            <ul class="dropdown">
-                                                <li class="submenu-li">
-                                                    <a href="index.html">Home-2</a>
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-3.myshopify.com/"
-                                                        >Home-3</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-4.myshopify.com/"
-                                                        >home-4</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-5.myshopify.com/"
-                                                        >home-5</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-minimal-6.myshopify.com/"
-                                                        >home-6</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-minimal-7.myshopify.com/"
-                                                        >home-7</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-8.myshopify.com/"
-                                                        >Home - Furniture</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-9.myshopify.com/"
-                                                        >Home - Electronics</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-10.myshopify.com/"
-                                                        >Home - Jewelry</a
-                                                    >
-                                                </li>
-
-                                                <li class="submenu-li">
-                                                    <a
-                                                        href="external.html?link=https://uniqlo-minimal.myshopify.com/?preview_theme_id=76986941492"
-                                                        >Home - Christmas</a
-                                                    >
-                                                </li>
-                                            </ul>
+                                        <li>
+                                            <a href="/">Home</a>
                                         </li>
 
                                         <li class="drop">
-                                            <a href="collections/all.html">Shop</a>
+                                            <a href="/products">Shop</a>
                                             <ul class="dropdown">
                                                 <li class="megamenu-li">
                                                     <a
                                                         class="mega__title"
-                                                        href="collections/all.html"
-                                                        >Men's Style</a
+                                                        href="#!"
+                                                        >Recommended</a
                                                     >
                                                     <ul class="mega__item">
-                                                        <li>
+                                                        <li
+                                                            v-for="product in products"
+                                                            :key="product.id"
+                                                        >
                                                             <a
-                                                                href="collections/all.html"
-                                                                >long t-shirt</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >stylish pant</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >winter coat</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >black watch</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >sleeveless shirt</a
+                                                                :href="
+                                                                    '/products/' +
+                                                                    product.title
+                                                                "
+                                                                >{{
+                                                                    product.title
+                                                                }}</a
                                                             >
                                                         </li>
                                                     </ul>
@@ -143,209 +68,112 @@
                                                 <li class="megamenu-li">
                                                     <a
                                                         class="mega__title"
-                                                        href="collections/all.html"
-                                                        >Women's Fashion</a
+                                                        href="categories"
+                                                        >Best Selling</a
                                                     >
                                                     <ul class="mega__item">
-                                                        <li>
+                                                        <li
+                                                            v-for="women in womens"
+                                                            :key="women.id"
+                                                        >
                                                             <a
-                                                                href="collections/all.html"
-                                                                >halter tops</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >tunic shirt</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >long pant</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >white blouse</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >lace hem</a
+                                                                :href="
+                                                                    '/products/' +
+                                                                    women.title
+                                                                "
+                                                                >{{
+                                                                    women.title
+                                                                }}</a
                                                             >
                                                         </li>
                                                     </ul>
                                                 </li>
 
-                                                <li class="megamenu-li image-menu">
+                                                <li
+                                                    class="
+                                                        megamenu-li
+                                                        image-menu
+                                                    "
+                                                >
                                                     <a
-                                                        href="collections/decoration.html"
+                                                        v-for="img in products.slice(
+                                                            0,
+                                                            1
+                                                        )"
+                                                        :key="img.id"
+                                                        :href="
+                                                            '/products/' +
+                                                            img.title
+                                                        "
                                                         ><img
-                                                            src="/img/2.1_large.jpg"
+                                                            :src="
+                                                                img.images[0]
+                                                                    .url
+                                                            "
                                                             alt=""
                                                     /></a>
                                                 </li>
                                             </ul>
                                         </li>
 
-                                        <li class="drop">
-                                            <a href="collections.html"
-                                                >Collections</a
-                                            >
-                                            <ul class="dropdown">
-                                                <li class="megamenu-li">
-                                                    <a
-                                                        class="mega__title"
-                                                        href="collections/bag.html"
-                                                        >Hand Bag</a
+                                        <li class="drop mega-menu-drop">
+                                            <a href="/categories">Categories</a>
+                                            <ul class="dropdown mega_dropdown">
+                                                <template
+                                                    v-for="category in categories"
+                                                >
+                                                    <li
+                                                        class="megamenu-li"
+                                                        :key="category.id"
                                                     >
-                                                    <ul class="mega__item">
-                                                        <li>
-                                                            <a
-                                                                href="products/beautiful-fita-bag.html"
-                                                                >smart head cap</a
+                                                        <a
+                                                            class="mega__title"
+                                                            :href="
+                                                                '/products?category=' +
+                                                                category.name
+                                                            "
+                                                            >{{
+                                                                category.name
+                                                            }}</a
+                                                        >
+                                                        <ul class="mega__item">
+                                                            <!-- <template >                                                             -->
+                                                            <li
+                                                                v-for="product in category.products.slice(
+                                                                    0,
+                                                                    5
+                                                                )"
+                                                                :key="
+                                                                    product.id
+                                                                "
                                                             >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/multiple-color-head-cap.html"
-                                                                >color head cap</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/bambo-basket.html"
-                                                                >bambo basket</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/beautiful-fita-bag-1.html"
-                                                                >beautiful fita
-                                                                bag</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/tails-batna.html"
-                                                                >tails batna</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </li>
-
-                                                <li class="megamenu-li">
-                                                    <a
-                                                        class="mega__title"
-                                                        href="collections/furniture.html"
-                                                        >Stylish furniture</a
-                                                    >
-                                                    <ul class="mega__item">
-                                                        <li>
-                                                            <a
-                                                                href="products/tails-batna.html"
-                                                                >tails batna</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/black-shine-sunglasses.html"
-                                                                >black sunglasses</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/glass-table.html"
-                                                                >laptop carry bag</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/official-bag.html"
-                                                                >official bag</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/black-digital-watch.html"
-                                                                >black digital
-                                                                watch</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </li>
-
-                                                <li class="megamenu-li">
-                                                    <a
-                                                        class="mega__title"
-                                                        href="collections/decoration.html"
-                                                        >Home decoration</a
-                                                    >
-                                                    <ul class="mega__item">
-                                                        <li>
-                                                            <a
-                                                                href="products/partex-table-fan.html"
-                                                                >partex table fan</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/beautiful-table.html"
-                                                                >single carry bag</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/multiple-color-head-cap.html"
-                                                                >color head cap</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/beautiful-fita-bag.html"
-                                                                >smart head cap</a
-                                                            >
-                                                        </li>
-
-                                                        <li>
-                                                            <a
-                                                                href="products/glass-table.html"
-                                                                >laptop carry bag</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </li>
+                                                                <a
+                                                                    :href="
+                                                                        '/product/' +
+                                                                        product.title
+                                                                    "
+                                                                    >{{
+                                                                        product.title
+                                                                    }}</a
+                                                                >
+                                                            </li>
+                                                            <!-- </template> -->
+                                                        </ul>
+                                                    </li>
+                                                </template>
                                             </ul>
                                         </li>
 
                                         <li>
-                                            <a href="blogs/news.html">Blog</a>
+                                            <a href="/blogs">Blog</a>
                                         </li>
 
                                         <li>
-                                            <a href="pages/about-us.html">About</a>
+                                            <a href="/about-us">About</a>
                                         </li>
 
                                         <li>
-                                            <a href="pages/contact.html">Contact</a>
+                                            <a href="/contact">Contact</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -353,131 +181,31 @@
                                     <nav id="mobile_dropdown">
                                         <ul class="">
                                             <li class="">
-                                                <a href="index.html">Home</a>
-                                                <ul class="">
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-minimal.myshopify.com/?preview_theme_id=35782918196"
-                                                            >Home-1</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a href="index.html"
-                                                            >Home-2</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-3.myshopify.com/"
-                                                            >Home-3</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-4.myshopify.com/"
-                                                            >home-4</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-5.myshopify.com/"
-                                                            >home-5</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-minimal-6.myshopify.com/"
-                                                            >home-6</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-minimal-7.myshopify.com/"
-                                                            >home-7</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-8.myshopify.com/"
-                                                            >Home - Furniture</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-9.myshopify.com/"
-                                                            >Home - Electronics</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-10.myshopify.com/"
-                                                            >Home - Jewelry</a
-                                                        >
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            href="external.html?link=https://uniqlo-minimal.myshopify.com/?preview_theme_id=76986941492"
-                                                            >Home - Christmas</a
-                                                        >
-                                                    </li>
-                                                </ul>
+                                                <a href="/">Home</a>
                                             </li>
 
                                             <li class="">
-                                                <a href="collections/all.html"
-                                                    >Shop</a
-                                                >
+                                                <a href="/products">Shop</a>
                                                 <ul class="">
                                                     <li class="">
-                                                        <a
-                                                            class=""
-                                                            href="collections/all.html"
-                                                            >Men's Style</a
+                                                        <a class="" href="#!"
+                                                            >Recommended</a
                                                         >
                                                         <ul class="">
-                                                            <li>
+                                                            <li
+                                                                v-for="product in products"
+                                                                :key="
+                                                                    product.id
+                                                                "
+                                                            >
                                                                 <a
-                                                                    href="collections/all.html"
-                                                                    >long t-shirt</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >stylish pant</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >winter coat</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >black watch</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >sleeveless
-                                                                    shirt</a
+                                                                    :href="
+                                                                        '/products/' +
+                                                                        product.title
+                                                                    "
+                                                                    >{{
+                                                                        product.title
+                                                                    }}</a
                                                                 >
                                                             </li>
                                                         </ul>
@@ -486,42 +214,22 @@
                                                     <li class="">
                                                         <a
                                                             class=""
-                                                            href="collections/all.html"
                                                             >Women's Fashion</a
                                                         >
+                                                            <!-- :href="'collections/fashion'" -->
                                                         <ul class="">
-                                                            <li>
+                                                            <li
+                                                                v-for="women in womens"
+                                                                :key="women.id"
+                                                            >
                                                                 <a
-                                                                    href="collections/all.html"
-                                                                    >halter tops</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >tunic shirt</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >long pant</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >white blouse</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="collections/all.html"
-                                                                    >lace hem</a
+                                                                    :href="
+                                                                        '/products/' +
+                                                                        women.title
+                                                                    "
+                                                                    >{{
+                                                                        women.title
+                                                                    }}</a
                                                                 >
                                                             </li>
                                                         </ul>
@@ -529,9 +237,21 @@
 
                                                     <li class="">
                                                         <a
-                                                            href="collections/decoration.html"
+                                                            v-for="img in products.slice(
+                                                                0,
+                                                                1
+                                                            )"
+                                                            :key="img.id"
+                                                            :href="
+                                                                '/products/' +
+                                                                img.title
+                                                            "
                                                             ><img
-                                                                src="/img/2.1_large.jpg"
+                                                                :src="
+                                                                    img
+                                                                        .images[0]
+                                                                        .url
+                                                                "
                                                                 alt=""
                                                         /></a>
                                                     </li>
@@ -539,169 +259,63 @@
                                             </li>
 
                                             <li class="">
-                                                <a href="collections.html"
-                                                    >Collections</a
+                                                <a href="/categories"
+                                                    >Categories</a
                                                 >
                                                 <ul class="">
-                                                    <li class="">
+                                                    <li
+                                                        class=""
+                                                        v-for="category in categories"
+                                                        :key="category.id"
+                                                    >
                                                         <a
                                                             class=""
-                                                            href="collections/bag.html"
-                                                            >Hand Bag</a
+                                                            :href="
+                                                                '/products/?category' +
+                                                                category.name
+                                                            "
+                                                            >{{
+                                                                category.name
+                                                            }}</a
                                                         >
                                                         <ul class="">
-                                                            <li>
-                                                                <a
-                                                                    href="products/beautiful-fita-bag.html"
-                                                                    >smart head
-                                                                    cap</a
+                                                            <template
+                                                                v-for="product in category.products.slice(
+                                                                    0,
+                                                                    5
+                                                                )"
+                                                            >
+                                                                <li
+                                                                    :key="
+                                                                        product.id
+                                                                    "
                                                                 >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/multiple-color-head-cap.html"
-                                                                    >color head
-                                                                    cap</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/bambo-basket.html"
-                                                                    >bambo basket</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/beautiful-fita-bag-1.html"
-                                                                    >beautiful fita
-                                                                    bag</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/tails-batna.html"
-                                                                    >tails batna</a
-                                                                >
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            class=""
-                                                            href="collections/furniture.html"
-                                                            >Stylish furniture</a
-                                                        >
-                                                        <ul class="">
-                                                            <li>
-                                                                <a
-                                                                    href="products/tails-batna.html"
-                                                                    >tails batna</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/black-shine-sunglasses.html"
-                                                                    >black
-                                                                    sunglasses</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/glass-table.html"
-                                                                    >laptop carry
-                                                                    bag</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/official-bag.html"
-                                                                    >official bag</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/black-digital-watch.html"
-                                                                    >black digital
-                                                                    watch</a
-                                                                >
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-
-                                                    <li class="">
-                                                        <a
-                                                            class=""
-                                                            href="collections/decoration.html"
-                                                            >Home decoration</a
-                                                        >
-                                                        <ul class="">
-                                                            <li>
-                                                                <a
-                                                                    href="products/partex-table-fan.html"
-                                                                    >partex table
-                                                                    fan</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/beautiful-table.html"
-                                                                    >single carry
-                                                                    bag</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/multiple-color-head-cap.html"
-                                                                    >color head
-                                                                    cap</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/beautiful-fita-bag.html"
-                                                                    >smart head
-                                                                    cap</a
-                                                                >
-                                                            </li>
-
-                                                            <li>
-                                                                <a
-                                                                    href="products/glass-table.html"
-                                                                    >laptop carry
-                                                                    bag</a
-                                                                >
-                                                            </li>
+                                                                    <a
+                                                                        :href="
+                                                                            '/products/' +
+                                                                            product.title
+                                                                        "
+                                                                        >{{
+                                                                            product.title
+                                                                        }}</a
+                                                                    >
+                                                                </li>
+                                                            </template>
                                                         </ul>
                                                     </li>
                                                 </ul>
                                             </li>
 
                                             <li>
-                                                <a href="blogs/news.html">Blog</a>
+                                                <a href="/blogs">Blog</a>
                                             </li>
 
                                             <li>
-                                                <a href="pages/about-us.html"
-                                                    >About</a
-                                                >
+                                                <a href="/about-us">About</a>
                                             </li>
 
                                             <li>
-                                                <a href="pages/contact.html"
-                                                    >Contact</a
-                                                >
+                                                <a href="/contact">Contact</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -720,18 +334,68 @@
                                             ><span class="ti-user"></span
                                         ></a> -->
                                         <div class="dropdown">
-                                            <a id="dLabel" :title="$store.state.user.firstname" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <a
+                                                id="dLabel"
+                                                :title="
+                                                    $store.state.user.firstname
+                                                "
+                                                data-target="#"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"
+                                            >
                                                 <span class="ti-user"></span>
                                             </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                            <ul
+                                                class="dropdown-menu"
+                                                aria-labelledby="dLabel"
+                                            >
                                                 <li>
-                                                   <a :href="$store.state.intended"><i class="fa fa-user pr-2" aria-hidden="true"></i>{{$store.state.user.firstname}}</a>
+                                                    <a
+                                                        :href="
+                                                            $store.state
+                                                                .intended
+                                                        "
+                                                        ><i
+                                                            class="
+                                                                fa fa-user
+                                                                pr-2
+                                                            "
+                                                            aria-hidden="true"
+                                                        ></i
+                                                        >{{
+                                                            $store.state.user
+                                                                .firstname
+                                                        }}</a
+                                                    >
                                                 </li>
                                                 <li>
-                                                    <a href="#" @click.prevent="logout"><i class="fa fa-power-off pr-2" aria-hidden="true"></i>Logout</a>
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent="logout"
+                                                        ><i
+                                                            class="
+                                                                fa fa-power-off
+                                                                pr-2
+                                                            "
+                                                            aria-hidden="true"
+                                                        ></i
+                                                        >Logout</a
+                                                    >
                                                 </li>
                                                 <li>
-                                                    <a href="#"><i class="fa fa-first-order pr-2" aria-hidden="true"></i>View Orders</a>
+                                                    <a href="#"
+                                                        ><i
+                                                            class="
+                                                                fa
+                                                                fa-first-order
+                                                                pr-2
+                                                            "
+                                                            aria-hidden="true"
+                                                        ></i
+                                                        >View Orders</a
+                                                    >
                                                 </li>
                                             </ul>
                                         </div>
@@ -744,7 +408,9 @@
 
                                     <li class="cart__menu">
                                         <span class="ti-shopping-cart"></span>
-                                        <span class="cart-badge bigcounter">0</span>
+                                        <span class="cart-badge bigcounter">{{
+                                            $store.state.cartCount
+                                        }}</span>
                                     </li>
 
                                     <li class="toggle__menu hidden-xs">
@@ -760,7 +426,7 @@
                 <!-- End Mainmenu Area -->
             </header>
 
-             <div class="body__overlay"></div>
+            <div class="body__overlay"></div>
             <!-- Start Offset Wrapper -->
             <div class="offset__wrapper">
                 <!-- Start Search Popap -->
@@ -786,13 +452,8 @@
                                         <button type="submit"></button>
                                     </form>
                                     <div class="search__close__btn">
-                                        <span
-                                            class="
-                                                search__close__btn_icon
-                                            "
-                                            ><i
-                                                class="zmdi zmdi-close"
-                                            ></i
+                                        <span class="search__close__btn_icon"
+                                            ><i class="zmdi zmdi-close"></i
                                         ></span>
                                     </div>
                                 </div>
@@ -806,16 +467,12 @@
                 <div class="offsetmenu">
                     <div class="offsetmenu__inner">
                         <div class="offsetmenu__close__btn">
-                            <a href="#"
-                                ><i class="zmdi zmdi-close"></i
-                            ></a>
+                            <a href="#"><i class="zmdi zmdi-close"></i></a>
                         </div>
                         <div class="off__contact">
                             <div class="logo">
                                 <a href="/"
-                                    ><img
-                                        src="/img/2_medium.png"
-                                        alt="logo"
+                                    ><img src="/img/2_medium.png" alt="logo"
                                 /></a>
                             </div>
 
@@ -831,15 +488,8 @@
                         </ul>
 
                         <div class="offset__widget">
-                            <div
-                                class="
-                                    offset__single
-                                    offset-currency-picker
-                                "
-                            >
-                                <h4 class="offset__title">
-                                    Currencies
-                                </h4>
+                            <div class="offset__single offset-currency-picker">
+                                <h4 class="offset__title">Currencies</h4>
                                 <div
                                     class="
                                         common-currency-picker
@@ -852,15 +502,12 @@
                                         data-toggle="dropdown"
                                         ><span class="current-currency"
                                             >USD</span
-                                        ><span
-                                            class="ti-angle-down"
-                                        ></span
+                                        ><span class="ti-angle-down"></span
                                     ></a>
 
                                     <ul
                                         class="
-                                            dropdown-menu
-                                            dropdown-menu--xs-full
+                                            dropdown-menu dropdown-menu--xs-full
                                         "
                                     >
                                         <li
@@ -904,8 +551,7 @@
                                             class="currency__item"
                                         >
                                             <a style="cursor: pointer"
-                                                >BDT - Bangladesh
-                                                Taka</a
+                                                >BDT - Bangladesh Taka</a
                                             >
                                         </li>
 
@@ -932,8 +578,7 @@
                                             class="currency__item"
                                         >
                                             <a style="cursor: pointer"
-                                                >AUD - Australian
-                                                Dollar</a
+                                                >AUD - Australian Dollar</a
                                             >
                                         </li>
                                     </ul>
@@ -949,9 +594,7 @@
                                         class="bg--facebook"
                                         href="#"
                                         title="Facebook"
-                                        ><i
-                                            class="zmdi zmdi-facebook"
-                                        ></i
+                                        ><i class="zmdi zmdi-facebook"></i
                                     ></a>
                                 </li>
 
@@ -960,11 +603,7 @@
                                         class="bg--google-plus"
                                         href="#"
                                         title="Google-plus"
-                                        ><i
-                                            class="
-                                                zmdi zmdi-google-plus
-                                            "
-                                        ></i
+                                        ><i class="zmdi zmdi-google-plus"></i
                                     ></a>
                                 </li>
 
@@ -973,9 +612,7 @@
                                         class="bg--twitter"
                                         href="#"
                                         title="Twitter"
-                                        ><i
-                                            class="zmdi zmdi-twitter"
-                                        ></i
+                                        ><i class="zmdi zmdi-twitter"></i
                                     ></a>
                                 </li>
 
@@ -984,9 +621,7 @@
                                         class="bg--instagram"
                                         href="#"
                                         title="Instagram"
-                                        ><i
-                                            class="zmdi zmdi-instagram"
-                                        ></i
+                                        ><i class="zmdi zmdi-instagram"></i
                                     ></a>
                                 </li>
                             </ul>
@@ -999,47 +634,84 @@
                 <div class="shopping__cart">
                     <div class="shopping__cart__inner">
                         <div class="offsetmenu__close__btn">
-                            <a href="#"
-                                ><i class="zmdi zmdi-close"></i
-                            ></a>
+                            <a href="#"><i class="zmdi zmdi-close"></i></a>
                         </div>
                         <div
-                            style="display: block"
                             class="cart_empty_title"
+                            v-if="$store.state.cart.length == 0"
                         >
                             <h2>Your cart is currently empty.</h2>
                         </div>
-                        <div
-                            class="shp__cart__wrap"
-                            style="display: none"
-                        >
-                            <ul></ul>
+                        <div v-else>
+                            <div class="shp__cart__wrap">
+                                <ul>
+                                    <li
+                                        v-for="(item, index) in $store.state.cart"
+                                        :key="index"
+                                    >
+                                        <div class="shp__single__product">
+                                            <div class="shp__pro__thumb">
+                                                <a
+                                                    :href="'/products/'+item.title"
+                                                    ><img
+                                                        :src="item.images[0].url"
+                                                        :alt="item.title"
+                                                /></a>
+                                            </div>
+                                            <div class="shp__pro__details">
+                                                <h2>
+                                                    <a
+                                                        :href="'/products/'+item.title"
+                                                        >{{item.title}} 
+                                                        <span v-if="item.selectedColor || item.selectedSize">
+                                                            <span>
+                                                                -
+                                                            </span>
+                                                        </span>
+                                                        <span v-if="item.selectedSize">{{item.selectedSize.name}} / </span>
+                                                        <span v-if="item.selectedColor">{{item.selectedColor.name}}</span></a
+                                                    >
+                                                </h2>
+                                                <span class="shp__price"
+                                                    >{{item.quantity}} x
+                                                    <span
+                                                        class="money"
+                                                    >
+                                                        &#8358; {{formatPrice(item.amount)}}</span
+                                                    ></span
+                                                >
+                                            </div>
+                                            <div class="remove__btn">
+                                                <a
+                                                    href="javascript:void(0);"
+                                                    @click="removeFromCart(item)"
+                                                    title="Remove this item"
+                                                    ><i class="zmdi zmdi-close"></i
+                                                ></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <ul class="shoping__total">
+                                <li class="subtotal">Total:</li>
+                                <li class="total__price shopping-cart__total">
+                                    <span class="money">
+                                        &#8358;{{ totalPrice }}</span
+                                    >
+                                </li>
+                            </ul>
+                            <ul class="shopping__btn">
+                                <li><a href="cart">View Cart</a></li>
+                                <li class="shp__checkout">
+                                    <a href="cart">Checkout</a>
+                                </li>
+                            </ul>
                         </div>
-                        <ul
-                            class="shoping__total"
-                            style="display: none"
-                        >
-                            <li class="subtotal">Total:</li>
-                            <li
-                                class="
-                                    total__price
-                                    shopping-cart__total
-                                "
-                            >
-                                <span class="money">$0.00</span>
-                            </li>
-                        </ul>
-                        <ul class="shopping__btn" style="display: none">
-                            <li><a href="cart.html">View Cart</a></li>
-                            <li class="shp__checkout">
-                                <a href="cart.html">Checkout</a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <!-- End Cart Panel -->
             </div>
-
         </div>
         <!-- End Header Style -->
     </div>
@@ -1049,20 +721,59 @@
         name: "Header",
         data() {
             return {
+                categories: [],
                 home: false,
+                products: [],
+                womens: [],
             };
         },
-        methods: {
-            mobileMenu() {
-                (function(i){"use strict";i.fn.meanmenu=function(y){var b={meanMenuTarget:jQuery(this),meanMenuContainer:".mobile-menu-area .container",meanMenuClose:"X",meanMenuCloseSize:"18px",meanMenuOpen:"<span /><span /><span />",meanRevealPosition:"right",meanRevealPositionDistance:"0",meanRevealColour:"",meanScreenWidth:"767",meanNavPush:"",meanShowChildren:!0,meanExpandableChildren:!0,meanExpand:"+",meanContract:"-",meanRemoveAttrs:!1,onePage:!1,meanDisplay:"block",removeElements:""};y=i.extend(b,y);var r=window.innerWidth||document.documentElement.clientWidth;return this.each(function(){var l=y.meanMenuTarget,h=y.meanMenuContainer,e=y.meanMenuClose,t=y.meanMenuCloseSize,o=y.meanMenuOpen,s=y.meanRevealPosition,u=y.meanRevealPositionDistance,f=y.meanRevealColour,a=y.meanScreenWidth,n=y.meanNavPush,p=".meanmenu-reveal",c=y.meanShowChildren,v=y.meanExpandableChildren,_=y.meanExpand,z=y.meanContract,L=y.meanRemoveAttrs,C=y.onePage,E=y.meanDisplay,O=y.removeElements,P=!1;(navigator.userAgent.match(/iPhone/i)||navigator.userAgent.match(/iPod/i)||navigator.userAgent.match(/iPad/i)||navigator.userAgent.match(/Android/i)||navigator.userAgent.match(/Blackberry/i)||navigator.userAgent.match(/Windows Phone/i))&&(P=!0),(navigator.userAgent.match(/MSIE 8/i)||navigator.userAgent.match(/MSIE 7/i))&&jQuery("html").css("overflow-y","scroll");var x="",H=function(){if(s==="center"){var j=window.innerWidth||document.documentElement.clientWidth,q=j/2-22+"px";x="left:"+q+";right:auto;",P?jQuery(".meanmenu-reveal").animate({left:q}):jQuery(".meanmenu-reveal").css("left",q)}},m=!1,w=!1;s==="right"&&(x="right:"+u+";left:auto;"),s==="left"&&(x="left:"+u+";right:auto;"),H();var S="",k=function(){jQuery(S).is(".meanmenu-reveal.meanclose")?S.html(e):S.html(o)},A=function(){jQuery(".mean-bar,.mean-push").remove(),jQuery(h).removeClass("mean-container"),jQuery(l).css("display",E),m=!1,w=!1,jQuery(O).removeClass("mean-remove")},N=function(){var j="background:"+f+";color:"+f+";"+x;if(r<=a){jQuery(O).addClass("mean-remove"),w=!0,jQuery(h).addClass("mean-container"),jQuery(".mean-container").prepend('<div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="'+j+'">Show Navigation</a><nav class="mean-nav"></nav></div>');var q=jQuery(l).html();jQuery(".mean-nav").html(q),L&&jQuery("nav.mean-nav ul, nav.mean-nav ul *").each(function(){jQuery(this).is(".mean-remove")?jQuery(this).attr("class","mean-remove"):jQuery(this).removeAttr("class"),jQuery(this).removeAttr("id")}),jQuery(l).before('<div class="mean-push" />'),jQuery(".mean-push").css("margin-top",n),jQuery(l).hide(),jQuery(".meanmenu-reveal").show(),jQuery(p).html(o),S=jQuery(p),jQuery(".mean-nav ul").hide(),c?v?(jQuery(".mean-nav ul ul").each(function(){jQuery(this).children().length&&jQuery(this,"li:first").parent().append('<a class="mean-expand" href="#" style="font-size: '+t+'">'+_+"</a>")}),jQuery(".mean-expand").on("click",function(F){F.preventDefault(),jQuery(this).hasClass("mean-clicked")?(jQuery(this).text(_),jQuery(this).prev("ul").slideUp(300,function(){})):(jQuery(this).text(z),jQuery(this).prev("ul").slideDown(300,function(){})),jQuery(this).toggleClass("mean-clicked")})):jQuery(".mean-nav ul ul").show():jQuery(".mean-nav ul ul").hide(),jQuery(".mean-nav ul li").last().addClass("mean-last"),S.removeClass("meanclose"),jQuery(S).click(function(F){F.preventDefault(),m===!1?(S.css("text-align","center"),S.css("text-indent","0"),S.css("font-size",t),jQuery(".mean-nav ul:first").slideDown(),m=!0):(jQuery(".mean-nav ul:first").slideUp(),m=!1),S.toggleClass("meanclose"),k(),jQuery(O).addClass("mean-remove")}),C&&jQuery(".mean-nav ul > li > a:first-child").on("click",function(){jQuery(".mean-nav ul:first").slideUp(),m=!1,jQuery(S).toggleClass("meanclose").html(o)})}else A()};P||jQuery(window).resize(function(){r=window.innerWidth||document.documentElement.clientWidth,r>a,A(),r<=a?(N(),H()):A()}),jQuery(window).resize(function(){r=window.innerWidth||document.documentElement.clientWidth,P?(H(),r<=a?w===!1&&N():A()):(A(),r<=a&&(N(),H()))}),N()})}})(jQuery);
-                $(".mobile-menu nav").meanmenu({
-                    meanMenuContainer: ".mobile-menu-area",
-                    meanScreenWidth: "991",
-                    meanRevealPosition: "right",
+        computed: {
+            totalPrice() {
+                let total = 0;
+
+                for (let item of this.$store.state.cart) {
+                    total += item.totalPrice;
+                }
+                this.total = total;
+                return total.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
                 });
             },
+        },
+        methods: {
             checkHome() {
-                location.pathname === "/" ? this.home = !this.home : this.home;
+                location.pathname === "/" ? (this.home = !this.home) : this.home;
+            },
+            getCategories() {
+                axios
+                    .get(`/api/category`)
+                    .then((res) => {
+                        this.categories = res.data.untrashed.reverse().slice(0, 3);
+                        this.$emit('categories', res.data.untrashed);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            getProducts() {
+                axios
+                    .get(`/api/product`)
+                    .then((res) => {
+                        let products = res.data.products.data.reverse().slice(0, 5);
+                        this.womens = products.filter((el) => el.recommended == 0); //Search through description for women, and pull out the ones for it
+                        this.products = products.filter(
+                            (el) => el.recommended == 1
+                        );
+                        this.$emit('products', res.data.products)
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            formatPrice(value) {
+                let val = value / 1;
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
             logout() {
                 axios
@@ -1077,10 +788,286 @@
                         console.log(err);
                     });
             },
+            mobileMenu() {
+                (function (i) {
+                    "use strict";
+                    i.fn.meanmenu = function (y) {
+                        var b = {
+                            meanMenuTarget: jQuery(this),
+                            meanMenuContainer: ".mobile-menu-area .container",
+                            meanMenuClose: "X",
+                            meanMenuCloseSize: "18px",
+                            meanMenuOpen: "<span /><span /><span />",
+                            meanRevealPosition: "right",
+                            meanRevealPositionDistance: "0",
+                            meanRevealColour: "",
+                            meanScreenWidth: "767",
+                            meanNavPush: "",
+                            meanShowChildren: !0,
+                            meanExpandableChildren: !0,
+                            meanExpand: "+",
+                            meanContract: "-",
+                            meanRemoveAttrs: !1,
+                            onePage: !1,
+                            meanDisplay: "block",
+                            removeElements: "",
+                        };
+                        y = i.extend(b, y);
+                        var r =
+                            window.innerWidth ||
+                            document.documentElement.clientWidth;
+                        return this.each(function () {
+                            var l = y.meanMenuTarget,
+                                h = y.meanMenuContainer,
+                                e = y.meanMenuClose,
+                                t = y.meanMenuCloseSize,
+                                o = y.meanMenuOpen,
+                                s = y.meanRevealPosition,
+                                u = y.meanRevealPositionDistance,
+                                f = y.meanRevealColour,
+                                a = y.meanScreenWidth,
+                                n = y.meanNavPush,
+                                p = ".meanmenu-reveal",
+                                c = y.meanShowChildren,
+                                v = y.meanExpandableChildren,
+                                _ = y.meanExpand,
+                                z = y.meanContract,
+                                L = y.meanRemoveAttrs,
+                                C = y.onePage,
+                                E = y.meanDisplay,
+                                O = y.removeElements,
+                                P = !1;
+                            (navigator.userAgent.match(/iPhone/i) ||
+                                navigator.userAgent.match(/iPod/i) ||
+                                navigator.userAgent.match(/iPad/i) ||
+                                navigator.userAgent.match(/Android/i) ||
+                                navigator.userAgent.match(/Blackberry/i) ||
+                                navigator.userAgent.match(/Windows Phone/i)) &&
+                                (P = !0),
+                                (navigator.userAgent.match(/MSIE 8/i) ||
+                                    navigator.userAgent.match(/MSIE 7/i)) &&
+                                    jQuery("html").css("overflow-y", "scroll");
+                            var x = "",
+                                H = function () {
+                                    if (s === "center") {
+                                        var j =
+                                                window.innerWidth ||
+                                                document.documentElement
+                                                    .clientWidth,
+                                            q = j / 2 - 22 + "px";
+                                        (x = "left:" + q + ";right:auto;"),
+                                            P
+                                                ? jQuery(
+                                                      ".meanmenu-reveal"
+                                                  ).animate({ left: q })
+                                                : jQuery(".meanmenu-reveal").css(
+                                                      "left",
+                                                      q
+                                                  );
+                                    }
+                                },
+                                m = !1,
+                                w = !1;
+                            s === "right" && (x = "right:" + u + ";left:auto;"),
+                                s === "left" && (x = "left:" + u + ";right:auto;"),
+                                H();
+                            var S = "",
+                                k = function () {
+                                    jQuery(S).is(".meanmenu-reveal.meanclose")
+                                        ? S.html(e)
+                                        : S.html(o);
+                                },
+                                A = function () {
+                                    jQuery(".mean-bar,.mean-push").remove(),
+                                        jQuery(h).removeClass("mean-container"),
+                                        jQuery(l).css("display", E),
+                                        (m = !1),
+                                        (w = !1),
+                                        jQuery(O).removeClass("mean-remove");
+                                },
+                                N = function () {
+                                    var j =
+                                        "background:" + f + ";color:" + f + ";" + x;
+                                    if (r <= a) {
+                                        jQuery(O).addClass("mean-remove"),
+                                            (w = !0),
+                                            jQuery(h).addClass("mean-container"),
+                                            jQuery(".mean-container").prepend(
+                                                '<div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="' +
+                                                    j +
+                                                    '">Show Navigation</a><nav class="mean-nav"></nav></div>'
+                                            );
+                                        var q = jQuery(l).html();
+                                        jQuery(".mean-nav").html(q),
+                                            L &&
+                                                jQuery(
+                                                    "nav.mean-nav ul, nav.mean-nav ul *"
+                                                ).each(function () {
+                                                    jQuery(this).is(".mean-remove")
+                                                        ? jQuery(this).attr(
+                                                              "class",
+                                                              "mean-remove"
+                                                          )
+                                                        : jQuery(this).removeAttr(
+                                                              "class"
+                                                          ),
+                                                        jQuery(this).removeAttr(
+                                                            "id"
+                                                        );
+                                                }),
+                                            jQuery(l).before(
+                                                '<div class="mean-push" />'
+                                            ),
+                                            jQuery(".mean-push").css(
+                                                "margin-top",
+                                                n
+                                            ),
+                                            jQuery(l).hide(),
+                                            jQuery(".meanmenu-reveal").show(),
+                                            jQuery(p).html(o),
+                                            (S = jQuery(p)),
+                                            jQuery(".mean-nav ul").hide(),
+                                            c
+                                                ? v
+                                                    ? (jQuery(
+                                                          ".mean-nav ul ul"
+                                                      ).each(function () {
+                                                          jQuery(this).children()
+                                                              .length &&
+                                                              jQuery(
+                                                                  this,
+                                                                  "li:first"
+                                                              )
+                                                                  .parent()
+                                                                  .append(
+                                                                      '<a class="mean-expand" href="#" style="font-size: ' +
+                                                                          t +
+                                                                          '">' +
+                                                                          _ +
+                                                                          "</a>"
+                                                                  );
+                                                      }),
+                                                      jQuery(".mean-expand").on(
+                                                          "click",
+                                                          function (F) {
+                                                              F.preventDefault(),
+                                                                  jQuery(
+                                                                      this
+                                                                  ).hasClass(
+                                                                      "mean-clicked"
+                                                                  )
+                                                                      ? (jQuery(
+                                                                            this
+                                                                        ).text(_),
+                                                                        jQuery(this)
+                                                                            .prev(
+                                                                                "ul"
+                                                                            )
+                                                                            .slideUp(
+                                                                                300,
+                                                                                function () {}
+                                                                            ))
+                                                                      : (jQuery(
+                                                                            this
+                                                                        ).text(z),
+                                                                        jQuery(this)
+                                                                            .prev(
+                                                                                "ul"
+                                                                            )
+                                                                            .slideDown(
+                                                                                300,
+                                                                                function () {}
+                                                                            )),
+                                                                  jQuery(
+                                                                      this
+                                                                  ).toggleClass(
+                                                                      "mean-clicked"
+                                                                  );
+                                                          }
+                                                      ))
+                                                    : jQuery(
+                                                          ".mean-nav ul ul"
+                                                      ).show()
+                                                : jQuery(".mean-nav ul ul").hide(),
+                                            jQuery(".mean-nav ul li")
+                                                .last()
+                                                .addClass("mean-last"),
+                                            S.removeClass("meanclose"),
+                                            jQuery(S).click(function (F) {
+                                                F.preventDefault(),
+                                                    m === !1
+                                                        ? (S.css(
+                                                              "text-align",
+                                                              "center"
+                                                          ),
+                                                          S.css("text-indent", "0"),
+                                                          S.css("font-size", t),
+                                                          jQuery(
+                                                              ".mean-nav ul:first"
+                                                          ).slideDown(),
+                                                          (m = !0))
+                                                        : (jQuery(
+                                                              ".mean-nav ul:first"
+                                                          ).slideUp(),
+                                                          (m = !1)),
+                                                    S.toggleClass("meanclose"),
+                                                    k(),
+                                                    jQuery(O).addClass(
+                                                        "mean-remove"
+                                                    );
+                                            }),
+                                            C &&
+                                                jQuery(
+                                                    ".mean-nav ul > li > a:first-child"
+                                                ).on("click", function () {
+                                                    jQuery(
+                                                        ".mean-nav ul:first"
+                                                    ).slideUp(),
+                                                        (m = !1),
+                                                        jQuery(S)
+                                                            .toggleClass(
+                                                                "meanclose"
+                                                            )
+                                                            .html(o);
+                                                });
+                                    } else A();
+                                };
+                            P ||
+                                jQuery(window).resize(function () {
+                                    (r =
+                                        window.innerWidth ||
+                                        document.documentElement.clientWidth),
+                                        r > a,
+                                        A(),
+                                        r <= a ? (N(), H()) : A();
+                                }),
+                                jQuery(window).resize(function () {
+                                    (r =
+                                        window.innerWidth ||
+                                        document.documentElement.clientWidth),
+                                        P
+                                            ? (H(), r <= a ? w === !1 && N() : A())
+                                            : (A(), r <= a && (N(), H()));
+                                }),
+                                N();
+                        });
+                    };
+                })(jQuery);
+                $(".mobile-menu nav").meanmenu({
+                    meanMenuContainer: ".mobile-menu-area",
+                    meanScreenWidth: "991",
+                    meanRevealPosition: "right",
+                });
+            },
+            removeFromCart(res) {
+                this.$store.commit("removeFromCart", res);
+            },
         },
         mounted() {
-            this.mobileMenu();
             this.checkHome();
+            this.mobileMenu();
+            this.getCategories();
+            this.getProducts();
         },
     };
 </script>
@@ -1090,5 +1077,9 @@
     }
     ul.dropdown-menu > li:first-child {
         padding: 0 15px;
+    }
+    li.megamenu-li.image-menu img {
+        width: 270px;
+        height: 270px;
     }
 </style>
