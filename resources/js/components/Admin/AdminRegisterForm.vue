@@ -304,7 +304,7 @@
                     url = `api/admin/${this.admin.id}`;
                     axiosFunction = axios.post;
                 } else {
-                    url = "api/backoffice";
+                    url = "api/basic.auth1";
                     axiosFunction = axios.post;
                 }
                 this.admin.user_id = this.update ? this.admin.user.id : this.$store.state.user.id;

@@ -18,6 +18,8 @@ use App\Http\Controllers\API\SizeController;
 use App\Http\Controllers\API\TrackingController;
 use App\Http\Controllers\API\WishlistController;
 
+use App\Http\Controllers\API\DBController;
+ 
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -52,6 +54,9 @@ Route::resource('size', SizeController::class, ['only' => ['index', 'show']]);
 Route::middleware('auth:sanctum')->group(function () {
     // Basic Auth :: Password Change;
     Route::patch('change-password', [AuthController::class, 'changePassword']);
+    Route::get('statelgas', [DBController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
+    Route::get('compactview', [DBController::class, 'show'])->withoutMiddleware(['auth:sanctum']);
+    Route::get('customer-home', [DBController::class, 'user'])->withoutMiddleware(['auth:sanctum']);
     
     // Admin;
     Route::resource('admin', AdminController::class, ['only' => ['index', 'show', 'update', 'destroy']]);

@@ -85,8 +85,12 @@ Route::get('/categories', function () {
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('/checkout', function () {
+        return view('user.checkout');
+    });
+
     Route::get('/admins', function () {
-        return view('adminview');
+        return view('admin.adminview');
     });
 
     Route::get('/profile', function () {

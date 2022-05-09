@@ -921,7 +921,7 @@
     import FooterComponent from "./FooterComponent.vue";
     import HeaderComponent from "./HeaderComponent.vue";
     import QuickviewComponent from "./QuickviewComponent.vue";
-    import "vue-inner-image-zoom/lib/vue-inner-image-zoom.css";
+    
     export default {
         beforeUpdate() {
             if (this.$refs.slick) {

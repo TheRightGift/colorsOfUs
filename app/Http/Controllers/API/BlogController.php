@@ -17,7 +17,7 @@ class BlogController extends Controller
 			'body' => 'required',
             'title' => 'required|max:300|unique:blogs', 
             'category_id' => 'required',
-            'status' => 'required|integer',
+            'status' => 'required|string',
             'imageUrl' => 'nullable'           
 		]);
         return $validator;

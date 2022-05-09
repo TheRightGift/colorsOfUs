@@ -764,6 +764,7 @@
     export default {
         components: { AdminRegisterForm },
         name: "AdminSuperHandle",
+        props: ['user'],
         data() {
             return {
                 // successMessage: "",
@@ -798,7 +799,7 @@
                 axios
                     .get("api/admin")
                     .then((res) => {
-                        this.admins = this.$store.state.user.user_type == 3 ? res.data.admins : res.data.admins.filter(el => el.user.user_type == 1);
+                        this.admins = this.user.user_type == 3 ? res.data.admins.data.filter(el => el.user.user_type == 1 || el.user.user_type == 2) : res.data.admins.data.filter(el => el.user.user_type == 1);
                         this.loading = false;
                     })
                     .catch((err) => {

@@ -703,7 +703,7 @@
                                             >
                                                 <div
                                                     v-if="
-                                                        productTrashed.length >
+                                                        productTrashed.data.length >
                                                         0
                                                     "
                                                 >
@@ -715,7 +715,7 @@
                                                                 col-sm-12
                                                                 m-1
                                                             "
-                                                            v-for="trashed in productTrashed"
+                                                            v-for="trashed in productTrashed.data"
                                                             :key="trashed._id"
                                                         >
                                                             <img
@@ -1316,7 +1316,7 @@
                             this.products.data.findIndex(findId),
                             1
                         );
-                        this.productTrashed.push(this.product);
+                        this.productTrashed.data.push(this.product);
                         this.requesting = false;
                         $("#deleteModal .close").click();
                     }
@@ -1443,8 +1443,8 @@
                     .then((res) => {
                         if (res.status == 201) {
                             this.products.data.push(product);
-                            this.productTrashed.splice(
-                                this.productTrashed.findIndex(
+                            this.productTrashed.data.splice(
+                                this.productTrashed.data.findIndex(
                                     (rol) => rol.id === product.id
                                 ),
                                 1

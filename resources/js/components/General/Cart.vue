@@ -340,7 +340,7 @@
                                                                 @click="refresh"
                                                             />
                                                             <a
-                                                                href="collections"
+                                                                href="/products"
                                                                 >Continue
                                                                 Shopping</a
                                                             >

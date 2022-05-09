@@ -46,7 +46,7 @@ Vue.component('singleproduct-component', require('./components/General/Product.v
 Vue.component('blogs-component', require('./components/General/Blogs.vue').default);
 Vue.component('blog-component', require('./components/General/Blog.vue').default);
 Vue.component('categories-component', require('./components/General/Categories.vue').default);
-
+Vue.component('checkout-component', require('./components/General/Checkout.vue').default);
 
 Vue.component('welcome-component', require('./components/General/Welcome.vue').default);
 Vue.component('accountivate-component', require('./components/General/MailVerifier.vue').default);

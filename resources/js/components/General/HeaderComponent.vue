@@ -19,9 +19,14 @@
                         <div class="row">
                             <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                                 <div class="logo">
-                                    <a href="/"
-                                    style="font-size:1.6em; color: black; font-weight: 900"
-                                        >
+                                    <a
+                                        href="/"
+                                        style="
+                                            font-size: 1.6em;
+                                            color: black;
+                                            font-weight: 900;
+                                        "
+                                    >
                                         <!-- <img
                                             src="/img/2_medium.png"
                                             alt="logo"
@@ -123,8 +128,8 @@
                                                     v-for="category in categories"
                                                 >
                                                     <li
-                                                        class="megamenu-li"
                                                         :key="category.id"
+                                                        class="megamenu-li"
                                                     >
                                                         <a
                                                             class="mega__title"
@@ -212,11 +217,10 @@
                                                     </li>
 
                                                     <li class="">
-                                                        <a
-                                                            class=""
+                                                        <a class=""
                                                             >Women's Fashion</a
                                                         >
-                                                            <!-- :href="'collections/fashion'" -->
+                                                        <!-- :href="'collections/fashion'" -->
                                                         <ul class="">
                                                             <li
                                                                 v-for="women in womens"
@@ -385,7 +389,7 @@
                                                     >
                                                 </li>
                                                 <li>
-                                                    <a href="#"
+                                                    <a href="/dashboard?orders"
                                                         ><i
                                                             class="
                                                                 fa
@@ -476,11 +480,7 @@
                                 /></a>
                             </div>
 
-                            <p>
-                                Lorem ipsum dolor sit amet consectetu
-                                adipisicing elit sed do eiusmod tempor
-                                incididunt ut labore.
-                            </p>
+                            <p v-if="$store.state.token">Good Day! {{$store.state.user.firstname + $store.state.user.lastname}}</p>
                         </div>
 
                         <ul class="sidebar__thumd">
@@ -489,100 +489,89 @@
 
                         <div class="offset__widget">
                             <div class="offset__single offset-currency-picker">
-                                <h4 class="offset__title">Currencies</h4>
-                                <div
-                                    class="
-                                        common-currency-picker
-                                        currency
-                                        dropdown
-                                    "
-                                >
-                                    <a
-                                        class="dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        ><span class="current-currency"
-                                            >USD</span
-                                        ><span class="ti-angle-down"></span
-                                    ></a>
-
-                                    <ul
-                                        class="
-                                            dropdown-menu dropdown-menu--xs-full
-                                        "
-                                    >
-                                        <li
-                                            data-currency="USD"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >USD - US Dollar</a
-                                            >
+                                <div class="sidebar-wrapper" v-if="$store.state.token">
+                                <!--  && $store.state.user.user_type == 0 -->
+                                <div class="sidebar-content">
+                                <!-- sidebar-search  -->
+                                <div class="sidebar-menu">
+                                    <ul>
+                                        <li class="sidebar-dropdown">
+                                            <a href="#!" @click="openSidebar">
+                                                <i class="fa fa-book"></i>
+                                                <span>Orders</span>
+                                            </a>
+                                            <div class="sidebar-submenu" :style="{'display': sidebarMunu}">
+                                                <ul>
+                                                    <li>
+                                                        <a
+                                                            href="dashboard?orders"
+                                                            >General</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            href="dashboard?ordersinprocessing"
+                                                            >Processing
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            href="dashboard?ordersintransit"
+                                                            >In transit</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            href="dashboard?orderscompleted"
+                                                            >Completed</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </li>
-
-                                        <li
-                                            data-currency="EUR"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >EUR - Euro</a
-                                            >
+                                        <li>
+                                            <a href="/cart">
+                                                <i
+                                                    class="fa fa-shopping-cart"
+                                                ></i>
+                                                <span>Cart</span>
+                                                <span
+                                                    class="
+                                                        badge
+                                                        badge-pill
+                                                        badge-danger
+                                                    "
+                                                    >{{
+                                                        $store.state.cartCount
+                                                    }}</span
+                                                >
+                                            </a>
                                         </li>
-
-                                        <li
-                                            data-currency="GBP"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >GBP - British Pound</a
-                                            >
+                                        <li>
+                                            <a href="dashboard?wishlist">
+                                                <i class="fa fa-folder"></i>
+                                                <span>Wishlists</span>
+                                            </a>
                                         </li>
-
-                                        <li
-                                            data-currency="INR"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >INR - Indian Rupee</a
-                                            >
+                                        <li>
+                                            <a href="dashboard?shipping">
+                                                <i class="fa fa-truck"></i>
+                                                <span>Shipping Details</span>
+                                            </a>
                                         </li>
-
-                                        <li
-                                            data-currency="BDT"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >BDT - Bangladesh Taka</a
-                                            >
-                                        </li>
-
-                                        <li
-                                            data-currency="JPY"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >JPY - Japan Yen</a
-                                            >
-                                        </li>
-
-                                        <li
-                                            data-currency="CAD"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >CAD - Canada Dollar</a
-                                            >
-                                        </li>
-
-                                        <li
-                                            data-currency="AUD"
-                                            class="currency__item"
-                                        >
-                                            <a style="cursor: pointer"
-                                                >AUD - Australian Dollar</a
-                                            >
+                                        <li>
+                                            <a href="dashboard?profile">
+                                                <i class="fa fa-user-o"></i>
+                                                <span>Profile</span>
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
+                                <!-- sidebar-menu  -->
+                                </div>
+
+                                </div>
+
                             </div>
                         </div>
 
@@ -646,47 +635,85 @@
                             <div class="shp__cart__wrap">
                                 <ul>
                                     <li
-                                        v-for="(item, index) in $store.state.cart"
+                                        v-for="(item, index) in $store.state
+                                            .cart"
                                         :key="index"
                                     >
                                         <div class="shp__single__product">
                                             <div class="shp__pro__thumb">
                                                 <a
-                                                    :href="'/products/'+item.title"
+                                                    :href="
+                                                        '/products/' +
+                                                        item.title
+                                                    "
                                                     ><img
-                                                        :src="item.images[0].url"
+                                                        :src="
+                                                            item.images[0].url
+                                                        "
                                                         :alt="item.title"
                                                 /></a>
                                             </div>
                                             <div class="shp__pro__details">
                                                 <h2>
                                                     <a
-                                                        :href="'/products/'+item.title"
-                                                        >{{item.title}} 
-                                                        <span v-if="item.selectedColor || item.selectedSize">
-                                                            <span>
-                                                                -
-                                                            </span>
+                                                        :href="
+                                                            '/products/' +
+                                                            item.title
+                                                        "
+                                                        >{{ item.title }}
+                                                        <span
+                                                            v-if="
+                                                                item.selectedColor ||
+                                                                item.selectedSize
+                                                            "
+                                                        >
+                                                            <span> - </span>
                                                         </span>
-                                                        <span v-if="item.selectedSize">{{item.selectedSize.name}} / </span>
-                                                        <span v-if="item.selectedColor">{{item.selectedColor.name}}</span></a
+                                                        <span
+                                                            v-if="
+                                                                item.selectedSize
+                                                            "
+                                                            >{{
+                                                                item
+                                                                    .selectedSize
+                                                                    .name
+                                                            }}
+                                                            /
+                                                        </span>
+                                                        <span
+                                                            v-if="
+                                                                item.selectedColor
+                                                            "
+                                                            >{{
+                                                                item
+                                                                    .selectedColor
+                                                                    .name
+                                                            }}</span
+                                                        ></a
                                                     >
                                                 </h2>
                                                 <span class="shp__price"
-                                                    >{{item.quantity}} x
-                                                    <span
-                                                        class="money"
-                                                    >
-                                                        &#8358; {{formatPrice(item.amount)}}</span
+                                                    >{{ item.quantity }} x
+                                                    <span class="money">
+                                                        &#8358;
+                                                        {{
+                                                            formatPrice(
+                                                                item.amount
+                                                            )
+                                                        }}</span
                                                     ></span
                                                 >
                                             </div>
                                             <div class="remove__btn">
                                                 <a
                                                     href="javascript:void(0);"
-                                                    @click="removeFromCart(item)"
+                                                    @click="
+                                                        removeFromCart(item)
+                                                    "
                                                     title="Remove this item"
-                                                    ><i class="zmdi zmdi-close"></i
+                                                    ><i
+                                                        class="zmdi zmdi-close"
+                                                    ></i
                                                 ></a>
                                             </div>
                                         </div>
@@ -724,6 +751,7 @@
                 categories: [],
                 home: false,
                 products: [],
+                sidebarMunu: 'none',
                 womens: [],
             };
         },
@@ -750,7 +778,7 @@
                     .get(`/api/category`)
                     .then((res) => {
                         this.categories = res.data.untrashed.reverse().slice(0, 3);
-                        this.$emit('categories', res.data.untrashed);
+                        this.$emit("categories", res.data.untrashed);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -765,7 +793,7 @@
                         this.products = products.filter(
                             (el) => el.recommended == 1
                         );
-                        this.$emit('products', res.data.products)
+                        this.$emit("products", res.data.products);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -1059,6 +1087,9 @@
                     meanRevealPosition: "right",
                 });
             },
+            openSidebar() {
+                this.sidebarMunu = this.sidebarMunu == 'none' ? 'block' : 'none';
+            },
             removeFromCart(res) {
                 this.$store.commit("removeFromCart", res);
             },
@@ -1081,5 +1112,289 @@
     li.megamenu-li.image-menu img {
         width: 270px;
         height: 270px;
+    }
+.sidebar-wrapper .sidebar-menu {
+        padding-bottom: 10px;
+    }
+
+    .sidebar-wrapper .sidebar-menu .header-menu span {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 15px 20px 5px 20px;
+        display: inline-block;
+    }
+
+    .sidebar-wrapper .sidebar-menu ul li a {
+        display: inline-block;
+        width: 100%;
+        text-decoration: none;
+        position: relative;
+        padding: 8px 30px 8px 20px;
+    }
+
+    .sidebar-wrapper .sidebar-menu ul li a i {
+        margin-right: 10px;
+        font-size: 12px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 4px;
+    }
+
+    .sidebar-wrapper .sidebar-menu ul li a:hover > i::before {
+        display: inline-block;
+        animation: swing ease-in-out 0.5s 1 alternate;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
+        font-family: "FontAwesome";
+        font-weight: 900;
+        content: "\f105";
+        font-style: normal;
+        display: inline-block;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        background: 0 0;
+        position: absolute;
+        right: 115px;
+        top: 10px;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
+        padding: 5px 0;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {
+        padding-left: 25px;
+        font-size: 13px;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
+        content: "\f111";
+        font-family: "FontAwesome";
+        font-weight: 400;
+        font-style: normal;
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        margin-right: 10px;
+        font-size: 8px;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {
+        float: right;
+        margin-top: 0px;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-submenu {
+        display: none;
+    }
+
+    .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {
+        transform: rotate(90deg);
+        right: 17px;
+    }
+
+    /*--------------------------side-footer------------------------------*/
+
+    .sidebar-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        display: flex;
+    }
+
+    .sidebar-footer > a {
+        flex-grow: 1;
+        text-align: center;
+        height: 30px;
+        line-height: 30px;
+        position: relative;
+    }
+
+    .sidebar-footer > a .notification {
+        position: absolute;
+        top: 0;
+    }
+
+    .badge-sonar {
+        display: inline-block;
+        background: #980303;
+        border-radius: 50%;
+        height: 8px;
+        width: 8px;
+        position: absolute;
+        top: 0;
+    }
+
+    .badge-sonar:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 2px solid #980303;
+        opacity: 0;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        animation: sonar 1.5s infinite;
+    }
+
+    /*--------------------------page-content-----------------------------*/
+
+    .page-wrapper .page-content {
+        display: inline-block;
+        width: 100%;
+        padding-left: 0px;
+        /* padding-top: 20px; */
+    }
+
+    .page-wrapper .page-content > div {
+        /* padding: 20px 40px; */
+    }
+
+    .page-wrapper .page-content {
+        overflow-x: hidden;
+    }
+
+    /*------scroll bar---------------------*/
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 7px;
+    }
+    ::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #525965;
+        border: 0px none #ffffff;
+        border-radius: 0px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #525965;
+    }
+    ::-webkit-scrollbar-thumb:active {
+        background: #525965;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+        border: 0px none #ffffff;
+        border-radius: 50px;
+    }
+    ::-webkit-scrollbar-track:hover {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-track:active {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    /*-----------------------------chiller-theme-------------------------------------------------*/
+
+    .chiller-theme .sidebar-wrapper {
+        background: #31353d;
+    }
+
+    .chiller-theme .sidebar-wrapper .sidebar-header,
+    .chiller-theme .sidebar-wrapper .sidebar-search,
+    .chiller-theme .sidebar-wrapper .sidebar-menu {
+        border-top: 1px solid #3a3f48;
+    }
+
+    .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+    .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
+        border-color: transparent;
+        box-shadow: none;
+    }
+
+    .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
+    .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,
+    .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+    .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,
+    .chiller-theme .sidebar-wrapper .sidebar-brand > a,
+    .chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
+    .chiller-theme .sidebar-footer > a {
+        color: #818896;
+    }
+
+    .chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover > a,
+    .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a,
+    .chiller-theme .sidebar-wrapper .sidebar-header .user-info,
+    .chiller-theme .sidebar-wrapper .sidebar-brand > a:hover,
+    .chiller-theme .sidebar-footer > a:hover i {
+        color: #b8bfce;
+    }
+
+    .page-wrapper.chiller-theme.toggled #close-sidebar {
+        color: #bdbdbd;
+    }
+
+    .page-wrapper.chiller-theme.toggled #close-sidebar:hover {
+        color: #ffffff;
+    }
+
+    .chiller-theme .sidebar-wrapper ul li:hover a i,
+    .chiller-theme
+        .sidebar-wrapper
+        .sidebar-dropdown
+        .sidebar-submenu
+        li
+        a:hover:before,
+    .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus + span,
+    .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
+        color: #16c7ff;
+        text-shadow: 0px 0px 10px rgba(22, 199, 255, 0.5);
+    }
+
+    .chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,
+    .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
+    .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+    .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
+        background: #3a3f48;
+    }
+
+    .chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {
+        color: #6c7b88;
+    }
+
+    .chiller-theme .sidebar-footer {
+        background: #3a3f48;
+        box-shadow: 0px -1px 5px #282c33;
+        border-top: 1px solid #464a52;
+    }
+
+    .chiller-theme .sidebar-footer > a:first-child {
+        border-left: none;
+    }
+
+    .chiller-theme .sidebar-footer > a:last-child {
+        border-right: none;
+    }
+    .sidebar-wrapper {
+        width: 260px;
+        height: 100%;
+        max-height: 100%;
+    }
+
+    .sidebar-wrapper ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar-wrapper a {
+        text-decoration: none;
     }
 </style>

@@ -224,7 +224,7 @@
                 })
             },
             getCustomers() {
-                axios.get(`api/order_home`).then(res => {
+                axios.get(`api/order-home`).then(res => {
                     this.orders = res.data.orders;
                     this.loading = false;
                 }).catch(err => {

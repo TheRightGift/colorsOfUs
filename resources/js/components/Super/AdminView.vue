@@ -7,7 +7,7 @@
                 <!-- Main Content -->
                 <div id="content">
                     <navbar-component />
-                    <admin-super-handle v-if="$store.state.user.user_type == 3 || $store.state.user.user_type == 2"/>
+                    <admin-super-handle v-if="user.user_type == 3 || user.user_type == 2" :user="user"/>
 
 
                     <!-- <admin-tech-handle v-if="$store.state.user.user_type == 2"/> -->
@@ -38,7 +38,21 @@ import SidebarComponent from './SidebarComponent.vue'
 
 export default {
     components: { AdminSuperHandle, AdminTechHandle, NavbarComponent, FooterComponent, SidebarComponent },
-    
+    data() {
+        return {
+            user: {}
+        }
+    },
+    methods: {
+        getUser() {
+            axios.get("api/user").then((res) => {
+                this.user = res.data;
+            });
+        },
+    },
+    mounted() {
+        this.getUser();
+    }
 }
 </script>,
         

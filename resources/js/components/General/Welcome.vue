@@ -458,7 +458,7 @@
                                                         >
                                                             <a
                                                                 :href="
-                                                                    'blogs/' +
+                                                                    'blog/' +
                                                                     blog.title
                                                                 "
                                                             >
@@ -535,7 +535,7 @@
                                                                 >
                                                                     <a
                                                                         :href="
-                                                                            'blogs/' +
+                                                                            'blog/' +
                                                                             blog.title
                                                                         "
                                                                         >{{
@@ -556,7 +556,7 @@
                                                                             read__more__btn
                                                                         "
                                                                         :href="
-                                                                            'blogs/' +
+                                                                            'blog/' +
                                                                             blog.title
                                                                         "
                                                                         >Read

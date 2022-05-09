@@ -2,7 +2,7 @@
 <html lang="en">
     @include('included.userNav')
 <body id="uniqlo-2" class="template-index">
-    <div id="preloader_active">
+    {{-- <div id="preloader_active">
         <div id="loading-center">
             <div id="loading-center-absolute">
                 <div class="object" id="object_four"></div>
@@ -12,7 +12,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
     <div id="app">
         <dashboard-component></dashboard-component>
     </div>

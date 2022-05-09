@@ -322,7 +322,7 @@
         methods: {
             getCustomers() {
                 axios
-                    .get(`api/customer_home`)
+                    .get(`api/customer-home`)
                     .then((res) => {
                         this.users = res.data.users;
                         this.loading = false;

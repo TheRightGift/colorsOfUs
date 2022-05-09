@@ -69,7 +69,7 @@ class ProductController extends Controller
         // ZA, AZ, 0, 1, 01, 10, RM
         $data = new Product();
 
-        $type;
+        $sortBy = 'AZ';
         $sort;
         $order = 'orderBy';
         switch ($sortBy) {

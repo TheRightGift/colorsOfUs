@@ -5,6 +5,7 @@ let cartCount = window.localStorage.getItem('coloursOfUscartCount');
 let token = window.localStorage.getItem('coloursOfUs');
 let intended = window.localStorage.getItem('intended');
 let user = window.localStorage.getItem('coloursOfUsUser');
+let shippingInfo = window.localStorage.getItem('coloursOfUsUserShipSel');
 let customer = window.localStorage.getItem('coloursOfUscustomerid');
 let rewop = window.localStorage.getItem('rewop');
 let wishlist = [];
@@ -50,6 +51,7 @@ let store = {
         token: token,
         intended: intended,
         user: JSON.parse(user),
+        shippingInfo: JSON.parse(shippingInfo),
         customer: customer ? parseInt(customer) : null,
         rewop: rewop ? parseInt(rewop) : null,
         wishlist: wishlist,
@@ -121,11 +123,14 @@ let store = {
         loggedIn(state, token) {
             window.localStorage.setItem('coloursOfUs', token);
         },
-        logout() {
+        logout(state) {
             window.localStorage.removeItem('coloursOfUscustomerid');
             window.localStorage.removeItem('coloursOfUsUser');
             window.localStorage.removeItem('intended');
             window.localStorage.removeItem('coloursOfUs');
+            Vue.delete(state, 'intended');
+            state.token = null;
+            state.customer = null;
         },
 
         removeFromCart(state, item) {
@@ -166,6 +171,9 @@ let store = {
         },
         saveUser(state, detail) {
             window.localStorage.setItem('coloursOfUsUser', JSON.stringify(detail));
+        },
+        shipping(state, detail) {
+            window.localStorage.setItem('coloursOfUsUserShipSel', JSON.stringify(detail));
         },
         rewop(state, detail) {
             window.localStorage.setItem('rewop', detail);
