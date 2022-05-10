@@ -63,6 +63,10 @@ Route::get('/contact', function () {
     return view('user.contact');
 });
 
+Route::get('/about-us', function () {
+    return view('user.aboutus');
+});
+
 Route::get('/products/{title}', function () {
     return view('user.product');
 });
@@ -96,6 +100,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
         return view('profile');
     })->middleware('auth');
+
+    Route::get('/promotions', function () {
+        return view('admin.promotions');
+    });
 
     Route::get('/product', function () {
         return view('admin.product');

@@ -2,7 +2,7 @@
     <div>
         <div class="jaliana">
             <div class="fixed-footer">
-                <header-component />
+                <header-component @categorize="categorize($event)"/>
                 <div class="">
                     <!-- BREADCRUMBS SETCTION START -->
 
@@ -684,10 +684,8 @@
     import HeaderComponent from "./HeaderComponent.vue";
     import QuickviewComponent from "./QuickviewComponent.vue";
 
-    let category = "/api/category";
     let size = "/api/size";
     let color = "/api/color";
-    const requestCategory = axios.get(category);
     const requestSize = axios.get(size);
     const requestColor = axios.get(color);
 
@@ -730,6 +728,9 @@
                         },
                     },
                 });
+            },
+            categorize(e) {
+                this.categories = e;
             },
             checkIfHasCategory() {
                 let params = new URLSearchParams(window.location.search);
@@ -804,14 +805,13 @@
                         }
                     });
             },
-            getCategoryColorSize() {
+            getColorSize() {
                 axios
-                    .all([requestCategory, requestSize, requestColor])
+                    .all([requestSize, requestColor])
                     .then(
                         axios.spread((...responses) => {
-                            this.categories = responses[0].data.untrashed;
-                            this.sizes = responses[1].data.untrashed;
-                            this.colors = responses[2].data.untrashed;
+                            this.sizes = responses[0].data.untrashed;
+                            this.colors = responses[1].data.untrashed;
                         })
                     )
                     .catch((errors) => {
@@ -851,7 +851,7 @@
         },
         mounted() {
             this.checkIfHasCategory();
-            this.getCategoryColorSize();
+            this.getColorSize();
             this.getProducts();
         },
     };

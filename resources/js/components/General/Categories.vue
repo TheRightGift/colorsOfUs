@@ -2,7 +2,7 @@
     <div>
         <div class="jaliana">
             <div class="fixed-footer">
-                <header-component @categories="getCategories($event)" />
+                <header-component @categorize="getCategories($event)" />
                 <div class="">
                     <!-- BREADCRUMBS SETCTION START -->
 
@@ -26,7 +26,7 @@
                                                     <ul class="breadcrumb-list">
                                                         <li>
                                                             <a
-                                                                href="index.html"
+                                                                href="/"
                                                                 title="Back to the home page"
                                                                 >Home</a
                                                             >

@@ -3,7 +3,7 @@
         <div class="jalaina">
             <div class="fixed__footer">
                 <!-- Header -->
-                <header-component />
+                <header-component @produce="produce($event)" @categorize="categorize($event)"/>
 
                 <div class="">
                     <main role="main" class="main_class">
@@ -24,6 +24,7 @@
                                             slider__full--screen slider__bg--2
                                         "
                                     >
+                                        <!-- :style="{'background': 'url('+homeBgImg+') no-repeat scroll center center / cover' }" -->
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -53,7 +54,7 @@
                                                                     class="
                                                                         htc__btn
                                                                     "
-                                                                    href="collections"
+                                                                    href="/products"
                                                                     >Shop Now</a
                                                                 >
                                                             </div>
@@ -87,6 +88,7 @@
                                                     col-md-6 col-sm-12 col-xs-12
                                                     pb--30
                                                 "
+                                                v-for="category in categories" :key="category.id"
                                             >
                                                 <div class="new__product foo">
                                                     <div
@@ -95,10 +97,10 @@
                                                         "
                                                     >
                                                         <a
-                                                            href="collections/all.html"
+                                                            :href="'products?category='+category.name"
                                                         >
                                                             <img
-                                                                src="/img/1_1024x1024.jpg"
+                                                                :src="category.image"
                                                                 alt="banner"
                                                             />
                                                         </a>
@@ -111,9 +113,8 @@
                                                     >
                                                         <h2>
                                                             <a
-                                                                href="collections/all.html"
-                                                                >New Product
-                                                                Collection</a
+                                                                :href="'products?category='+category.name"
+                                                                >{{category.name}}</a
                                                             >
                                                         </h2>
 
@@ -127,67 +128,13 @@
                                                                     htc__btn
                                                                     shop__now__btn
                                                                 "
-                                                                href="collections/all.html"
+                                                                :href="'products?category='+category.name"
                                                                 >Shop Now</a
                                                             >
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div
-                                                class="
-                                                    col-md-6 col-sm-12 col-xs-12
-                                                    pb--30
-                                                "
-                                            >
-                                                <div class="new__product foo">
-                                                    <div
-                                                        class="
-                                                            new__product__thumb
-                                                        "
-                                                    >
-                                                        <a
-                                                            href="collections/all.html"
-                                                        >
-                                                            <img
-                                                                src="/img/2_1024x1024.jpg"
-                                                                alt="banner"
-                                                            />
-                                                        </a>
-                                                    </div>
-
-                                                    <div
-                                                        class="
-                                                            new__product__details
-                                                        "
-                                                    >
-                                                        <h2>
-                                                            <a
-                                                                href="collections/all.html"
-                                                                >Basket
-                                                                Collection</a
-                                                            >
-                                                        </h2>
-
-                                                        <div
-                                                            class="
-                                                                new__product__btn
-                                                            "
-                                                        >
-                                                            <a
-                                                                class="
-                                                                    htc__btn
-                                                                    shop__now__btn
-                                                                "
-                                                                href="collections/all.html"
-                                                                >Shop Now</a
-                                                            >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <!-- End New Product -->
                                         </div>
                                     </div>
@@ -598,6 +545,8 @@
         data() {
             return {
                 blogs: [],
+                categories: [],
+                homeBgImg: "",
                 product: {},
                 products: [],
             };
@@ -621,6 +570,9 @@
                     },
                 });
             },
+            categorize(e) {
+                this.categories = e.reverse().slice(0, 2);
+            },
             formatPrice(value) {
                 let val = value / 1;
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -635,17 +587,12 @@
                         console.log(err);
                     });
             },
-            getProducts() {
-                axios
-                    .get(`api/product`)
-                    .then((res) => {
-                        this.products = res.data.products.data
-                            .reverse()
-                            .slice(0, 20);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+            produce(e) {
+                this.products = e.data
+                    .reverse()
+                    .slice(0, 20);
+                let rand = Math.floor(Math.random() * this.products.length);
+                this.homeBgImg = this.products[rand].images[0].url;
             },
             moment(arg) {
                 return moment(arg);
@@ -664,12 +611,14 @@
         },
         mounted() {
             this.getBlogs();
-            this.getProducts();
         },
     };
 </script>
 <style scoped>
     a.image img {
         height: 270px;
+    }
+    div.new__product__thumb a img {
+        height: 290px;
     }
 </style>

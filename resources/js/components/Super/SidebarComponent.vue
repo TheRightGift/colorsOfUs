@@ -133,6 +133,13 @@
                     <span>Products</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/promotions">
+                   <i class='fas fa-ad'></i>
+                    <span>Promotions</span>
+                </a>
+            </li>
             
             <li
                 class="nav-item"

@@ -180,7 +180,7 @@
                                                     mb-4
                                                 "
                                                 style="width: 25rem"
-                                                src="/fonts/undraw_posting_photo.svg"
+                                                src="/img/admin_posting.jpg"
                                                 alt="..."
                                             />
                                         </div>

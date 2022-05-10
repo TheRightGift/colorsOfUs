@@ -444,7 +444,7 @@
                             }
 
                             this.$store.commit("rewop", power);
-                            window.location.href = "/";
+                            power == 0 ? window.location.href = "/" : window.location.href = `/${expr}`;
                         } else {
                             this.requesting = false;
                         }

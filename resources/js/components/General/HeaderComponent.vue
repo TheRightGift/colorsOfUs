@@ -778,7 +778,7 @@
                     .get(`/api/category`)
                     .then((res) => {
                         this.categories = res.data.untrashed.reverse().slice(0, 3);
-                        this.$emit("categories", res.data.untrashed);
+                        this.$emit("categorize", res.data.untrashed);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -793,7 +793,7 @@
                         this.products = products.filter(
                             (el) => el.recommended == 1
                         );
-                        this.$emit("products", res.data.products);
+                        this.$emit("produce", res.data.products);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -1103,6 +1103,11 @@
     };
 </script>
 <style>
+    @media (max-width: 767px) {
+        .logo a {
+            font-size: 1em !important;
+        }
+    }
     .pr-2 {
         padding-right: 1em;
     }
@@ -1113,7 +1118,7 @@
         width: 270px;
         height: 270px;
     }
-.sidebar-wrapper .sidebar-menu {
+    .sidebar-wrapper .sidebar-menu {
         padding-bottom: 10px;
     }
 
