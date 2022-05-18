@@ -308,18 +308,16 @@
                                                     class="category-search-area"
                                                 >
                                                     <form
-                                                        action=""
-                                                        method="get"
                                                         class="
                                                             input-group
                                                             search-bar
                                                         "
                                                         role="search"
+                                                        @submit.prevent="search"
                                                     >
                                                         <input
                                                             type="search"
-                                                            name="q"
-                                                            value=""
+                                                            v-model="query"
                                                             placeholder="Search our store"
                                                             class=""
                                                             aria-label="Search our store"
@@ -328,6 +326,7 @@
                                                             type="submit"
                                                             class="srch-btn"
                                                             href="#"
+                                                            v-if="query != ''"
                                                         >
                                                             <i
                                                                 class="
@@ -345,6 +344,7 @@
                                                         our-recent-post
                                                         mt--60
                                                     "
+                                                    v-if="recents.length > 0"
                                                 >
                                                     <h2 class="section-title-2">
                                                         Recent Posts
@@ -765,6 +765,7 @@
                 archiveDate: "",
                 blog: {},
                 location: window.location,
+                query: '',
                 recents: [],
                 relatedProducts: [],
                 slickOptions: {
@@ -863,6 +864,9 @@
             },
             moment(arg) {
                 return moment(arg);
+            },
+            search() {
+                window.location.href = location.origin+'/search?q='+this.query;
             },
             synopsis(inputString, len) {
                 var div = document.createElement("div");

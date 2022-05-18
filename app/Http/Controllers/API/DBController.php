@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Blog;
 
 class DBController extends Controller
 {
@@ -31,5 +32,14 @@ class DBController extends Controller
     public function user() {
         $customers = User::where('user_type', 0)->paginate();
         return response()->json(['message' => 'Success Fetching Data', 'status' => 1, 'users' => $customers ]);
+    }
+
+    public function search($q) {
+        // dd($q);
+        $products = Product::where('title', 'LIKE', "%{$q}%")->with('images', 'colors', 'sizes', 'promotionals')->get();
+        $blogs = Blog::where('title', 'LIKE', "%{$q}%")->with('images')->get();
+        $result = $products->toBase()->merge($blogs)->paginate(20);
+        $result->sortBy('created_at');
+        return response()->json(['message' => 'Success Fetching Data', 'status' => 1, 'results' => $result ]);
     }
 }

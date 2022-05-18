@@ -48,7 +48,7 @@ Route::resource('blog', BlogController::class, ['only' => ['published', 'show']]
 Route::resource('category', CategoryController::class, ['only' => ['index', 'show']]);
 Route::resource('color', ColorController::class, ['only' => ['index', 'show']]);
 Route::resource('product', ProductController::class, ['only' => ['index', 'show']]);
-Route::resource('promotion', PromotionalController::class, ['only' => ['show']]);
+Route::resource('promotion', PromotionalController::class, ['only' => ['index', 'show']]);
 Route::resource('size', SizeController::class, ['only' => ['index', 'show']]);
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -57,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('statelgas', [DBController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
     Route::get('compactview', [DBController::class, 'show'])->withoutMiddleware(['auth:sanctum']);
     Route::get('customer-home', [DBController::class, 'user'])->withoutMiddleware(['auth:sanctum']);
+    Route::get('search/{query}', [DBController::class, 'search'])->withoutMiddleware(['auth:sanctum']);
     
     // Admin;
     Route::resource('admin', AdminController::class, ['only' => ['index', 'show', 'update', 'destroy']]);
@@ -94,10 +95,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Promotion;
     Route::resource('promotion', PromotionalController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::patch('promotion-refresh/{id}', [PromotionalController::class, 'refresh']);
+    Route::post('removepromo-product', [PromotionalController::class, 'remove']);
+
     
     // Role;
     Route::apiResource('role', RoleController::class);
-    
+    Route::post('assignRole', [AdminController::class, 'assign']);
     // ShippingAddress
     Route::apiResource('shipping', ShippinginfoController::class);
     Route::patch('shipping-refresh/{id}', [ShippinginfoController::class, 'refresh']);

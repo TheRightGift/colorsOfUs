@@ -25,7 +25,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <img
                         class="sidebar-card-illustration mb-2"
-                        :src="admin.profile_img"
+                        src="/img/logo2.png"
                         alt="..."
                         v-if="
                             admin.profile_img != '' &&
@@ -34,14 +34,17 @@
                     />
                     <i class="fas fa-laugh-wink" v-else></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">MunsRead Admin</div>
+                <div class="sidebar-brand-text mx-3">ColorsOfUs Admin</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0" />
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li
+                class="nav-item"
+                :class="{ active: location == '/' + $store.state.intended }"
+            >
                 <a class="nav-link" :href="$store.state.intended">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a
@@ -57,18 +60,20 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li
                 class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
+                :class="{ active: location == '/admins' }"
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
             >
                 <a class="nav-link collapsed" href="/admins">
                     <i class="fas fa-meh"></i>
                     <span>Admins</span>
                 </a>
             </li>
-            
-            <li class="nav-item" v-if="$store.state.rewop == 3 || 2">
+
+            <li
+                class="nav-item"
+                v-if="$store.state.rewop == 3 || 2"
+                :class="{ active: location == '/blogpost' }"
+            >
                 <a class="nav-link collapsed" href="/blogpost">
                     <i class="fas fa-blog"></i>
                     <span>Blogposts</span>
@@ -77,10 +82,8 @@
 
             <li
                 class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+                :class="{ active: location == '/category' }"
             >
                 <a class="nav-link collapsed" href="/category">
                     <i class="fa fa-book" aria-hidden="true"></i>
@@ -90,23 +93,19 @@
 
             <li
                 class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+                :class="{ active: location == '/color' }"
             >
                 <a class="nav-link collapsed" href="/color">
                     <i class="fa fa-cog" aria-hidden="true"></i>
                     <span>Color</span>
                 </a>
             </li>
-            
+
             <li
                 class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+                :class="{ active: location == '/customer' }"
             >
                 <a class="nav-link collapsed" href="/customer">
                     <i class="far fa-address-book"></i>
@@ -116,10 +115,8 @@
 
             <li
                 class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+                :class="{ active: location == '/order' }"
             >
                 <a class="nav-link collapsed" href="/order">
                     <i class="fas fa-shopping-basket"></i>
@@ -127,33 +124,50 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li
+                class="nav-item"
+                :class="{ active: location == '/product' }"
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+            >
                 <a class="nav-link collapsed" href="/product">
                     <i class="fas fa-store"></i>
                     <span>Products</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li
+                class="nav-item"
+                :class="{ active: location == '/promotions' }"
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+            >
                 <a class="nav-link collapsed" href="/promotions">
-                   <i class='fas fa-ad'></i>
+                    <i class="fas fa-ad"></i>
                     <span>Promotions</span>
                 </a>
             </li>
-            
+
             <li
                 class="nav-item"
-                v-if="
-                    $store.state.rewop == 3 ||
-                    $store.state.rewop == 2
-                "
+                :class="{ active: location == '/shipping-price' }"
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+            >
+                <a class="nav-link collapsed" href="/shipping-price">
+                    <i class="fa fa-ship"></i>
+                    <span>Delivery Prices</span>
+                </a>
+            </li>
+
+            <li
+                class="nav-item"
+                v-if="$store.state.rewop == 3 || $store.state.rewop == 2"
+                :class="{ active: location == '/size' }"
             >
                 <a class="nav-link collapsed" href="/size">
                     <i class="fa fa-cogs" aria-hidden="true"></i>
                     <span>Size</span>
                 </a>
             </li>
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block" />
 
@@ -188,13 +202,11 @@
         data() {
             return {
                 admin: {},
+                location: location.pathname,
             };
         },
-        methods: {
-            
-        },
-        mounted() {
-        },
+        methods: {},
+        mounted() {},
     };
 </script>
 <style>

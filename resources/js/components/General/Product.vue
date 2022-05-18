@@ -850,7 +850,7 @@
                                                         class="product__details"
                                                     >
                                                         <h2>
-                                                            <a href="">{{
+                                                            <a :href="'/products/'+related.title">{{
                                                                 related.title
                                                             }}</a>
                                                         </h2>
@@ -994,8 +994,8 @@
             },
             addToCartRes(res) {
                 this.resource.input = parseInt(document.getElementById("resourceQty").value);
-                this.resource.colorFilter = this.selectedColor;
-                this.resource.sizeFilter = this.selectedSize;
+                res.colors.length > 0 ? this.resource.colorFilter = this.selectedColor : null;
+                res.sizes.length > 0 ? this.resource.sizeFilter = this.selectedSize : null;
                 this.$store.commit("addToCart", this.resource);
             },
             checkout(res) {

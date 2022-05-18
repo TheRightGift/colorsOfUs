@@ -63,12 +63,7 @@
 
                         <div class="card-body p-0">
                             <div class="loadingPage" v-if="loading">
-                                <i
-                                    class="
-                                        fas
-                                        fa-spinner fa-spin fa-3x
-                                    "
-                                ></i>
+                                <i class="fas fa-spinner fa-spin fa-3x"></i>
                             </div>
                             <div class="card-body" v-else>
                                 <div id="addAD" v-if="adminAddView">
@@ -76,22 +71,26 @@
                                         <div class="card-body">
                                             <div class="card-title">
                                                 <h5 class="d-inline-block">
-                                                    New Administrator 
+                                                    New Administrator
                                                 </h5>
                                                 <button
                                                     type="button"
-                                                    class="btn btn-secondary right"
+                                                    class="
+                                                        btn btn-secondary
+                                                        right
+                                                    "
                                                     @click="
                                                         (adminAddView = false),
                                                             (adminsView = true)
                                                     "
-                                                    style="padding: 0.01rem 0.3rem;"
+                                                    style="
+                                                        padding: 0.01rem 0.3rem;
+                                                    "
                                                 >
                                                     x
                                                 </button>
                                             </div>
                                             <admin-register-form />
-                                                
                                         </div>
                                     </div>
                                 </div>
@@ -161,8 +160,12 @@
                                                                 admin.user
                                                                     .user_type ==
                                                                 1
-                                                                    ? "Administrator"
-                                                                    : "Tech Administrator"
+                                                                    ? "Admin" +
+                                                                      "(" +
+                                                                      admin.role
+                                                                          .name +
+                                                                      ")"
+                                                                    : "Tech Admin"
                                                             }} </small
                                                         ><span>{{
                                                             admin.deleted_at !=
@@ -236,9 +239,10 @@
                                         {{ adminClickedOn.user.email }}
                                     </h5>
                                     <div
-                                        class="container-fluid"
+                                        class="container"
                                         v-if="
-                                            adminClickedOn.user.user_type == 1
+                                            adminClickedOn.user.user_type ==
+                                                1 && adminClickedOn.role.id == 1
                                         "
                                     >
                                         <!-- Page Heading -->
@@ -501,11 +505,116 @@
                                         </div>
                                     </div>
                                     <div class="container mt-3">
-                                        <div class="card" v-if="!updateAdminClickedOn">
+                                        <div
+                                            class="card"
+                                            v-if="!updateAdminClickedOn"
+                                        >
                                             <div class="card-header">
-                                                <p class="d-inline-block">Profile</p>
-
-                                                <i class="fa fa-edit right cursor-pointer" @click="getAdminToView(adminClickedOn)"></i>
+                                                <p class="d-inline-block">
+                                                    Profile
+                                                </p>
+                                                <div class="d-flex right">
+                                                    <i
+                                                        class="
+                                                            fa fa-edit
+                                                            pr-3
+                                                            text-gray-400
+                                                            cursor-pointer
+                                                        "
+                                                        @click="
+                                                            getAdminToView(
+                                                                adminClickedOn
+                                                            )
+                                                        "
+                                                    ></i>
+                                                    <div
+                                                        class="
+                                                            dropdown
+                                                            no-arrow
+                                                            d-inline-block
+                                                        "
+                                                        v-if="
+                                                            adminClickedOn
+                                                                .user
+                                                                .user_type ==
+                                                            1
+                                                        "
+                                                    >
+                                                        <a
+                                                            class="
+                                                                dropdown-toggle
+                                                            "
+                                                            href="#"
+                                                            role="button"
+                                                            id="assignMennuLink"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false"
+                                                        >
+                                                            <i
+                                                                
+                                                                class="
+                                                                    fa-fw
+                                                                    text-gray-400
+                                                                    fa fa-tasks
+                                                                    cursor-pointer
+                                                                "
+                                                                title="Assign a role to this admin"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                        </a>
+                                                        <div
+                                                            class="
+                                                                dropdown-menu
+                                                                dropdown-menu-right
+                                                                shadow
+                                                                animated--fade-in
+                                                            "
+                                                            aria-labelledby="assignMennuLink"
+                                                        >
+                                                            <div
+                                                                class="
+                                                                    dropdown-header
+                                                                "
+                                                            >
+                                                                Assign role of
+                                                                taking:
+                                                            </div>
+                                                            <a
+                                                                class="
+                                                                    dropdown-item
+                                                                "
+                                                                v-for="role in roles"
+                                                                :key="role.id"
+                                                                href="#"
+                                                                @click="
+                                                                    assignRole(
+                                                                        role
+                                                                    )
+                                                                "
+                                                                >{{
+                                                                    role.name
+                                                                }}
+                                                                <i
+                                                                    v-if="
+                                                                        adminClickedOn
+                                                                            .role
+                                                                            .id ==
+                                                                        role.id
+                                                                    "
+                                                                    class="
+                                                                        fa
+                                                                        fa-check
+                                                                        right
+                                                                        text-gray-400
+                                                                        fa-sm
+                                                                    "
+                                                                    aria-hidden="true"
+                                                                ></i
+                                                            ></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="card-body">
                                                 <p>
@@ -550,21 +659,34 @@
                                             <div class="card-body">
                                                 <div class="card-title">
                                                     <h6 class="d-inline-block">
-                                                        Update Admin {{adminClickedOn.firstname +' '+ adminClickedOn.lastname}}
+                                                        Update Admin
+                                                        {{
+                                                            adminClickedOn.firstname +
+                                                            " " +
+                                                            adminClickedOn.lastname
+                                                        }}
                                                     </h6>
                                                     <button
                                                         type="button"
-                                                        class="btn btn-secondary right"
-                                                        @click="
-                                                            (updateAdminClickedOn = false)
+                                                        class="
+                                                            btn btn-secondary
+                                                            right
                                                         "
-                                                        style="padding: 0.01rem 0.3rem;"
+                                                        @click="
+                                                            updateAdminClickedOn = false
+                                                        "
+                                                        style="
+                                                            padding: 0.01rem
+                                                                0.3rem;
+                                                        "
                                                     >
                                                         x
                                                     </button>
                                                 </div>
-                                                <admin-register-form :adminDet="adminClickedOn" :update="update"/>
-                                                    
+                                                <admin-register-form
+                                                    :adminDet="adminClickedOn"
+                                                    :update="update"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -576,6 +698,7 @@
             </div>
         </div>
         <!-- <i class="fas fa-trash-restore-alt"></i> -->
+        <!-- Order modal -->
         <div
             class="modal fade"
             id="orderModal"
@@ -694,7 +817,7 @@
                 </div>
             </div>
         </div>
-        <!-- Logout Modal-->
+        <!-- Admin Delete Modal-->
         <div
             class="modal fade"
             id="deleteAdminModal"
@@ -764,7 +887,7 @@
     export default {
         components: { AdminRegisterForm },
         name: "AdminSuperHandle",
-        props: ['user'],
+        props: ["user"],
         data() {
             return {
                 // successMessage: "",
@@ -785,6 +908,7 @@
                 adminClickedOn: {},
                 recycle: false,
                 registering: false,
+                roles: [],
                 ordersProcessing: [],
                 ordersInTransit: [],
                 ordersCompleted: [],
@@ -794,12 +918,52 @@
             };
         },
         methods: {
+            assignRole(el) {
+                let data = {
+                    admin_id: this.adminClickedOn.id,
+                    role_id: el.id,
+                };
+                axios
+                    .post("api/assignRole", data)
+                    .then((res) => {
+                        if (res.data.status == 1) {
+                            this.$toasted.show(
+                                `Admin assigned to ${el.name} section`,
+                                {
+                                    duration: 3000,
+                                    position: "top-right",
+                                    action: {
+                                        text: "Click the back arrow to refresh",
+                                        onClick: (e, toastObject) => {
+                                            toastObject.goAway(0);
+                                        },
+                                    },
+                                }
+                            );
+                            this.adminClickedOn = res.data.admins.find(
+                                (el) => el.id == this.adminClickedOn.id
+                            );
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
             getAdmins() {
                 this.loading = true;
                 axios
                     .get("api/admin")
                     .then((res) => {
-                        this.admins = this.user.user_type == 3 ? res.data.admins.data.filter(el => el.user.user_type == 1 || el.user.user_type == 2) : res.data.admins.data.filter(el => el.user.user_type == 1);
+                        this.admins =
+                            this.user.user_type == 3
+                                ? res.data.admins.filter(
+                                      (el) =>
+                                          el.user.user_type == 1 ||
+                                          el.user.user_type == 2
+                                  )
+                                : res.data.admins.filter(
+                                      (el) => el.user.user_type == 1
+                                  );
                         this.loading = false;
                     })
                     .catch((err) => {
@@ -832,7 +996,7 @@
                 this.registering = true;
                 if (this.recycle) {
                     axios
-                        .patch(`api/admin/refresh/${this.adminClickedOn.id}`)
+                        .patch(`api/admin-refresh/${this.adminClickedOn.id}`)
                         .then((res) => {
                             if (res.status == 201) {
                                 this.adminClickedOn.deleted_at = null;
@@ -869,9 +1033,20 @@
                         });
                 }
             },
+            getRoles() {
+                axios
+                    .get("api/role")
+                    .then((res) => {
+                        this.roles = res.data.roles;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
         },
         mounted() {
             this.getAdmins();
+            this.getRoles();
         },
     };
 </script>

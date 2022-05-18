@@ -427,6 +427,7 @@
                                                                                 'products/' +
                                                                                 product.title
                                                                             "
+                                                                            target="_blank"
                                                                             ><img
                                                                                 :src="
                                                                                     product
@@ -536,9 +537,10 @@
                                                                     <h2>
                                                                         <a
                                                                             :href="
-                                                                                'collections/' +
+                                                                                'products/' +
                                                                                 product.title
                                                                             "
+                                                                            target="_blank"
                                                                             >{{
                                                                                 product.title
                                                                             }}</a
@@ -676,6 +678,7 @@
             :product="product"
             :formatPrice="formatPrice"
             :synopsis="synopsis"
+            :discount="discount"
         />
     </div>
 </template>
@@ -742,6 +745,11 @@
                     this.filterType = "categories";
                     this.filterName = categoryID;
                 }
+            },
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return this.formatPrice(Math.round(newPrice));
             },
             loadFilter() {
                 this.page != 1 ? (this.loading = true) : null;

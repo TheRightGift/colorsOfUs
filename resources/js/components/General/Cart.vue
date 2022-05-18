@@ -232,14 +232,15 @@
                                                                             class="
                                                                                 js-qty__num
                                                                             "
-                                                                            :min="1"
                                                                             data-id=""
                                                                             aria-label="quantity"
                                                                             pattern="[0-9]*"
                                                                             v-model="
                                                                                 item.quantity
                                                                             "
+                                                                            @input="quantity(item.quantity, item)"
                                                                             data-category="user-data"
+                                                                            required
                                                                             disabled
                                                                         />
 
@@ -2357,7 +2358,7 @@
         data() {
             return {
                 item: {
-                    quantity: 1,
+                    quantity: '',
                 },
             };
         },

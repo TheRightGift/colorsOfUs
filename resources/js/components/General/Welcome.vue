@@ -183,6 +183,7 @@
                                                         col-md-3
                                                         col-sm-6
                                                         col-xs-12
+                                                        cards
                                                     "
                                                     v-for="product in products"
                                                     :key="product.id"
@@ -202,11 +203,14 @@
                                                                     class="
                                                                         image
                                                                     "
+                                                                    target="_blank"
                                                                     :href="
                                                                         'products/' +
                                                                         product.title
                                                                     "
-                                                                    ><img
+                                                                    >
+                                                                    <h4 v-if="product.promotionals.length > 0" class="righted">{{product.promotionals[0].type}}</h4>
+                                                                    <img
                                                                         :src="
                                                                             product
                                                                                 .images[0]
@@ -296,9 +300,10 @@
                                                             <h2>
                                                                 <a
                                                                     :href="
-                                                                        'collections/' +
+                                                                        'products/' +
                                                                         product.title
                                                                     "
+                                                                    target="_blank"
                                                                     >{{
                                                                         product.title
                                                                     }}</a
@@ -313,12 +318,17 @@
                                                                     class="
                                                                         old__price
                                                                     "
+                                                                    v-if="product.promotionals.length > 0"
                                                                 >
                                                                     <span
                                                                         class="
                                                                             money
                                                                         "
-                                                                        >&#8358;100.00</span
+                                                                        >&#8358;{{
+                                                                            formatPrice(
+                                                                                product.amount
+                                                                            )
+                                                                        }}.00</span
                                                                     >
                                                                 </li>
 
@@ -331,6 +341,14 @@
                                                                         class="
                                                                             money
                                                                         "
+                                                                        v-if="product.promotionals.length > 0"
+                                                                        >&#8358;{{discount(product.promotionals[0].discount, product.amount)}}.00</span
+                                                                    >
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        v-else
                                                                         >&#8358;{{
                                                                             formatPrice(
                                                                                 product.amount
@@ -408,6 +426,7 @@
                                                                     'blog/' +
                                                                     blog.title
                                                                 "
+                                                                target="_blank"
                                                             >
                                                                 <img
                                                                     :src="
@@ -485,6 +504,7 @@
                                                                             'blog/' +
                                                                             blog.title
                                                                         "
+                                                                        target="_blank"
                                                                         >{{
                                                                             synopsis(
                                                                                 blog.body,
@@ -531,7 +551,7 @@
                 </div>
             </div>
         </div>
-        <quickview-component :product="product" :formatPrice="formatPrice" :synopsis="synopsis" :modalOpened="quickViewOpened"/>
+        <quickview-component :product="product" :formatPrice="formatPrice" :synopsis="synopsis" :discount="discount" :modalOpened="quickViewOpened"/>
     </div>
 </template>
 
@@ -572,6 +592,11 @@
             },
             categorize(e) {
                 this.categories = e.reverse().slice(0, 2);
+            },
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return this.formatPrice(Math.round(newPrice));
             },
             formatPrice(value) {
                 let val = value / 1;
@@ -620,5 +645,18 @@
     }
     div.new__product__thumb a img {
         height: 290px;
+    }
+</style>
+<style>
+    .righted {
+        position: absolute;
+        top: 8px;
+        right: 0;
+        background-color: #f2b8c9;
+        padding: 5px;
+        color: white;
+        font-size: 0.8rem;
+        border-bottom-left-radius: 20px;
+        border-top-left-radius: 20px
     }
 </style>

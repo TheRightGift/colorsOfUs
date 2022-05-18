@@ -13,10 +13,6 @@ class Product extends Model
 
     protected $fillable = ['title', 'desc', 'amount', 'stock', 'recommended', 'created_at', 'deleted_at', 'updated_at'];
 
-    public function products(){
-        return $this->belongsToMany(Product::class)->withTrashed();
-    }
-
     /**
      * Get all of the product's images.
      */

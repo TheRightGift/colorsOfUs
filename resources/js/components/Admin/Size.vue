@@ -549,6 +549,7 @@ import SidebarComponent from '../Super/SidebarComponent.vue';
                                 this.success = "";
                                 this.requesting = false;
                                 this.update = false;
+                                this.size = {};
                             }, 1000);
                         }
                     })

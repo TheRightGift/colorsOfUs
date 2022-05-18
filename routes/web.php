@@ -87,6 +87,10 @@ Route::get('/categories', function () {
     return view('user.categories');
 });
 
+Route::get('/search', function () {
+    return view('user.searchResults');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', function () {
@@ -95,6 +99,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admins', function () {
         return view('admin.adminview');
+    });
+
+    Route::get('/shipping-price', function () {
+        return view('admin.shippingPrice');
     });
 
     Route::get('/profile', function () {

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-@include('adminnavheader')
+@include('admin.adminnavheader')
 <body id="page-top">
     <div id="app">
         <techadmin-component></techadmin-component>
     </div>
-    @include('adminscripts')
+    @include('admin.adminscripts')
 </body>
 </html>
 

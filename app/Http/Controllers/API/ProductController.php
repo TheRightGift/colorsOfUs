@@ -16,8 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-        $trashed = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
+        $product = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+        $trashed = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
     }
     // public function sortType ($sortBy) {
@@ -107,12 +107,12 @@ class ProductController extends Controller
                 break;
         }
         if ($category != 'null') {
-            $product = $data->$order($type, $sort)->whereRelation('categories', 'categories.name', $category)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            $trashed = $data->$order($type, $sort)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
+            $product = $data->$order($type, $sort)->whereRelation('categories', 'categories.name', $category)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+            $trashed = $data->$order($type, $sort)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
         }
         else if ($category == 'null') {
-            $product = $data->$order($type, $sort)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
-            $trashed = $data->$order($type, $sort)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
+            $product = $data->$order($type, $sort)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+            $trashed = $data->$order($type, $sort)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
         }
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
     }
@@ -169,7 +169,7 @@ class ProductController extends Controller
 
         if ($filterType != "" && $filter != "") {
             $result = $data->$order($type, $sort)->whereRelation($filterType, $filterType.'.id', $filter)
-                        ->with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate(2);
+                        ->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate(2);
         }
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $result]);
     }
@@ -181,7 +181,7 @@ class ProductController extends Controller
      */
     public function home()
     {
-        $product = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->latest()->get();
+        $product = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->latest()->get();
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $product]);
     }
 
@@ -230,7 +230,7 @@ class ProductController extends Controller
                 'imageable_type' => Product::class,
             ]);
         }   
-        $products = Product::with('colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+        $products = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
         return response()->json(['message' => 'New Product added.', 'products' => $products, 'status' => 1]);
     }
 
@@ -242,9 +242,9 @@ class ProductController extends Controller
      */
     public function show($title)
     {
-        $product = Product::where('title', $title)->with('colors', 'sizes', 'categories', 'images', 'wishlists')->first();
+        $product = Product::where('title', $title)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->first();
         $category = $product->categories->first()->id;
-        $related_product = $product->whereRelation('categories', 'categories.id', $category)->with('categories', 'colors', 'sizes', 'images')->get();
+        $related_product = $product->whereRelation('categories', 'categories.id', $category)->with('promotionals', 'categories', 'colors', 'sizes', 'images')->get();
         return response()->json(['product' => $product, 'related' => $related_product, 'message' => 'Product retrieved successfuly', 'status' => 1], 200);
     }
 

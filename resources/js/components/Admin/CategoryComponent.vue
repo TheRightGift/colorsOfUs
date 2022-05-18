@@ -634,6 +634,7 @@
                                 this.success = "";
                                 this.requesting = false;
                                 this.update = false;
+                                this.category = {};
                             }, 1000);
                         }
                     })

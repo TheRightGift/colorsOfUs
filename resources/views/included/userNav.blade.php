@@ -3,10 +3,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{config('app.name', 'Laravel')}}</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/logo.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/logo.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
     <!-- Font -->
 	<link href="https://fonts.googleapis.com/css?family=Dosis|Poppins:300,400,500,600,700"
     rel="stylesheet">
@@ -93,7 +93,7 @@
             z-index: 99;
         }
         .main__menu > li:hover > a {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .sidebar--content .htc__news__inner {
             margin: 0 auto;
@@ -113,7 +113,7 @@
             background: #fff;
         }
         .sidebar__menu li.active > a {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .sidebar__menu li a {
             display: block;
@@ -238,7 +238,7 @@
         }
         .main__menu li.drop ul.dropdown li:hover > a {
             background: #fafafa none repeat scroll 0 0;
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .scroll-header .main__menu li.drop ul.dropdown,
         .scroll-header .main__menu li.drop a:hover ul.dropdown {
@@ -322,7 +322,7 @@
             cursor: pointer;
         }
         .menu-extra li span:hover {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .header--2 .main__menu > li > a {
             color: #fff;
@@ -406,7 +406,7 @@
             margin-left: 40px;
         }
         .select__language > li:hover {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .select__language > li + li:before {
             background: #444444 none repeat scroll 0 0;
@@ -443,7 +443,7 @@
             visibility: visible;
         }
         .select__language li.drop--lan .language__option span:hover {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .sticky__header.scroll-header .select__language li {
             height: 70px;
@@ -542,7 +542,7 @@
             transition: 0.3s;
         }
         .search__area .search__inner form button:hover {
-            background: #ff4136 none repeat scroll 0 0;
+            background: #f2b8c9 none repeat scroll 0 0;
         }
         .search__area .search__inner form button:hover:before {
             color: #fff;
@@ -566,7 +566,7 @@
         }
         .search__close__btn .search__close__btn_icon:hover i {
             transform: scale(2) rotate(180deg);
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .search__box__show__hide .search__area {
             transform: translateY(0);
@@ -640,7 +640,7 @@
             transition: all 0.3s ease 0s;
         }
         .offsetmenu__close__btn a:hover i {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .offset__widget {
             display: flex;
@@ -665,7 +665,7 @@
             padding: 2px 0 0;
         }
         .offset__single ul li a:hover {
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .off__contact p {
             color: #303030;
@@ -721,7 +721,7 @@
             width: 100%;
         }
         .sidebar__thumd > li a:before {
-            background: #ff4136 none repeat scroll 0 0;
+            background: #f2b8c9 none repeat scroll 0 0;
             content: "";
             height: 100%;
             opacity: 0;
@@ -773,7 +773,7 @@
             text-transform: capitalize;
         }
         .shp__pro__details .shp__price {
-            color: #c00;
+            color: rgb(245, 174, 197);
             display: block;
         }
         .shoping__total .subtotal {
@@ -781,7 +781,7 @@
             font-weight: 400;
         }
         .shoping__total .total__price {
-            color: #c33;
+            color: rgb(245, 174, 197);
             float: right;
         }
         .shopping__btn li a {
@@ -800,8 +800,8 @@
             display: block;
         }
         .shopping__btn li a:hover {
-            background: #ff4136;
-            border: 1px solid #ff4136;
+            background: #f2b8c9;
+            border: 1px solid #f2b8c9;
             color: #fff;
         }
         .shopping__btn .shp__checkout a {
@@ -845,7 +845,7 @@
             transition: all 0.5s ease 0s;
         }
         .remove__btn a:hover i {
-            color: #ff4136;
+            color: #f2b8c9;
             transform: rotate(180deg);
         }
         .shp__cart__wrap .shp__single__product + .shp__single__product {
@@ -885,7 +885,7 @@
         }
         .main__menu li.drop ul.dropdown.mega_dropdown li:hover > a {
             background: transparent none repeat scroll 0 0;
-            color: #ff4136;
+            color: #f2b8c9;
         }
         .main__menu ul.dropdown.mega_dropdown li a {
             padding: 4px 0 12px;

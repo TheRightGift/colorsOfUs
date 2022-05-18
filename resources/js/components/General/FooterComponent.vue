@@ -10,28 +10,54 @@
                             <div class="col-md-3 col-lg-3 col-sm-6">
                                 <div class="ft__widget">
                                     <div class="ft__logo">
-                                        <a href="index.html"
-                                            >
+                                        <a href="index.html">
                                             <!-- <img
                                                 src="/img/uniqlo_medium1.png"
                                                 alt="logo"
                                         /> -->
-                                        <a href="/"
-                                    style="font-size: 1.6em; color: black; "
-                                        >
-                                        <!-- <img
+                                            <a
+                                                href="/"
+                                                style="
+                                                    font-size: 1.6em;
+                                                    color: black;
+                                                "
+                                            >
+                                                <!-- <img
                                             src="/img/2_medium.png"
                                             alt="logo"
                                     /> -->
-                                        COLORSOFUS
-                                    </a>
+                                                COLORSOFUS
+                                            </a>
                                         </a>
                                     </div>
                                     <div class="footer__details">
-                                        <p>
-                                            Get 10% discount with notified about
-                                            the latest news and updates.
-                                        </p>
+                                        <h2 class="ft__title">Newsletters</h2>
+                                        <p>Get 10% discount with notified about the latest news and updates.</p>
+                                        <div class="ft__widget">
+                                        <div class="newsletter__form">
+                                            <div class="input__box">
+                                            <div id="mc_embed_signup">
+                                                <form
+                                                action="//devitems.us11.list-manage.com//subscribe//post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef"
+                                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                                class="validate" target="_blank" novalidate>
+                                                <div id="mc_embed_signup_scroll" class="htc__news__inner">
+                                                    <div class="news__input">
+                                                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL"
+                                                        placeholder="Email Address" required>
+                                                    </div>
+                                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
+                                                        name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef" tabindex="-1" value=""></div>
+                                                    <div class="clearfix subscribe__btn"><input type="submit" value="Send" name="subscribe"
+                                                        id="mc-embedded-subscribe" class="bst__btn btn--white__color">
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -45,70 +71,115 @@
                                 "
                             >
                                 <div class="ft__widget">
-                                    <h2 class="ft__title">Newsletters</h2>
+                                    <h2 class="ft__title">FAQ</h2>
                                     <div class="newsletter__form">
-                                        <div class="input__box">
-                                            <div id="mc_embed_signup">
-                                                <form
-                                                    action="http://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef"
-                                                    method="post"
-                                                    id="mc-embedded-subscribe-form"
-                                                    name="mc-embedded-subscribe-form"
-                                                    class="validate"
-                                                    target="_blank"
-                                                    novalidate
+                                        <p></p>
+                                        <div
+                                            class="panel-group"
+                                            id="accordion"
+                                            role="tablist"
+                                            aria-multiselectable="true"
+                                        >
+                                            <div class="panel panel-default">
+                                                <div
+                                                    class="panel-heading"
+                                                    role="tab"
+                                                    id="headingOne"
                                                 >
-                                                    <div
-                                                        id="mc_embed_signup_scroll"
-                                                        class="htc__news__inner"
-                                                    >
-                                                        <div
-                                                            class="news__input"
+                                                    <h4 class="panel-title">
+                                                        <a
+                                                            role="button"
+                                                            data-toggle="collapse"
+                                                            data-parent="#accordion"
+                                                            href="#collapseOne"
+                                                            aria-expanded="true"
+                                                            aria-controls="collapseOne"
                                                         >
-                                                            <input
-                                                                type="email"
-                                                                value=""
-                                                                name="EMAIL"
-                                                                class="email"
-                                                                id="mce-EMAIL"
-                                                                placeholder="Email Address"
-                                                                required
-                                                            />
-                                                        </div>
-                                                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                                        <div
-                                                            style="
-                                                                position: absolute;
-                                                                left: -5000px;
-                                                            "
-                                                            aria-hidden="true"
-                                                        >
-                                                            <input
-                                                                type="text"
-                                                                name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef"
-                                                                tabindex="-1"
-                                                                value=""
-                                                            />
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                clearfix
-                                                                subscribe__btn
-                                                            "
-                                                        >
-                                                            <input
-                                                                type="submit"
-                                                                value="Send"
-                                                                name="subscribe"
-                                                                id="mc-embedded-subscribe"
-                                                                class="
-                                                                    bst__btn
-                                                                    btn--white__color
-                                                                "
-                                                            />
-                                                        </div>
+                                                            A. MEASURING METHODOLOGY: 
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div
+                                                    id="collapseOne"
+                                                    class="
+                                                        panel-collapse
+                                                        collapse
+                                                    "
+                                                    role="tabpanel"
+                                                    aria-labelledby="headingOne"
+                                                >
+                                                    <div class="panel-body">
+                                                        UK STANDARD SIZES
                                                     </div>
-                                                </form>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div
+                                                    class="panel-heading"
+                                                    role="tab"
+                                                    id="headingTwo"
+                                                >
+                                                    <h4 class="panel-title">
+                                                        <a
+                                                            class="collapsed"
+                                                            role="button"
+                                                            data-toggle="collapse"
+                                                            data-parent="#accordion"
+                                                            href="#collapseTwo"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapseTwo"
+                                                        >
+                                                            B. AVERAGE DELIVERY MEANS:
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div
+                                                    id="collapseTwo"
+                                                    class="
+                                                        panel-collapse
+                                                        collapse
+                                                    "
+                                                    role="tabpanel"
+                                                    aria-labelledby="headingTwo"
+                                                >
+                                                    <div class="panel-body">
+                                                        DISPATCHER / PICK-UP FROM STORE
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div
+                                                    class="panel-heading"
+                                                    role="tab"
+                                                    id="headingThree"
+                                                >
+                                                    <h4 class="panel-title">
+                                                        <a
+                                                            class="collapsed"
+                                                            role="button"
+                                                            data-toggle="collapse"
+                                                            data-parent="#accordion"
+                                                            href="#collapseThree"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapseThree"
+                                                        >
+                                                            C. PICK UP LOCATION:
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div
+                                                    id="collapseThree"
+                                                    class="
+                                                        panel-collapse
+                                                        collapse
+                                                    "
+                                                    role="tabpanel"
+                                                    aria-labelledby="headingThree"
+                                                >
+                                                    <div class="panel-body">
+                                                        STORE / DELIVERY
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -187,7 +258,7 @@
                                 <div class="copyright__inner">
                                     <div class="copyright">
                                         <p>
-                                            © {{new Date().getFullYear()}}
+                                            © {{ new Date().getFullYear() }}
                                             <a href="#">ColorsOfUs</a>
                                             All Right Reserved.
                                         </p>
@@ -206,9 +277,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="contact"
-                                                >Contact Us</a
-                                            >
+                                            <a href="contact">Contact Us</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -224,10 +293,12 @@
     </div>
 </template>
 <script>
-export default {
-    name: 'Footer'
-}
+    export default {
+        name: "Footer",
+    };
 </script>
 <style>
-
+    .panel-title a, .panel-body {
+        font-size: 11px;
+    }
 </style>

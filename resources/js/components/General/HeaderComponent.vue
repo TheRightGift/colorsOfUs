@@ -21,17 +21,24 @@
                                 <div class="logo">
                                     <a
                                         href="/"
-                                        style="
+                                       
+                                    >
+                                        <img
+                                            src="/img/logo.png"
+                                            alt="logo"
+                                            v-if="home"
+                                    />
+                                    <img
+                                            src="/img/logo2.png"
+                                            alt="logo"
+                                            v-if="!home"
+                                    />
+                                        <!-- COLORSOFUS
+                                         style="
                                             font-size: 1.6em;
                                             color: black;
                                             font-weight: 900;
-                                        "
-                                    >
-                                        <!-- <img
-                                            src="/img/2_medium.png"
-                                            alt="logo"
-                                    /> -->
-                                        COLORSOFUS
+                                        " -->
                                     </a>
                                 </div>
                             </div>
@@ -357,7 +364,7 @@
                                             >
                                                 <li>
                                                     <a
-                                                        :href="
+                                                        :href="'/'+
                                                             $store.state
                                                                 .intended
                                                         "
@@ -376,7 +383,7 @@
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="#"
+                                                        href="#!"
                                                         @click.prevent="logout"
                                                         ><i
                                                             class="
@@ -405,7 +412,7 @@
                                         </div>
                                     </li>
                                     <li v-else>
-                                        <a href="auth" title="Log In"
+                                        <a href="/auth" title="Log In"
                                             ><span class="ti-user"></span
                                         ></a>
                                     </li>
@@ -440,20 +447,18 @@
                             <div class="col-md-12">
                                 <div class="search__inner">
                                     <form
-                                        action="https://uniqlo-2.myshopify.com/search"
-                                        method="get"
-                                        class=""
                                         role="search"
+                                        @submit.prevent="search"
                                     >
                                         <input
                                             type="search"
-                                            name="q"
-                                            value=""
+                                            v-model="query"
                                             placeholder="Search our store"
                                             class=""
                                             aria-label="Search our store"
+                                            required
                                         />
-                                        <button type="submit"></button>
+                                        <button type="submit" v-if="query != ''"></button>
                                     </form>
                                     <div class="search__close__btn">
                                         <span class="search__close__btn_icon"
@@ -663,30 +668,30 @@
                                                         >{{ item.title }}
                                                         <span
                                                             v-if="
-                                                                item.selectedColor ||
-                                                                item.selectedSize
+                                                                item.color ||
+                                                                item.size
                                                             "
                                                         >
                                                             <span> - </span>
                                                         </span>
                                                         <span
                                                             v-if="
-                                                                item.selectedSize
+                                                                item.size
                                                             "
                                                             >{{
                                                                 item
-                                                                    .selectedSize
-                                                                    .name
+                                                                    .size
+                                                                    .name || item.size
                                                             }}
                                                             /
                                                         </span>
                                                         <span
                                                             v-if="
-                                                                item.selectedColor
+                                                                item.color
                                                             "
                                                             >{{
                                                                 item
-                                                                    .selectedColor
+                                                                    .color
                                                                     .name
                                                             }}</span
                                                         ></a
@@ -694,7 +699,12 @@
                                                 </h2>
                                                 <span class="shp__price"
                                                     >{{ item.quantity }} x
-                                                    <span class="money">
+                                                    <span class="money" v-if="item.promotionals.length > 0">
+                                                        &#8358;
+                                                        
+                                                            {{discount(item.promotionals[0].discount, item.amount)}}.00
+                                                    </span
+                                                    ><span class="money" v-else>
                                                         &#8358;
                                                         {{
                                                             formatPrice(
@@ -729,9 +739,9 @@
                                 </li>
                             </ul>
                             <ul class="shopping__btn">
-                                <li><a href="cart">View Cart</a></li>
+                                <li><a href="/cart">View Cart</a></li>
                                 <li class="shp__checkout">
-                                    <a href="cart">Checkout</a>
+                                    <a href="/cart">Checkout</a>
                                 </li>
                             </ul>
                         </div>
@@ -751,6 +761,7 @@
                 categories: [],
                 home: false,
                 products: [],
+                query: '',
                 sidebarMunu: 'none',
                 womens: [],
             };
@@ -772,6 +783,11 @@
         methods: {
             checkHome() {
                 location.pathname === "/" ? (this.home = !this.home) : this.home;
+            },
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return this.formatPrice(Math.round(newPrice));
             },
             getCategories() {
                 axios
@@ -825,7 +841,7 @@
                             meanMenuContainer: ".mobile-menu-area .container",
                             meanMenuClose: "X",
                             meanMenuCloseSize: "18px",
-                            meanMenuOpen: "<span /><span /><span />",
+                            meanMenuOpen: "<span><span/>",
                             meanRevealPosition: "right",
                             meanRevealPositionDistance: "0",
                             meanRevealColour: "",
@@ -1093,6 +1109,9 @@
             removeFromCart(res) {
                 this.$store.commit("removeFromCart", res);
             },
+            search() {
+                window.location.href = location.origin+'/search?q='+this.query;
+            }
         },
         mounted() {
             this.checkHome();
@@ -1103,10 +1122,18 @@
     };
 </script>
 <style>
+    .logo img {
+        /* font-size: 1em !important; */
+        width: 105px;    height: 57px;
+    }
     @media (max-width: 767px) {
-        .logo a {
-            font-size: 1em !important;
+        .logo img {
+            /* font-size: 1em !important; */
+            width: 79px;    height: 57px;
         }
+    }
+    .mean-bar .meanmenu-reveal {
+        top: -10px;
     }
     .pr-2 {
         padding-right: 1em;
@@ -1232,7 +1259,7 @@
 
     .badge-sonar {
         display: inline-block;
-        background: #980303;
+        background: #f2b8c9;
         border-radius: 50%;
         height: 8px;
         width: 8px;
@@ -1245,7 +1272,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        border: 2px solid #980303;
+        border: 2px solid #f2b8c9;
         opacity: 0;
         border-radius: 50%;
         width: 100%;

@@ -56,6 +56,7 @@ Vue.component('cart-component', require('./components/General/Cart.vue').default
 Vue.component('collection-component', require('./components/General/Products.vue').default);
 Vue.component('contact-component', require('./components/General/Contact.vue').default);
 Vue.component('aboutus-component', require('./components/General/AboutUs.vue').default);
+Vue.component('search_result-component', require('./components/General/SearchResults.vue').default);
 
 
 Vue.component('admin-component', require('./components/Admin/AdminComponent.vue').default);
@@ -64,7 +65,7 @@ Vue.component('order-component', require('./components/Admin/Order.vue').default
 Vue.component('customer-component', require('./components/Admin/Customer.vue').default);
 
 Vue.component('profile-component', require('./components/Admin/Profile.vue').default);
-
+Vue.component('shipping_price-component', require('./components/Admin/Shippingprice.vue').default);
 
 Vue.component('promotions-component', require('./components/Super/Promotions.vue').default);
 Vue.component('superadmin-component', require('./components/Super/SuperAdminComponent.vue').default);

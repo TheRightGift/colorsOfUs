@@ -135,23 +135,6 @@
                                 class="form-control"
                                 v-model="admin.lga"
                                 required
-                                v-if="!update"
-                            >
-                                <option selected disabled>Choose LGA</option>
-                                <option
-                                    v-for="lga in lgas"
-                                    :key="lga.id"
-                                    :value="lga.id"
-                                >
-                                    {{ lga.name }}
-                                </option>
-                            </select>
-                            <select
-                                id="inputLGA"
-                                class="form-control"
-                                v-model="admin.lga"
-                                required
-                                v-else-if="update"
                             >
                                 <option selected disabled>Choose...</option>
                                 <option

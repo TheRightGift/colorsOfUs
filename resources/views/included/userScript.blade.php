@@ -7,8 +7,8 @@
 		type="text/javascript"></script>
 		<script src="{{asset('/js/assets/plugins.js')}}"
 			type="text/javascript"></script>
-	<script src="{{asset('js/assets/slick.min.js')}}"
-		type="text/javascript"></script>
+	{{-- <script src="{{asset('js/assets/slick.min.js')}}"
+		type="text/javascript"></script> --}}
 	<script src="{{asset('/js/assets/owl.carousel.min.js')}}"
 		type="text/javascript"></script>
 	<script src="{{asset('/js/assets/waypoints.min.js')}}"

@@ -56,11 +56,14 @@
                                                 amount2
                                                 new-price
                                             "
+                                            v-if="product.promotionals"
                                             style="display: inline"
                                             ><span
                                                 class="money"
-                                                data-currency-inr="Rs. 6,128.58"
-                                                data-currency="INR"
+                                                v-if="product.promotionals.length > 0"
+                                                >&#8358;{{discount(product.promotionals[0].discount, product.amount)}}.00</span
+                                            >
+                                            <span class="money" v-else
                                                 >&#8358;{{
                                                     formatPrice(product.amount)
                                                 }}.00</span
@@ -73,7 +76,8 @@
                                                 amount
                                                 price-box__old
                                             "
-                                            ><span class="money"
+                                            v-if="product.promotionals"
+                                            ><span class="money" v-if="product.promotionals.length > 0"
                                                 >&#8358;{{
                                                     formatPrice(product.amount)
                                                 }}.00</span
@@ -122,7 +126,7 @@
                                                                     product
                                                                         .sizes
                                                                         .length !=
-                                                                    0
+                                                                    0 && !inputOn
                                                                 "
                                                             >
                                                                 <label
@@ -139,6 +143,7 @@
                                                                         )
                                                                     "
                                                                     required
+                                                                    v-model="selectedSize"
                                                                     id="size"
                                                                 >
                                                                     <option
@@ -151,7 +156,7 @@
                                                                     </option>
                                                                     <option
                                                                         :value="
-                                                                            size
+                                                                            size.id
                                                                         "
                                                                         v-for="size in product.sizes"
                                                                         :key="
@@ -162,7 +167,36 @@
                                                                             size.name
                                                                         }}
                                                                     </option>
+                                                                    <option value="custom">Custom Size</option>
                                                                 </select>
+                                                            </div>
+                                                            <div
+                                                                class="
+                                                                    selector-wrapper
+                                                                "
+                                                                v-if="
+                                                                    product
+                                                                        .sizes
+                                                                        .length !=
+                                                                    0 && inputOn
+                                                                "
+                                                            >
+                                                                <label
+                                                                    for="size"
+                                                                    >Size:</label
+                                                                ><input
+                                                                    type="number"
+                                                                    class="
+                                                                        single-option-selector
+                                                                        select--wd
+                                                                    "
+                                                                    v-model="selectedSize"
+                                                                    min="20"
+                                                                    required
+                                                                    autofocus
+                                                                >
+                                                                <button data-v-0841b95d="" type="button" aria-label="Close" @click="closeInput"><span data-v-0841b95d="" aria-hidden="true">×</span></button>
+                                                                <p><small>Custom sizes are pre-orders, and will be produced to meet desired size, thus takes time.</small></p>
                                                             </div>
                                                         </div>
                                                         <div
@@ -195,6 +229,7 @@
                                                                         )
                                                                     "
                                                                     required
+                                                                    v-model="selectedColor"
                                                                     id="color"
                                                                 >
                                                                     <option
@@ -342,6 +377,7 @@
                                                                 Cart</span
                                                             >
                                                         </button>
+                                                        
                                                     </div>
                                                 </div>
                                             </form>
@@ -362,34 +398,42 @@
 <script>
     export default {
         name: "QuickView",
-        props: ["product", "formatPrice", "synopsis"],
+        props: ["product", "formatPrice", "synopsis", 'discount'],
         data() {
             return {
                 adding: false,
                 added: false,
-                selectedSize: {},
-                selectedColor: {},
+                inputOn: false,
+                selectedSize: '',
+                selectedColor: '',
                 productInView: this.product,
             };
         },
         methods: {
+            closeInput() {
+                this.inputOn = false;
+                this.selectedSize = '';
+            },
             updateColor(e) {
                 // this.$store.commit('updateMessage', e.target.value)
-                this.selectedColor = e.target.value;
+                // this.selectedColor = e.target.value;
             },
             updateSize(e) {
-                this.selectedSize = e.target.value;
+                // this.selectedSize = e.target.value;
+                if (this.selectedSize == 'custom') {
+                    this.inputOn = true;
+                }
             },
             addToCartForm() {
                 this.adding = true;
 
                 this.productInView.input = parseInt(document.getElementById("quantity").value);
-                this.productInView.colorFilter = this.productInView.colors.filter(
+                this.productInView.color = this.productInView.colors.find(
                     (el) => el.id == this.selectedColor
-                )[0];
-                this.productInView.sizeFilter = this.productInView.sizes.filter(
+                );
+                this.productInView.size = this.inputOn ? this.selectedSize : this.productInView.sizes.find(
                     (el) => el.id == this.selectedSize
-                )[0];
+                );
                 this.$store.commit("addToCart", this.productInView);
                 setTimeout(() => {
                     this.adding = false;
@@ -399,9 +443,10 @@
                         document.getElementById("quantity").value = 1;
                         $("#color").prop("selectedIndex", 0);
                         $("#size").prop("selectedIndex", 0);
-
+                        this.inputOn = false;
                         this.selectedColor = "";
                         this.selectedSize = "";
+                        this.$forceUpdate();
                     }, 1000);
                 }, 1000);
             },

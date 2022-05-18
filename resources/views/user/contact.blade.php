@@ -296,7 +296,7 @@
                 ),
                 map: map,
                 title: "Tasfiu!",
-                icon: "//cdn.shopify.com/s/files/1/2508/8358/files/map_small.png?v=1509615038",
+                icon: "/img/map_small.webp",
 
                 animation: google.maps.Animation.BOUNCE,
             });

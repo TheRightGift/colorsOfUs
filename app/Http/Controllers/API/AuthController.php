@@ -89,6 +89,7 @@ class AuthController extends Controller
             'address' => 'required',
             'lga' => 'required',
             'state' => 'required',
+            'gender' => 'nullable',
             'employment_id' => 'nullable|unique:admins',
         ]);
         if ($validator->fails()) {
@@ -122,6 +123,7 @@ class AuthController extends Controller
             'employment_id',
             'profile_img',
             'user_id',
+            'gender',
             'created_at' => now(),
         ]);
         $data['user_id'] = $userCreated->id;
@@ -129,8 +131,8 @@ class AuthController extends Controller
         if($request->hasFile('profile_img')){
             $image = $request->file('profile_img');
             $name = $image->getClientOriginalName();
-            $image->move(public_path('/images/profile/'), $name);
-            $data['profile_img'] = '/images/profile/'.$name;
+            $image->move(public_path('/img/profile/'), $name);
+            $data['profile_img'] = '/img/profile/'.$name;
         }
         $admin = Admin::create($data);
         return response()->json([
@@ -271,7 +273,5 @@ class AuthController extends Controller
             return response(['message' => 'Email does not exist! Check and retry again', 'status' => 204]);
         }
      
-    }
-
-    
+    } 
 }

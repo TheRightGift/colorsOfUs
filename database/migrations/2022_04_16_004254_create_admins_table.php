@@ -27,6 +27,7 @@ class CreateAdminsTable extends Migration
             $table->string('profile_img')->nullable();
             $table->unsignedBigInteger('lga')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('role_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
