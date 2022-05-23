@@ -6,12 +6,40 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    const DEFAULT_TYPE = 0;
+    const ADMIN_TYPE = 1;
+    const TECH_ADMIN_TYPE = 2;
+    const SUPER_ADMIN_TYPE = 3;
+
+    public function isAdmin() {        
+        return $this->user_type == self::ADMIN_TYPE;    
+    }
+
+    public function isTechAdmin() {        
+        return $this->user_type == self::TECH_ADMIN_TYPE;    
+    }
+
+    public function isSuperAdmin() {        
+        return $this->user_type == self::SUPER_ADMIN_TYPE;    
+    } 
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -20,7 +48,8 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'user_type'
+        'user_type',
+        'activation_token'
     ];
 
     /**
@@ -45,4 +74,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Validator;
 
 class ImageController extends Controller
 {
@@ -19,8 +20,10 @@ class ImageController extends Controller
            if ($request->hasFile('image')) {
                 $images = $request->image->getClientOriginalName();
                 // $images = time().'_'.$images; // Add current time before image name
-                $path = $request->image->move(public_path('/blogposts/images/'),$images);
-                $pathe = ("/blogposts/images/").$images;
+                $path = $request->image->move(public_path('/img/uploads/'),$images);
+                $pathe = ("/img/uploads/").$images;
+                // $hostname = $_SERVER['SERVER_NAME'];
+                // dd($hostname.$pathe);
                 return response()->json(['location' => $pathe]);
 
             }

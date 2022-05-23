@@ -16,7 +16,7 @@ class CreateShippinginfosTable extends Migration
         Schema::create('shippinginfos', function (Blueprint $table) {
             $table->id();
             $table->string('lastname');
-            $table->string('firstname');
+            $table->string('firstname')->nullable();
             $table->string('othername')->nullable();
             $table->string('address');
             $table->string('address2')->nullable();

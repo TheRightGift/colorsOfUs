@@ -11,7 +11,7 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
 
-    protected $fillable = ['title', 'desc', 'created_at', 'deleted_at', 'updated_at'];
+    protected $fillable = ['name', 'desc', 'image', 'created_at', 'deleted_at', 'updated_at'];
 
     public function products(){
         return $this->belongsToMany(Product::class)->withTrashed();

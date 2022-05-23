@@ -16,8 +16,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = new Category();
-        $trashed = $categories->onlyTrashed()->get();
-        $untrashed = $categories->get();
+        $trashed = $categories->onlyTrashed()->with('sizes', 'colors')->get();
+        $untrashed = $categories->with('sizes', 'colors', 'products.images')->get();
         return response()->json(['message' => 'Categories fetched successfuly', 'trashed' => $trashed, 'untrashed' => $untrashed]);
     }
 
@@ -38,8 +38,8 @@ class CategoryController extends Controller
         if($request->hasFile('image')){
             $image = $request->file('image');
             $name = $image->getClientOriginalName();
-            $image->move(public_path('/images/resources/'), $name);
-            $data = '/images/resources/'.$name;
+            $image->move(public_path('/img/resources/'), $name);
+            $data = '/img/resources/'.$name;
         }    
         $category = Category::create([
             'name' => $request->get('name'),
@@ -82,13 +82,13 @@ class CategoryController extends Controller
         if($request->hasFile('image')){
             $image = $request->file('image');
             $name = $image->getClientOriginalName();
-            $image->move(public_path('/images/resources/'), $name);
+            $image->move(public_path('/img/resources/'), $name);
             $imageToDelete = public_path($cate->image);
             if (file_exists($imageToDelete) && $cate->image != '')
             {
                 unlink($imageToDelete);
             }
-            $data = '/images/resources/'.$name;
+            $data = '/img/resources/'.$name;
         }
         else {
             $data = $request->image;
@@ -119,5 +119,31 @@ class CategoryController extends Controller
     {
         Category::where('id', $id)->restore();
         return response()->json(['message' => 'Unarchived successfuly'], 201);
+    }
+
+    // Link/Unlink with size/color/material
+    public function categoryLinks(Request $request) {
+        $data = $request->validate([
+            'category_id' => 'required',
+            'size' => 'nullable',
+            'color' => 'nullable',  //For colorId == 0, materialId == 1 sizeId == 2;
+        ]);
+        $category = Category::findOrFail($request->category_id);
+
+        $size = array_keys($request->size, true);
+        $color = array_keys($request->color, true);
+        // dd($color, $size);
+        if (count($size) && count($color)) {
+            $category->sizes()->sync($size);
+            $category->colors()->sync($color);
+        }
+        elseif (count($size)) {
+            $category->sizes()->sync($size);
+        }
+        elseif (count($color)) {
+            $category->colors()->sync($color);
+        }
+        
+        return response()->json(['message' => 'Succsseful'], 201);
     }
 }

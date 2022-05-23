@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
@@ -11,10 +12,6 @@ class Product extends Model
 
 
     protected $fillable = ['title', 'desc', 'amount', 'stock', 'recommended', 'created_at', 'deleted_at', 'updated_at'];
-
-    public function products(){
-        return $this->belongsToMany(Product::class)->withTrashed();
-    }
 
     /**
      * Get all of the product's images.
@@ -24,15 +21,23 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function category_sizes() {
-        return $this->belongsToMany(CategorySize::class);
+    public function sizes() {
+        return $this->belongsToMany(Size::class);
     }
 
-    public function category_colors() {
-        return $this->belongsToMany(CategoryColor::class);
+    public function colors() {
+        return $this->belongsToMany(Color::class);
+    }
+
+    public function categories() {
+        return $this->belongsToMany(Category::class);
     }
 
     public function promotionals() {
+        return $this->belongsToMany(Promotional::class);
+    }
+
+    public function wishlists() {
         return $this->belongsToMany(Promotional::class);
     }
 

@@ -11,7 +11,7 @@ class Admin extends Model
     use HasFactory, SoftDeletes;
 
 
-    protected $fillable = ['user_id', 'lastname', 'firstname', 'othername', 'lga', 'state', 'address', 'phone', 'phone2', 'username', 'profile_img', 'role_id' , 'created_at', 'deleted_at', 'updated_at'];
+    protected $fillable = ['user_id', 'lastname', 'gender', 'firstname', 'othername', 'lga', 'state', 'address', 'phone', 'phone2', 'username', 'profile_img', 'role_id' , 'created_at', 'deleted_at', 'updated_at'];
 
     public function user(){
         return $this->belongsTo(User::class)->withTrashed();

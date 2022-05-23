@@ -1,0 +1,304 @@
+<template>
+    <div>
+        <div id="shopify-section-footer" class="shopify-section">
+            <!-- Start Footer Area -->
+            <footer class="htc__foooter__area">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer__container clearfix">
+                            <!-- Start Single Footer Widget -->
+                            <div class="col-md-3 col-lg-3 col-sm-6">
+                                <div class="ft__widget">
+                                    <div class="ft__logo">
+                                        <a href="index.html">
+                                            <!-- <img
+                                                src="/img/uniqlo_medium1.png"
+                                                alt="logo"
+                                        /> -->
+                                            <a
+                                                href="/"
+                                                style="
+                                                    font-size: 1.6em;
+                                                    color: black;
+                                                "
+                                            >
+                                                <!-- <img
+                                            src="/img/2_medium.png"
+                                            alt="logo"
+                                    /> -->
+                                                COLORSOFUS
+                                            </a>
+                                        </a>
+                                    </div>
+                                    <div class="footer__details">
+                                        <h2 class="ft__title">Newsletters</h2>
+                                        <p>Get 10% discount with notified about the latest news and updates.</p>
+                                        <div class="ft__widget">
+                                        <div class="newsletter__form">
+                                            <div class="input__box">
+                                            <div id="mc_embed_signup">
+                                                <form
+                                                action="//devitems.us11.list-manage.com//subscribe//post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef"
+                                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                                class="validate" target="_blank" novalidate>
+                                                <div id="mc_embed_signup_scroll" class="htc__news__inner">
+                                                    <div class="news__input">
+                                                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL"
+                                                        placeholder="Email Address" required>
+                                                    </div>
+                                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
+                                                        name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef" tabindex="-1" value=""></div>
+                                                    <div class="clearfix subscribe__btn"><input type="submit" value="Send" name="subscribe"
+                                                        id="mc-embedded-subscribe" class="bst__btn btn--white__color">
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Footer Widget -->
+                            <!-- Start Single Footer Widget -->
+                            <div
+                                class="
+                                    col-md-3 col-lg-3 col-lg-offset-1 col-sm-6
+                                    smb-30
+                                    xmt-30
+                                "
+                            >
+                                <div class="ft__widget">
+                                    <h2 class="ft__title">FAQ</h2>
+                                    <div class="newsletter__form">
+                                        <p></p>
+                                        <div
+                                            class="panel-group"
+                                            id="accordion"
+                                            role="tablist"
+                                            aria-multiselectable="true"
+                                        >
+                                            <div class="panel panel-default">
+                                                <div
+                                                    class="panel-heading"
+                                                    role="tab"
+                                                    id="headingOne"
+                                                >
+                                                    <h4 class="panel-title">
+                                                        <a
+                                                            role="button"
+                                                            data-toggle="collapse"
+                                                            data-parent="#accordion"
+                                                            href="#collapseOne"
+                                                            aria-expanded="true"
+                                                            aria-controls="collapseOne"
+                                                        >
+                                                            A. MEASURING METHODOLOGY: 
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div
+                                                    id="collapseOne"
+                                                    class="
+                                                        panel-collapse
+                                                        collapse
+                                                    "
+                                                    role="tabpanel"
+                                                    aria-labelledby="headingOne"
+                                                >
+                                                    <div class="panel-body">
+                                                        UK STANDARD SIZES
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div
+                                                    class="panel-heading"
+                                                    role="tab"
+                                                    id="headingTwo"
+                                                >
+                                                    <h4 class="panel-title">
+                                                        <a
+                                                            class="collapsed"
+                                                            role="button"
+                                                            data-toggle="collapse"
+                                                            data-parent="#accordion"
+                                                            href="#collapseTwo"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapseTwo"
+                                                        >
+                                                            B. AVERAGE DELIVERY MEANS:
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div
+                                                    id="collapseTwo"
+                                                    class="
+                                                        panel-collapse
+                                                        collapse
+                                                    "
+                                                    role="tabpanel"
+                                                    aria-labelledby="headingTwo"
+                                                >
+                                                    <div class="panel-body">
+                                                        DISPATCHER / PICK-UP FROM STORE
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div
+                                                    class="panel-heading"
+                                                    role="tab"
+                                                    id="headingThree"
+                                                >
+                                                    <h4 class="panel-title">
+                                                        <a
+                                                            class="collapsed"
+                                                            role="button"
+                                                            data-toggle="collapse"
+                                                            data-parent="#accordion"
+                                                            href="#collapseThree"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapseThree"
+                                                        >
+                                                            C. PICK UP LOCATION:
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div
+                                                    id="collapseThree"
+                                                    class="
+                                                        panel-collapse
+                                                        collapse
+                                                    "
+                                                    role="tabpanel"
+                                                    aria-labelledby="headingThree"
+                                                >
+                                                    <div class="panel-body">
+                                                        STORE / DELIVERY
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Footer Widget -->
+                            <!-- Start Single Footer Widget -->
+                            <div
+                                class="col-md-3 col-lg-3 col-sm-6 smt-30 xmt-30"
+                            >
+                                <div class="ft__widget contact__us">
+                                    <h2 class="ft__title">Contact Us</h2>
+                                    <div class="footer__inner">
+                                        <p>
+                                            Your address or
+                                            <br />
+                                            contact info goes here
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Footer Widget -->
+                            <!-- Start Single Footer Widget -->
+                            <div
+                                class="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30"
+                            >
+                                <div class="ft__widget">
+                                    <h2 class="ft__title">Follow Us</h2>
+                                    <ul class="social__icon">
+                                        <li>
+                                            <a href="#" title="Facebook"
+                                                ><i
+                                                    class="zmdi zmdi-facebook"
+                                                ></i
+                                            ></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" title="Google-plus"
+                                                ><i
+                                                    class="
+                                                        zmdi zmdi-google-plus
+                                                    "
+                                                ></i
+                                            ></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" title="Twitter"
+                                                ><i
+                                                    class="zmdi zmdi-twitter"
+                                                ></i
+                                            ></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" title="Instagram"
+                                                ><i
+                                                    class="zmdi zmdi-instagram"
+                                                ></i
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- End Single Footer Widget -->
+                        </div>
+                    </div>
+                    <!-- Start Copyright Area -->
+
+                    <div class="htc__copyright__area">
+                        <div class="row">
+                            <div
+                                class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+                            >
+                                <div class="copyright__inner">
+                                    <div class="copyright">
+                                        <p>
+                                            © {{ new Date().getFullYear() }}
+                                            <a href="#">ColorsOfUs</a>
+                                            All Right Reserved.
+                                        </p>
+                                    </div>
+                                    <ul class="footer__menu">
+                                        <li>
+                                            <a :href="$store.state.intended"
+                                                >My Account</a
+                                            >
+                                        </li>
+
+                                        <li>
+                                            <a href="pages/wishlist.html"
+                                                >Wishlist</a
+                                            >
+                                        </li>
+
+                                        <li>
+                                            <a href="contact">Contact Us</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End Copyright Area -->
+                </div>
+            </footer>
+            <!-- End Footer Area -->
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        name: "Footer",
+    };
+</script>
+<style>
+    .panel-title a, .panel-body {
+        font-size: 11px;
+    }
+</style>

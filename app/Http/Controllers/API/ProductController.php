@@ -16,11 +16,49 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::with('categories', 'images', 'wishlists')->paginate();
-        $trashed = Product::with('categories', 'images', 'wishlists')->onlyTrashed()->get();
+        $product = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+        $trashed = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->get();
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
     }
-
+    // public function sortType ($sortBy) {
+    //     // ZA, AZ, 0, 1, 01, 10, RM
+    //     $type;
+    //     $sort;
+    //     switch ($sortBy) {
+    //         case 'ZA':
+    //             $type = 'title';
+    //             break;
+    //         case 'AZ':
+    //             $type = 'title' ;
+    //             break;
+    //         case '0':
+    //             $type = 'price';
+    //             $sort = 'asc';
+    //             break;
+    //         case '1':
+    //             $type = 'price';
+    //             $sort = 'desc';
+    //             break;
+    //         case '01':
+    //             $type = 'date';
+    //             $sort = 'asc';
+    //             break;
+    //         case '10':
+    //             $type = 'price';
+    //             $sort = 'desc';
+    //             break;
+    //         case 'RM':
+    //             $type = 'recommended';
+    //             break;
+                                                                                                
+    //         default:
+    //             break;
+    //     }
+    //     $data = new foo;
+    //     $data->$type;
+    //     $data->$sort;
+    //     return $data;
+    // }
     /**
      * Display a listing of the Product.
      *
@@ -28,29 +66,55 @@ class ProductController extends Controller
      */
     public function sort($sortBy, $category)
     {
-        if (($sortBy == 'asc' || $sortBy == 'desc') && $category != 'null') {
-            $product = Product::orderBy('amount', $sortBy)->whereRelations('categories', 'categories.id', $id)->with('categories', 'images', 'wishlists')->paginate();
-            // $product = Product::orderBy('amount', $sortBy)->where('category_id', $category)->with('categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::orderBy('amount', $sortBy)->with('categories', 'images', 'wishlists')->onlyTrashed()->paginate();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
+        // ZA, AZ, 0, 1, 01, 10, RM
+        $data = new Product();
+
+        $sortBy = 'AZ';
+        $sort;
+        $order = 'orderBy';
+        switch ($sortBy) {
+            case 'ZA':
+                $type = 'title';
+                $sort = 'desc';
+                break;
+            case 'AZ':
+                $type = 'title';
+                $sort = 'asc';
+                break;
+            case '0':
+                $type = 'amount';
+                $sort = 'asc';
+                break;
+            case '1':
+                $type = 'amount';
+                $sort = 'desc';
+                break;
+            case 'D01':
+                $type = 'created_at';
+                $sort = 'desc';
+                break;
+            case 'D10':
+                $type = 'created_at';
+                $sort = 'asc';
+                break;
+            case 'RM':
+                $type = 'recommended';
+                $order = 'where';
+                $sort = '1';
+                break;
+                                                                                                
+            default:
+                break;
         }
-        else if ($sortBy == 'asc' || $sortBy == 'desc') {
-            $product = Product::orderBy('amount', $sortBy)->with('categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::orderBy('amount', $sortBy)->with('categories', 'images', 'wishlists')->onlyTrashed()->paginate();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
+        if ($category != 'null') {
+            $product = $data->$order($type, $sort)->whereRelation('categories', 'categories.name', $category)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+            $trashed = $data->$order($type, $sort)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
         }
-        else if ($sortBy == 'latest' && $category != 'null') {
-            // $product = Product::where('category_id', $category)->with('categories', 'images', 'wishlists')->paginate();
-            // $trashed = Product::where('category_id', $category)->with('categories', 'images', 'wishlists')->onlyTrashed()->get();
-            $product = Product::whereRelations('categories', 'categories.id', $id)->with('categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::whereRelations('categories', 'categories.id', $id)->with('categories', 'images', 'wishlists')->onlyTrashed()->get();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
+        else if ($category == 'null') {
+            $product = $data->$order($type, $sort)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
+            $trashed = $data->$order($type, $sort)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->onlyTrashed()->paginate();
         }
-        else if ($sortBy == 'latest') {
-            $product = Product::with('categories', 'images', 'wishlists')->paginate();
-            $trashed = Product::with('categories', 'images', 'wishlists')->onlyTrashed()->get();
-            return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
-        }
+        return response()->json(['message' => 'Products fetched successfuly', 'products' => $product, 'trashed' => $trashed]);
     }
 
     /**
@@ -60,30 +124,52 @@ class ProductController extends Controller
      */
     public function filter(Request $request)
     {
-        // Cos the JS returns only the index, and index that are truthy is valid
-        $color = array_keys($request->color, true);
-        $price = $request->price;
-        $category = array_keys($request->category, true);
-        if (count($color) && count($category) && !empty($price)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->whereRelations('categories', 'categories.id', $category)->whereBetween('amount', $price)->with('categories', 'images', 'wishlists')->paginate();
+        // dd($request);
+        $data = new Product();
+
+        $type;
+        $sort;
+        $order = 'orderBy';
+        switch ($request->sortBy) {
+            case 'ZA':
+                $type = 'title';
+                $sort = 'desc';
+                break;
+            case 'AZ':
+                $type = 'title';
+                $sort = 'asc';
+                break;
+            case '0':
+                $type = 'amount';
+                $sort = 'asc';
+                break;
+            case '1':
+                $type = 'amount';
+                $sort = 'desc';
+                break;
+            case 'D01':
+                $type = 'created_at';
+                $sort = 'desc';
+                break;
+            case 'D10':
+                $type = 'created_at';
+                $sort = 'asc';
+                break;
+            case 'RM':
+                $type = 'recommended';
+                $order = 'where';
+                $sort = '1';
+                break;
+                                                                                                
+            default:
+                break;
         }
-        else if (count($color) && count($category)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->whereRelations('categories', 'categories.id', $category)->with('categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($category) && !empty($price)) {
-            $result = Product::whereRelations('categories', 'categories.id', $category)->whereBetween('amount', $price)->with('categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($color) && !empty($price)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->whereBetween('amount', $price)->with('categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($color)) {
-            $result = Product::whereRelations('category_color', 'category_color.id', $color)->with('categories', 'images', 'wishlists')->paginate();
-        }
-        else if (count($category)) {
-            $result = Product::whereRelations('categories', 'categories.id', $category)->with('categories', 'images', 'wishlists')->paginate();
-        }
-        else if (!empty($price)) {
-            $result = Product::whereBetween('amount', $price)->with('categories', 'images', 'wishlists')->paginate();
+        $filterType = $request->type;
+        $filter = $request->filter;
+
+        if ($filterType != "" && $filter != "") {
+            $result = $data->$order($type, $sort)->whereRelation($filterType, $filterType.'.id', $filter)
+                        ->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate(2);
         }
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $result]);
     }
@@ -95,7 +181,7 @@ class ProductController extends Controller
      */
     public function home()
     {
-        $product = Product::with('categories', 'images', 'wishlists')->latest()->get();
+        $product = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->latest()->get();
         return response()->json(['message' => 'Products fetched successfuly', 'products' => $product]);
     }
 
@@ -113,12 +199,8 @@ class ProductController extends Controller
             'desc' => ['nullable', 'string'],
             'amount' => ['required', 'integer'],
             'stock' => ['nullable', 'integer'],
-            'imgOne' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:500',
-            'imgTwo' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:500',
-            'imgThree' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:500',
-            'imgFour' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:500',
-            'imgFive' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:500',
-            'imgSix' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:500',
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:500',
+            'images' => 'required',
             'recommended' => 'nullable',
         ]);
         // TODO: Include Category for each Product
@@ -130,79 +212,25 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'created_at' => now(),
         ]);
+        $sizes = $request->sizes != '' ? explode(',', $request->sizes) : '';
+        $colors = $request->colors != '' ? explode(',', $request->colors) : '';
+        
+        $product->categories()->sync([$request->category_id]);
+        !empty($colors) ? $product->colors()->sync($colors) : null;
+        !empty($sizes) ? $product->sizes()->sync($sizes) : null;
 
-        $product->categories()->sync(['category_id' => $request->category_id]);
-
-        if($request->hasFile('imgOne')){
-            $image = $request->file('imgOne');
-            $name = $image->getClientOriginalName();
-            // dd($name);
-            // $imgOneThumb = \Image::make($image->getRealPath());
-            // $imgOneThumb->resize(540, 600);
-            // $imgOneThumb->save(public_path('/images/Products/').$name);
-            $image->move(public_path('/images/Products/'), $name);
+        $images = $request->file('images');
+        // dump($images);
+        foreach ($images as $key => $value) {
+            $name = $value->getClientOriginalName();
+            $value->move(public_path('/img/uploads/'), $name);
             $product->images()->create([
-                'url' => $name,
+                'url' => '/img/uploads/'.$name,
                 'imageable_id' => $product['id'],
                 'imageable_type' => Product::class,
             ]);
-        }       
-        if($request->hasFile('imgTwo')){
-            $image = $request->file('imgTwo');
-            $name = $request->file('imgTwo')->getClientOriginalName();
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $image->move(public_path('/images/Products/'), $name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgThree')){
-            $image = $request->file('imgThree');
-            $name = $request->file('imgThree')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgFour')){
-            $image = $request->file('imgFour');
-            $name = $request->file('imgFour')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgFive')){
-            $image = $request->file('imgFive');
-            $name = $request->file('imgFive')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgSix')){
-            $image = $request->file('imgSix');
-            $name = $request->file('imgSix')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        $products = Product::with('categories', 'images', 'wishlists')->paginate();
+        }   
+        $products = Product::with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->paginate();
         return response()->json(['message' => 'New Product added.', 'products' => $products, 'status' => 1]);
     }
 
@@ -214,8 +242,9 @@ class ProductController extends Controller
      */
     public function show($title)
     {
-        $product = Product::where('title', $title)->with('categories', 'images', 'wishlists')->first();
-        $related_product = Product::whereRelations('categories', 'categories.id', $product['category_id'])->with('images')->get();
+        $product = Product::where('title', $title)->with('promotionals', 'colors', 'sizes', 'categories', 'images', 'wishlists')->first();
+        $category = $product->categories->first()->id;
+        $related_product = $product->whereRelation('categories', 'categories.id', $category)->with('promotionals', 'categories', 'colors', 'sizes', 'images')->get();
         return response()->json(['product' => $product, 'related' => $related_product, 'message' => 'Product retrieved successfuly', 'status' => 1], 200);
     }
 
@@ -230,13 +259,13 @@ class ProductController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:75'],
-            'category_id' => ['nullable', 'integer'],
-            'recommended' => ['nullable', 'integer'],
-            'desc' => ['required', 'string'],
-            'amount' => ['required', 'string'],
-            'stock' => ['required', 'string'],
-            'deletedImgs' => 'nullable',
-            'deletedImgIds' => 'nullable',
+            'category_id' => ['required'],
+            'desc' => ['nullable', 'string'],
+            'amount' => ['required', 'integer'],
+            'stock' => ['nullable', 'integer'],
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:500',
+            'images' => 'nullable',
+            'recommended' => 'nullable',
         ]);
         
         $product = Product::where('id', $id)->firstOrFail();
@@ -245,85 +274,33 @@ class ProductController extends Controller
             $imgDeletedIds = explode(',', $request->deletedImgIds);
             $res = Image::whereIn('id', $imgDeletedIds)->forceDelete();
             foreach ($imgDeleted as $key => $value) {
-                $imageToDelete = public_path('/images/Products/'.$value);
+                $imageToDelete = public_path($value);
                 if (file_exists($imageToDelete))
                 {
                     unlink($imageToDelete);
                 }
             }
         }
-       
-        if($request->hasFile('imgOne')){
-            $image = $request->file('imgOne');
-            $name = $image->getClientOriginalName();
-            // dd($name);
-            // $imgOneThumb = \Image::make($image->getRealPath());
-            // $imgOneThumb->resize(540, 600);
-            // $imgOneThumb->save(public_path('/images/Products/').$name);
-            $image->move(public_path('/images/Products/'), $name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }       
-        if($request->hasFile('imgTwo')){
-            $image = $request->file('imgTwo');
-            $name = $request->file('imgTwo')->getClientOriginalName();
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $image->move(public_path('/images/Products/'), $name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgThree')){
-            $image = $request->file('imgThree');
-            $name = $request->file('imgThree')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgFour')){
-            $image = $request->file('imgFour');
-            $name = $request->file('imgFour')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgFive')){
-            $image = $request->file('imgFive');
-            $name = $request->file('imgFive')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
-        if($request->hasFile('imgSix')){
-            $image = $request->file('imgSix');
-            $name = $request->file('imgSix')->getClientOriginalName();
-            $image->move(public_path('/images/Products/'), $name);
-            // \Image::make($image->getRealPath())->resize(540, 600)->save(public_path('/images/Products/').$name);
-            $product->images()->create([
-                'url' => $name,
-                'imageable_id' => $product['id'],
-                'imageable_type' => Product::class,
-            ]);
-        }
+       if ($request->hasFile('images')) {
+           $images = $request->file('images');
+           // dump($images);
+           foreach ($images as $key => $value) {
+               $name = $value->getClientOriginalName();
+               $value->move(public_path('/img/uploads/'), $name);
+               $product->images()->create([
+                   'url' => '/img/uploads/'.$name,
+                   'imageable_id' => $product['id'],
+                   'imageable_type' => Product::class,
+               ]);
+           }  
+       }
         $update = $product->update($request->only(['title', 'recommended', 'desc', 'amount', 'stock', 'updated_at' => now()]));
-        $product->authors()->sync(['category_id' => $request->category_id]);
+        $sizes = $request->sizes != '' ? explode(',', $request->sizes) : '';
+        $colors = $request->colors != '' ? explode(',', $request->colors) : '';
+        // dd($sizes, $colors);
+        $product->categories()->sync([$request->category_id]);
+        !empty($colors) ? $product->colors()->sync($colors) : $product->colors()->detach();
+        !empty($sizes) ? $product->sizes()->sync($sizes) : $product->sizes()->detach();
 
         return response()->json(['message' => 'Product updated successfully', 'status' => $update, 'products' => $product->get()]);
     }

@@ -17,8 +17,27 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admin = Admin::withTrashed()->with('role', 'user.withTrashed')->paginate();
+        $admin = Admin::with('role', 'user', 'orders.products.images', 'orders.shippinginfo')->withTrashed('user')->get();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
+    }
+
+    /**
+     *  Assign Role to the Admin
+     *  @param  \Illuminate\Http\Request  $request
+     *  @param  \App\Models\Role  $role
+     */
+    public function assign(Request $request) 
+    {
+        // Assign a role to the selected admin
+        $request->validate([
+            'admin_id' => ['required'],
+            'role_id' => ['required'],
+        ]);
+
+        Admin::find($request->admin_id)->update(['role_id' => $request->role_id, 'updated_at' => now()]); 
+        
+        $adminRole = Admin::find($request->admin_id)->withTrashed('user')->with('role', 'user', 'orders.products.images', 'orders.shippinginfo')->get();
+        return response()->json(['message' => 'New role added.', 'admins' => $adminRole, 'status' => 1]);
     }
 
     /**
@@ -60,31 +79,34 @@ class AdminController extends Controller
             'address' => 'required',
             'lga' => 'required',
             'state' => 'required',
+            'gender' => 'nullable',
         ]);
         $admin = Admin::findOrFail($id);
         if($request->hasFile('profile_img')){
             $image = $request->file('profile_img');
             $name = $image->getClientOriginalName();
             
-            $image->move(public_path('/images/profile/'), $name);
+            $image->move(public_path('/img/profile/'), $name);
             $imageToDelete = public_path($admin->profile_img);
             if (file_exists($imageToDelete) && $admin->profile_img != '')
             {
                 unlink($imageToDelete);
             }
-            $image = '/images/profile/'.$name;
+            $image = '/img/profile/'.$name;
         }
         else {
-            $image = $request->profile_img;
+           $image = $request->profile_img;
         }
-        $admin->update([
-            'lastname', 'firstname', 'othername', 'phone', 'phone2', 
-            'state', 'address', 'profile_img' => $image, 'lga', 'gender', 'updated_at' => now()]);
+        $data = $request->only(['lastname', 'firstname', 'othername', 'phone', 'phone2', 'state', 'address',  'gender', 'lga', 'updated_at']);
+            
+        $data['updated_at'] = now();
+        $data['profile_img'] = $image;
+        $admin->update($data);
         
-            $userData = User::findOrFail($request->user_id);
-            $userData->user_type = $request->user_type;
+        $userData = User::findOrFail($request->user_id);
+        $userData->user_type = $request->user_type;
 
-            $userData->save();
+        $userData->save();
         return response()->json(['message' => 'Update added.', 'admin' => $admin, 'status' => 200]);
     }
 
