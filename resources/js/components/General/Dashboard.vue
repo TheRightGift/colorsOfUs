@@ -305,56 +305,118 @@
                             </section>
                         </div>
                     </main> -->
-                    <main class="page-content">
+                    <!-- <main class="page-content">
                         <div class="container">
-                            <h2 class="shiftBook">
+                        <h2 class="shiftBook">
                                 Welcome Back! {{ $store.state.user.firstname }}
                             </h2>
-                            <hr />
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <div
-                                        class="card"
-                                        id="orders"
-                                        v-if="ordersView"
-                                    >
-                                        <order-component
-                                            :isInTransitView="isInTransitView"
-                                            :isProcessingView="isProcessingView"
-                                            :isCompletedView="isCompletedView"
-                                            :isOrdersView="isOrdersView"
-                                        />
-                                    </div>
-                                    <div
-                                        class="card"
-                                        id="profile"
-                                        v-else-if="profileView"
-                                    >
-                                        <profile-component />
-                                    </div>
-                                    <div
-                                        class="card"
-                                        id="shipping"
-                                        v-else-if="shippingDetView"
-                                    >
-                                        <!-- <shipping-details-component
+                        <hr /> 
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="card" id="orders" v-if="ordersView">
+                                    <order-component
+                                        :isInTransitView="isInTransitView"
+                                        :isProcessingView="isProcessingView"
+                                        :isCompletedView="isCompletedView"
+                                        :isOrdersView="isOrdersView"
+                                    />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="profile"
+                                    v-else-if="profileView"
+                                >
+                                    <profile-component />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="shipping"
+                                    v-else-if="shippingDetView"
+                                >
+                                    <shipping-details-component
                                     @openCart="viewCart"
-                                /> -->
-                                        <shipping-component />
-                                    </div>
+                                />
+                                    <shipping-component />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="shipping"
+                                    v-else-if="cartView"
+                                >
+                                    <cart-component />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="shipping"
+                                    v-else-if="wishlistView"
+                                >
+                                    <wishlist />
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </main> -->
+                    <main role="main">
+                        <div
+                            class="
+                                htc__login__register
+                                bg__white
+                                ptb--130
+                                custom_page
+                            "
+                            
+                        >
+                            <div class="container">
+                                <h1>My Account</h1>
+
+                                <hr class="hr--small" />
+
+                                <div class="grid">
                                     <div
-                                        class="card"
-                                        id="shipping"
-                                        v-else-if="cartView"
+                                        class="
+                                            grid__item
+                                            two-thirds
+                                            medium-down--one-whole
+                                        "
                                     >
-                                        <cart-component />
+                                        <h2 class="h4">Order History</h2>
+
+                                        <p>
+                                            You haven't placed any orders yet.
+                                        </p>
                                     </div>
+
                                     <div
-                                        class="card"
-                                        id="shipping"
-                                        v-else-if="wishlistView"
+                                        class="
+                                            grid__item
+                                            one-third
+                                            medium-down--one-whole
+                                            account-details
+                                        "
                                     >
-                                        <wishlist />
+                                        <h2 class="h4">Account Details</h2>
+
+                                        <h3 class="h5">Dev 0942</h3>
+
+                                        <p>
+                                            <br />
+
+                                            <br />
+
+                                            <br />
+
+                                            <br />
+
+                                            <br />
+
+                                            United States<br />
+                                        </p>
+
+                                        <p>
+                                            <a href="/account/addresses"
+                                                >View Addresses (1)</a
+                                            >
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -371,8 +433,15 @@
     import HeaderComponent from "./HeaderComponent.vue";
     import ShippingComponent from "./ShippingComponent.vue";
     import OrderComponent from "./Orders.vue";
+    import Wishlist from "./WishlistComponent.vue";
     export default {
-        components: { HeaderComponent, FooterComponent, ShippingComponent, OrderComponent, },
+        components: {
+            HeaderComponent,
+            FooterComponent,
+            ShippingComponent,
+            OrderComponent,
+            Wishlist,
+        },
         data() {
             return {
                 ordersView: true,
@@ -395,8 +464,7 @@
                     window.location.replace("/login");
                 }
             },
-            
-            
+
             loadInView() {
                 let path = new URLSearchParams(window.location.search);
                 if (path.has("orders")) {
@@ -455,7 +523,7 @@
                 this.ordersView = false;
                 this.profileView = false;
                 this.shippingDetView = false;
-                this.windowHistoryToDashboard();
+                // this.windowHistoryToDashboard();
             },
             viewAllOrders() {
                 this.isOrdersView = true;
@@ -487,3 +555,10 @@
         },
     };
 </script>
+<style scoped>
+    .htc__login__register {
+        background: rgba(0, 0, 0, 0)
+            url('/img/acctBg.webp')
+            no-repeat scroll center center / cover;         
+    }
+</style>

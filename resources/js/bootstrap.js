@@ -34,6 +34,7 @@ window.axios.interceptors.response.use(
             case 419: // Session expired
                 store.commit("logout");
                 console.log('session expired');
+                alert('Oops, something went wrong!  The team have been notified.');
                 break;
             case 503: // Down for maintenance
                 // Bounce the user to the login screen with a redirect back
@@ -41,7 +42,6 @@ window.axios.interceptors.response.use(
                 break;
             case 500:
                 // window.location.reload();
-                // alert('Oops, something went wrong!  The team have been notified.');
                 break;
             default:
                 // Allow individual requests to handle other errors

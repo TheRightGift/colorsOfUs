@@ -9,53 +9,11 @@ let shippingInfo = window.localStorage.getItem("coloursOfUsUserShipSel");
 let customer = window.localStorage.getItem("coloursOfUscustomerid");
 let rewop = window.localStorage.getItem("rewop");
 let wishlist = [];
-function pushToCart(state, item) {
-    state.cart.unshift(item);
-    if (item.input) {
-        Vue.set(item, "quantity", item.input);
-    } else Vue.set(item, "quantity", 1);
-    Vue.set(
-        item,
-        "totalPrice",
-        item.input
-            ? item.promotionals.length > 0
-                ?item.input * discount(item.promotionals[0].discount, item.amount)
-                : item.input * item.amount
-            : item.promotionals.length > 0
-            ? discount(item.promotionals[0].discount, item.amount)
-            : item.amount
-    );
-}
+
 function discount(disc, e) {
     let discount = (disc / 100) * e;
     let newPrice = e - Math.round(discount);
     return Math.round(newPrice);
-}
-function founded(found, state, item, products) {
-    // if (!found && products.length > 0) {
-    //     console.log('here');
-    //     let prd = products[0];
-    //     prd.color = item.colorFilter;
-    //     prd.size = item.sizeFilter;
-    //     if (item.input) {
-    //         prd.quantity = parseInt(item.input);
-    //     }
-    //     else prd.quantity++;
-    //     prd.totalPrice = prd.quantity * prd.amount;
-    //     state.cart.push(prd);
-    // }
-    if (found) {
-        if (item.input) {
-            found.quantity = parseInt(found.quantity) + parseInt(item.input);
-        } else found.quantity++;
-        found.totalPrice =
-            found.promotionals.length > 0
-                ? found.quantity *
-                  discount(found.promotionals[0].discount, found.amount)
-                : found.quantity * found.amount;
-    } else {
-        pushToCart(state, item);
-    }
 }
 let store = {
     strict: true, // Turning on strict mode
@@ -70,96 +28,43 @@ let store = {
         rewop: rewop ? parseInt(rewop) : null,
         wishlist: wishlist,
     },
+    actions: {
+        async fetchUserWishlists({ commit }) {
+            try {
+              const data = await axios.get(`/api/user-wishlist/${store.state.user.id}`)
+                commit('SET_USER_WISHLISTS', data.data)
+              }
+              catch (error) {
+                  alert(error)
+                  console.log(error)
+              }
+          }
+    },
     mutations: {
         addToCart(state, item) {
-            // console.log(item, );
-            let found = state.cart.find(product => (typeof(product.size) == 'object' ? product.size.id == item.size.id : product.size === item.size) && product.id == item.id && product.color.id == item.color.id);
+            let found = state.cart.find(product => product.id == item.id && (typeof (product.size) == 'object' ? product.size.id == item.size.id : product.size === item.size) && (product.color != undefined ? product.color.id == item.color.id : product.color == undefined)); //
 
             if (found) {
-                console.log(item, 'found', found, );
-                found.quantity++;
-                found.totalPrice = found.quantity * found.amount;
+                item.input ? found.quantity = parseInt(found.quantity) + parseInt(item.input) : found.quantity++;
+                found.totalPrice =
+                    item.promotionals.length > 0
+                        ? found.quantity *
+                        discount(item.promotionals[0].discount, item.amount)
+                        : found.quantity * item.amount;
             } else {
-                console.log(item, 'new');
-
                 state.cart.unshift(item);
 
-                Vue.set(item, 'quantity', 1);
-                Vue.set(item, 'totalPrice', item.amount);
+                Vue.set(item, 'quantity', item.input ? item.input : 1);
+                Vue.set(item, 'totalPrice', item.input
+                    ? item.promotionals.length > 0
+                        ? item.input * discount(item.promotionals[0].discount, item.amount)
+                        : item.input * item.amount
+                    : item.promotionals.length > 0
+                        ? discount(item.promotionals[0].discount, item.amount)
+                        : item.amount);
             }
-
             state.cartCount = state.cart.length;
             this.commit('saveCart');
-            console.log(state.cart, item);
-            // If product has colorFilter || sizeFilter / both
-            // Run a filter search and return the first
-            // Else run a fin req
-            // console.log(item, "i", state.cart);
-            // let found;
-            // let bothFilters = item.color && item.size;
-            // let eitherFilters = item.color || item.size;
-            // if (bothFilters || eitherFilters) {
-            //     let products = state.cart.filter(
-            //         (product) => product.id == item.id
-            //     );
-            //     if (bothFilters) {
-            //         found = products.find(
-            //             (product) =>
-            //                 (product.size.id == item.size.id || product.size == item.size) &&
-            //                 product.color.id == item.color.id
-            //         );
-            //         // if (!found) {
-            //         //     Object.create({}, item);
-            //         // }
-            //     } else if (eitherFilters) {
-            //         found = products.find(
-            //             (product) =>
-            //                 (product.size.id == item.size.id || product.size == item.size) ||
-            //                 product.color.id == item.color.id
-            //         );
-            //     }
-            //     // } else if (item.color) {
-            //     //     found = products.find(
-            //     //         (product) =>
-            //     //             product.color.id == item.color.id
-            //     //     );
-            //     // }
-            //     // founded(found, state, item, products);
-            //     console.log(products, item);
-            // } else {
-            //     found = state.cart.find((product) => product.id == item.id);
-            //     founded(found, state, item);
-            // }
-            // console.log(found);
-            // if (found) {
-            //     // if (item.colorFilter && item.sizeFilter) {
-            //     //     console.log(item.colorFilter, item.sizeFilter);
-            //     //     if (item.colorFilter[0].id == found.color[0].id && item.sizeFilter[0].id == found.size[0].id) {
-
-            //     //     }
-            //     //     else if (item.colorFilter[0].id != found.color[0].id || item.sizeFilter[0].id != found.size[0].id) {
-
-            //     //     }
-            //     //     // check if found item has same color and size
-            //     //     // if it has add up to the previous quantity
-            //     //     // else run a new cart
-            //     // }
-            //     // // else if (item.colorFilter || item.sizeFilter) {
-            //     //     console.log('either is missing!');
-            //     // }
-            //     else if (!item.colorFilter || !item.sizeFilter) {
-            //         if (item.input) {
-            //             found.quantity = parseInt(found.quantity) + parseInt(item.input);
-            //         }
-            //         else found.quantity++;
-            //     }
-            //     found.totalPrice = found.quantity * found.amount;
-            // } else {
-            //     pushToCart(state, item);
-            // }
-
-            state.cartCount = state.cart.length;
-            this.commit("saveCart");
         },
         clearCart(state) {
             state.cart = [];
@@ -182,7 +87,6 @@ let store = {
             state.token = null;
             state.customer = null;
         },
-
         removeFromCart(state, item) {
             let index = state.cart.indexOf(item);
 
@@ -238,19 +142,16 @@ let store = {
         rewop(state, detail) {
             window.localStorage.setItem("rewop", detail);
         },
-        saveWishlist(state, data) {
-            state.wishlist = data;
+        SET_USER_WISHLISTS(state, data) {
+            state.wishlist = data.wishlists;
         },
         addToWishList(state, data) {
-            console.log(data);
             state.wishlist.push(data);
         },
         removeFromWishList(state, data) {
-            let index = state.wishlist.indexOf(data);
+            let wishlist = state.wishlist;
 
-            if (index > -1) {
-                state.wishlist.splice(index, 1);
-            }
+            state.wishlist = wishlist.filter(el => el.product_id != data.id);
         },
     },
 };

@@ -1202,7 +1202,7 @@
                 success: false,
                 errorMessage: "",
                 errorMsg: false,
-                sortBy: "latest",
+                sortBy: "D01",
                 products: [],
                 deletedImgs: [],
                 deletedImgIds: [],

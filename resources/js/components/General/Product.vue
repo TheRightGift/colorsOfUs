@@ -176,12 +176,15 @@
                                                 <ul class="pro__dtl__prize">
                                                     <li>
                                                         <span id="ProductPrice"
-                                                            ><span class="money"
+                                                            ><span v-if="resource.promotionals"><span
+                                                                class="money"
+                                                                v-if="resource.promotionals.length > 0"
+                                                                >&#8358;{{discount(resource.promotionals[0].discount, resource.amount)}}.00</span
+                                                            ></span>
+                                                            <span class="money" v-else
                                                                 >&#8358;{{
-                                                                    formatPrice(
-                                                                        resource.amount
-                                                                    )
-                                                                }}</span
+                                                                    formatPrice(resource.amount)
+                                                                }}.00</span
                                                             ></span
                                                         >
                                                     </li>
@@ -189,6 +192,7 @@
                                                 <form
                                                     enctype="multipart/form-data"
                                                     id="add-item-form"
+                                                    @submit.prevent="addToCartRes"
                                                 >
                                                     <div
                                                         class="pro__dtl__color"
@@ -205,32 +209,91 @@
                                                             >
                                                                 <div class="header">
                                                                     Size :
-                                                                </div>
-
-                                                                <div
-                                                                    :data-value="size.name"
-                                                                    class="
-                                                                        swatch-element
-                                                                        x
-                                                                        available
-                                                                    "
-                                                                    v-for="size in resource.sizes" :key="size.id"
-                                                                >
-                                                                    <input
-                                                                        id="swatch-0-x"
-                                                                        type="radio"
-                                                                        name="option-0"
-                                                                        :value="size"
-                                                                        v-model="selectedSize"
-                                                                        required
-                                                                    />
-
-                                                                    <label
-                                                                        for="swatch-0-x"
+                                                                    <p
+                                                                        class="
+                                                                            field__message
+                                                                            field__message--error
+                                                                        "
+                                                                        v-if="sizeInvalid"
                                                                     >
-                                                                       {{size.name}}
-                                                                    </label>
+                                                                        Pick a size
+                                                                    </p>
                                                                 </div>
+                                                                <div v-if="!inputOn" class="blocked">
+                                                                    <div
+                                                                        :data-value="size.name"
+                                                                        class="
+                                                                            swatch-element
+                                                                            x
+                                                                            available
+                                                                        "
+                                                                        :class="resource.sizes[0].name"
+                                                                        v-for="size in resource.sizes" :key="size.id"
+                                                                       
+                                                                    >
+                                                                        <input
+                                                                            :id="'swatch-0-'+size.name"
+                                                                            type="radio"
+                                                                            name="size"
+                                                                            :value="size"
+                                                                            v-model="selectedSize"
+                                                                        />
+
+                                                                        <label
+                                                                            :for="'swatch-0-'+size.name"
+                                                                        >
+                                                                        {{size.name}}
+                                                                        </label>
+                                                                    </div>
+                                                                    <div
+                                                                        data-value="custom"
+                                                                        class="
+                                                                            swatch-element
+                                                                            
+                                                                            available
+                                                                        "
+                                                                        @click="updateSize(
+                                                                                $event
+                                                                            )"   
+                                                                    >
+                                                                        <input
+                                                                            :id="'swatch-0-'+'custom'"
+                                                                            type="radio"
+                                                                            name="size"
+                                                                            value="custom"
+                                                                            v-model="selectedSize"
+                                                                            
+                                                                        />
+
+                                                                        <label
+                                                                            :for="'swatch-0-'+'custom'"
+                                                                        >
+                                                                            Custom Size
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="
+                                                                        selector-wrapper
+                                                                    "
+                                                                    v-if="inputOn
+                                                                    "
+                                                                    style="display: block;"
+                                                                ><input
+                                                                        type="number"
+                                                                        class="
+                                                                            single-option-selector
+                                                                            select--wd
+                                                                        "
+                                                                        v-model="selectedSize"
+                                                                        min="20"
+                                                                        required
+                                                                        autofocus
+                                                                    >
+                                                                    <button data-v-0841b95d="" type="button" aria-label="Close" @click="closeInput"><span data-v-0841b95d="" aria-hidden="true">×</span></button>
+                                                                    <p><small>Custom sizes are pre-orders, and will be produced to meet desired size, thus takes time.</small></p>
+                                                                </div>
+                                                                
                                                             </div>
                                                         </template>
                                                         <template v-if="resource.colors">
@@ -245,6 +308,15 @@
                                                             >
                                                                 <div class="header">
                                                                     Color :
+                                                                    <p
+                                                                        class="
+                                                                            field__message
+                                                                            field__message--error
+                                                                        "
+                                                                        v-if="colorInvalid"
+                                                                    >
+                                                                        Pick a color
+                                                                    </p>
                                                                 </div>
 
                                                                 <div
@@ -263,7 +335,6 @@
                                                                         name="color"
                                                                         :value="color"
                                                                         v-model="selectedColor"
-                                                                        required
                                                                     />
 
                                                                     <label
@@ -275,6 +346,7 @@
                                                                     >
                                                                     </label>
                                                                 </div>
+                                                                
                                                             </div>
                                                         </template>
                                                     </div>
@@ -328,30 +400,26 @@
                                                             "
                                                         >
                                                             <button
-                                                                type="button"
+                                                                type="submit"
+                                                                id="prd__add"
                                                                 class="
                                                                     addtocart
                                                                     cart__menu
                                                                 "
-                                                                @click.prevent="addToCartRes(resource)"
+                                                                
                                                             >
                                                                 add to cart
                                                             </button>
                                                         </li>
 
                                                         <li>
-                                                            <a
-                                                                class="wishlist"
-                                                                href="account/login.html"
-                                                            >
-                                                                <span
-                                                                    data-toggle="tooltip"
-                                                                    title="Add Wishlist"
-                                                                    class="
-                                                                        ti-heart
-                                                                    "
-                                                                ></span>
+                                                            <a class="action--wishlist tile-actions--btn flex wishlist-btn wishlist" :class="{'is-active': checkWishlist(resource)}" href="#!" :data-product-handle="resource.title" @click="addRemoveWishList(resource)">
+                                                                <span data-toggle="tooltip" title="" class="ti-heart" data-original-title="Add Wishlist" v-if="!checkWishlist(resource)"></span>
+                                                                <span data-toggle="tooltip" title="" class="ti-heart-broken" data-original-title="Remove Wishlist" v-else></span>
                                                             </a>
+
+                                                            <a class="go-to-wishlist" v-if="checkWishlist(resource)" href="/dashboard?wishlist">go to wishlist</a>
+
                                                         </li>
 
                                                         <li>
@@ -699,6 +767,7 @@
 
                             <section
                                 class="htc__choose__us__ares bg__white pb--120"
+                                v-if="relatedProducts.length > 0"
                             >
                                 <div class="container">
                                     <div class="row">
@@ -827,23 +896,16 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        <div
-                                                            class="
-                                                                add__to__wishlist
-                                                            "
-                                                        >
-                                                            <a
-                                                                class="wishlist"
-                                                                href="account/login.html"
-                                                            >
-                                                                <span
-                                                                    data-toggle="tooltip"
-                                                                    title="Add Wishlist"
-                                                                    class="
-                                                                        ti-heart
-                                                                    "
-                                                                ></span>
+                                                        <div class="add__to__wishlist">
+      
+                                                            <a class="action--wishlist tile-actions--btn flex wishlist-btn wishlist" :class="{'is-active' : checkWishlist(related)}" href="#!" :data-product-handle="related.title" @click.prevent="addRemoveWishList(related)" tabindex="0">
+                                                            <span data-toggle="tooltip" title="Add Wishlist" class="ti-heart" data-original-title="Add Wishlist" v-if="!checkWishlist(related)"></span>
+                                                            <span data-toggle="tooltip" title="Remove Wishlist" class="ti-heart-broken" data-original-title="Remove Wishlist" v-else></span>
                                                             </a>
+
+                                                            <a class="go-to-wishlist" href="/dashboard?wishlist" tabindex="0" v-if="checkWishlist(resource)">go to wishlist</a>
+
+
                                                         </div>
                                                     </div>
                                                     <div
@@ -855,43 +917,52 @@
                                                             }}</a>
                                                         </h2>
                                                         <ul
-                                                            class="
-                                                                product__price
-                                                            "
-                                                        >
-                                                            <li
                                                                 class="
-                                                                    old__price
+                                                                    product__price
                                                                 "
                                                             >
-                                                                <span
+                                                                <li
                                                                     class="
-                                                                        money
+                                                                        old__price
                                                                     "
-                                                                    >&#8358;{{
-                                                                        formatPrice(
-                                                                            related.amount
-                                                                        )
-                                                                    }}</span
+                                                                    v-if="related.promotionals.length > 0"
                                                                 >
-                                                            </li>
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        >&#8358;{{
+                                                                            formatPrice(
+                                                                                related.amount
+                                                                            )
+                                                                        }}.00</span
+                                                                    >
+                                                                </li>
 
-                                                            <li
-                                                                class="
-                                                                    new__price
-                                                                "
-                                                            >
-                                                                <span
+                                                                <li
                                                                     class="
-                                                                        money
+                                                                        new__price
                                                                     "
-                                                                    >&#8358;{{
-                                                                        formatPrice(
-                                                                            related.amount
-                                                                        )
-                                                                    }}</span
                                                                 >
-                                                            </li>
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        v-if="related.promotionals.length > 0"
+                                                                        >&#8358;{{discount(related.promotionals[0].discount, related.amount)}}.00</span
+                                                                    >
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        v-else
+                                                                        >&#8358;{{
+                                                                            formatPrice(
+                                                                                related.amount
+                                                                            )
+                                                                        }}.00</span
+                                                                    >
+                                                                </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -911,6 +982,7 @@
             :product="product"
             :formatPrice="formatPrice"
             :synopsis="synopsis"
+            :discount="discount"
         />
     </div>
 </template>
@@ -937,12 +1009,15 @@
         },
         data() {
             return {
-                selectedColor: {},
+                colorInvalid: false,
                 image: {},
-                resource: {},
+                inputOn: false,
                 product: {},
                 relatedProducts: [],
+                resource: {},
+                selectedColor: {},
                 selectedSize: {},
+                sizeInvalid: false,
                 slickOptions: {
                     speed: 700,
                     arrows: true,
@@ -974,6 +1049,29 @@
             };
         },
         methods: {
+            addRemoveWishList(res) {
+                if (this.$store.state.token) {
+                    this.wishlist(res);
+                } else if (!this.$store.state.token) {
+                    this.$toasted.show("Hello, Please", {
+                        duration: 9000,
+                        position: "top-right",
+                        action: {
+                            text: "Login",
+                            onClick: (e, toastObject) => {
+                                // toastObject.goAway(0);
+                                window.location.href = `/auth`;
+                            },
+                        },
+                    });
+                }
+                // Get the logged in user, or force user to login.
+                // Track user webpage to be able to navigate back;
+                // Make call to db and check if user_id, resource_id exist, if yes;
+                // Delete the column and return 1
+                // Else Add the column;
+                // If wishlisting is succesful, emit bac success and color or decolor the heart
+            },
             addToCart(res) {
                 this.$store.commit("addToCart", res);
                 $(".cart__menu").on("click", function () {
@@ -992,14 +1090,41 @@
                     },
                 });
             },
-            addToCartRes(res) {
-                this.resource.input = parseInt(document.getElementById("resourceQty").value);
-                res.colors.length > 0 ? this.resource.colorFilter = this.selectedColor : null;
-                res.sizes.length > 0 ? this.resource.sizeFilter = this.selectedSize : null;
-                this.$store.commit("addToCart", this.resource);
+            addToCartRes() {
+                this.resource.colors.length > 0 ? 
+                    Object.entries(this.selectedColor).length == 0 ? this.colorInvalid = true : this.colorInvalid = false 
+                    : null;
+
+                this.resource.sizes.length > 0 ? 
+                    Object.entries(this.selectedSize).length == 0 ? this.sizeInvalid = true : this.sizeInvalid = false 
+                : null;
+                
+                if (!this.sizeInvalid && !this.colorInvalid)  {
+                    let color, size;
+                    let input = parseInt(document.getElementById("resourceQty").value);
+                    let customized = '0'; // If customer enters his own size
+                    this.resource.colors.length > 0 ?  color = this.selectedColor : null;
+                    this.resource.sizes.length > 0 ?  size = this.selectedSize : null;
+                    this.inputOn ? customized = '1' : null; 
+                    this.$store.commit("addToCart", {...this.resource, color: color, size: size, input: input, customized: customized});
+                    document.getElementById("resourceQty").value = 1;
+                }
             },
             checkout(res) {
                 console.log(res);
+            },
+            checkWishlist(product){
+                let wished = this.$store.state.wishlist.find(el => product.id == el.product_id);
+                return wished;
+            },
+            closeInput() {
+                this.inputOn = false;
+                this.selectedSize = {};
+            },
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return this.formatPrice(Math.round(newPrice));
             },
             formatPrice(value) {
                 let val = value / 1;
@@ -1087,11 +1212,38 @@
                     imageSource
                 );
             },
-            updateColor(e) {
-                this.selectedColor = e.target.value;
-            },
             updateSize(e) {
-                this.selectedColor = e.target.value;
+                this.selectedSize = e.target.value;
+                if (this.selectedSize == 'custom') {
+                    this.inputOn = true;
+                }
+            },
+            wishlist(prd) {
+                let data = {
+                    user_id: this.$store.state.user.id,
+                    product_id: prd.id,
+                };
+                axios
+                    .post("/api/wishlist", data)
+                    .then((res) => {
+                        if (res.status === 201) {
+                            this.$store.commit("addToWishList", res.data.wishlist);
+                            this.$toasted.show("Added to Wishlist!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                        } else if (res.status === 204) {
+                            this.$toasted.show("Removed from Wishlist!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                            this.$store.commit("removeFromWishList", prd);
+                        }
+                        this.checkWishlist(prd);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             },
         },
         mounted() {
@@ -1107,6 +1259,10 @@
     };
 </script>
 <style scoped>
+    .blocked {
+        display: block;
+    }
+    .field__message{line-height:1.3em;margin:0.5714285714em 0 0.2857142857em}.field__message--error{color:#ff6d6d}.field__message__icon{margin-right:0.25em;vertical-align:-3px}
     @media (min-width: 1366px) { 
         a.image img {
             height: 370px;
@@ -1118,7 +1274,7 @@
         }
     }
     .shopify-payment-button__button--unbranded {
-        background-color: #ff4136 !important;
+        background-color: #f599f5 !important;
         border-radius: 0 !important;
         max-width: 295px;
     }

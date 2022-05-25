@@ -428,7 +428,9 @@
                                                                                 product.title
                                                                             "
                                                                             target="_blank"
-                                                                            ><img
+                                                                            >
+                                                                            <h4 v-if="product.promotionals.length > 0" class="righted">{{product.promotionals[0].type}}</h4>
+                                                                            <img
                                                                                 :src="
                                                                                     product
                                                                                         .images[0]
@@ -505,27 +507,10 @@
                                                                             </li>
                                                                         </ul>
                                                                     </div>
-                                                                    <div
-                                                                        class="
-                                                                            add__to__wishlist
-                                                                        "
-                                                                    >
-                                                                        <a
-                                                                            class="
-                                                                                wishlist
-                                                                            "
-                                                                            href="#!"
-                                                                            @click.prevent="
-                                                                                wishlist
-                                                                            "
-                                                                        >
-                                                                            <span
-                                                                                data-toggle="tooltip"
-                                                                                title="Add Wishlist"
-                                                                                class="
-                                                                                    ti-heart
-                                                                                "
-                                                                            ></span>
+                                                                    <div class="add__to__wishlist">
+                                                                        <a class="action--wishlist tile-actions--btn flex wishlist-btn wishlist" :class="{'is-active' : checkWishlist(product)}" href="#!" :data-product-handle="product.title" @click.prevent="addRemoveWishList(product)" tabindex="0">
+                                                                        <span data-toggle="tooltip" title="Add Wishlist" class="ti-heart" data-original-title="Add Wishlist" v-if="!checkWishlist(product)"></span>
+                                                                        <span data-toggle="tooltip" title="Remove Wishlist" class="ti-heart-broken" data-original-title="Remove Wishlist" v-else></span>
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -547,26 +532,52 @@
                                                                         >
                                                                     </h2>
                                                                     <ul
+                                                                class="
+                                                                    product__price
+                                                                "
+                                                            >
+                                                                <li
+                                                                    class="
+                                                                        old__price
+                                                                    "
+                                                                    v-if="product.promotionals.length > 0"
+                                                                >
+                                                                    <span
                                                                         class="
-                                                                            product__price
+                                                                            money
                                                                         "
+                                                                        >&#8358;{{
+                                                                            formatPrice(
+                                                                                product.amount
+                                                                            )
+                                                                        }}.00</span
                                                                     >
-                                                                        <li
-                                                                            class="
-                                                                                new__price
-                                                                            "
-                                                                        >
-                                                                            <span
-                                                                                class="
-                                                                                    money
-                                                                                "
-                                                                                >&#8358;{{
-                                                                                    formatPrice(
-                                                                                        product.amount
-                                                                                    )
-                                                                                }}.00</span
-                                                                            >
-                                                                        </li>
+                                                                </li>
+
+                                                                <li
+                                                                    class="
+                                                                        new__price
+                                                                    "
+                                                                >
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        v-if="product.promotionals.length > 0"
+                                                                        >&#8358;{{discount(product.promotionals[0].discount, product.amount)}}.00</span
+                                                                    >
+                                                                    <span
+                                                                        class="
+                                                                            money
+                                                                        "
+                                                                        v-else
+                                                                        >&#8358;{{
+                                                                            formatPrice(
+                                                                                product.amount
+                                                                            )
+                                                                        }}.00</span
+                                                                    >
+                                                                </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -713,7 +724,30 @@
                 sortBy: "AZ",
             };
         },
-        methods: {
+        methods: {     
+            addRemoveWishList(res) {
+                if (this.$store.state.token) {
+                    this.wishlist(res);
+                } else if (!this.$store.state.token) {
+                    this.$toasted.show("Hello, Please", {
+                        duration: 9000,
+                        position: "top-right",
+                        action: {
+                            text: "Login",
+                            onClick: (e, toastObject) => {
+                                // toastObject.goAway(0);
+                                window.location.href = `/auth`;
+                            },
+                        },
+                    });
+                }
+                // Get the logged in user, or force user to login.
+                // Track user webpage to be able to navigate back;
+                // Make call to db and check if user_id, resource_id exist, if yes;
+                // Delete the column and return 1
+                // Else Add the column;
+                // If wishlisting is succesful, emit bac success and color or decolor the heart
+            },
             addToCart(res) {
                 this.$store.commit("addToCart", res);
                 $(".cart__menu").on("click", function () {
@@ -745,6 +779,10 @@
                     this.filterType = "categories";
                     this.filterName = categoryID;
                 }
+            },
+            checkWishlist(product){
+                let wished = this.$store.state.wishlist.find(el => product.id == el.product_id);
+                return wished;
             },
             discount(disc, e) {
                 let discount = (disc / 100) * e;
@@ -852,7 +890,33 @@
                 div.innerHTML = inputString;
                 return div.textContent.slice(0, len);
             },
-            wishlist() {},
+            wishlist(prd) {
+                let data = {
+                    user_id: this.$store.state.user.id,
+                    product_id: prd.id,
+                };
+                axios
+                    .post("/api/wishlist", data)
+                    .then((res) => {
+                        if (res.status === 201) {
+                            this.$store.commit("addToWishList", res.data.wishlist);
+                            this.$toasted.show("Added to Wishlist!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                        } else if (res.status === 204) {
+                            this.$toasted.show("Removed from Wishlist!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                            this.$store.commit("removeFromWishList", prd);
+                        }
+                        this.checkWishlist(prd);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
             windowHistoryReplace() {
                 window.history.replaceState({}, document.title, "/" + "products");
             },

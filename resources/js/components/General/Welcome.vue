@@ -280,14 +280,19 @@
                                                                     class="
                                                                         wishlist
                                                                     "
-                                                                    href="account/login.html"
+                                                                    href="#!"
+                                                                    @click.prevent="addRemoveWishList(product)"
+                                                                    :class="{'is-active': checkWishlist(product)}"
                                                                 >
+                                                                    <span data-toggle="tooltip" title="Remove Wishlist" data-original-title="Remove Wishlist" class="ti-heart-broken"
+                                                                        v-if="checkWishlist(product)"></span>
                                                                     <span
                                                                         data-toggle="tooltip"
                                                                         title="Add Wishlist"
                                                                         class="
                                                                             ti-heart
                                                                         "
+                                                                        v-else
                                                                     ></span>
                                                                 </a>
                                                             </div>
@@ -571,7 +576,33 @@
                 products: [],
             };
         },
+        computed: {
+            
+        },
         methods: {
+            addRemoveWishList(res) {
+                if (this.$store.state.token) {
+                    this.wishlist(res);
+                } else if (!this.$store.state.token) {
+                    this.$toasted.show("Hello, Please", {
+                        duration: 9000,
+                        position: "top-right",
+                        action: {
+                            text: "Login",
+                            onClick: (e, toastObject) => {
+                                // toastObject.goAway(0);
+                                window.location.href = `/auth`;
+                            },
+                        },
+                    });
+                }
+                // Get the logged in user, or force user to login.
+                // Track user webpage to be able to navigate back;
+                // Make call to db and check if user_id, resource_id exist, if yes;
+                // Delete the column and return 1
+                // Else Add the column;
+                // If wishlisting is succesful, emit bac success and color or decolor the heart
+            },
             addToCart(res) {
                 this.$store.commit("addToCart", res);
                 $(".cart__menu").on("click", function () {
@@ -592,6 +623,10 @@
             },
             categorize(e) {
                 this.categories = e.reverse().slice(0, 2);
+            },
+            checkWishlist(product){
+                let wished = this.$store.state.wishlist.find(el => product.id == el.product_id);
+                return wished;
             },
             discount(disc, e) {
                 let discount = (disc / 100) * e;
@@ -632,6 +667,33 @@
                 var div = document.createElement("div");
                 div.innerHTML = inputString;
                 return div.textContent.slice(0, len);
+            },
+            wishlist(prd) {
+                let data = {
+                    user_id: this.$store.state.user.id,
+                    product_id: prd.id,
+                };
+                axios
+                    .post("api/wishlist", data)
+                    .then((res) => {
+                        if (res.status === 201) {
+                            this.$store.commit("addToWishList", res.data.wishlist);
+                            this.$toasted.show("Added to Wishlist!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                        } else if (res.status === 204) {
+                            this.$toasted.show("Removed from Wishlist!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                            this.$store.commit("removeFromWishList", prd);
+                        }
+                        this.checkWishlist(prd);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             },
         },
         mounted() {

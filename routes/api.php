@@ -115,7 +115,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('uploads', [ImageController::class, 'postImageUploader']);
     
     // Wishlist;
-    Route::resource('wishlist', WishlistController::class, ['only' => ['index', 'store', 'destroy', 'show']]);
+    Route::resource('wishlist', WishlistController::class, ['only' => ['store', 'destroy', 'show']]);
+    Route::get('user-wishlist/{id}', [WishlistController::class, 'home']);
+
 });
 
 // Blog;
