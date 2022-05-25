@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     @include('included.userNav')
-<body id="uniqlo-2" class="template-index">
+<body id="account" class="customer-logged-in template-customers-account">
     <div id="preloader_active">
         <div id="loading-center">
             <div id="loading-center-absolute">

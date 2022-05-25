@@ -26,10 +26,10 @@
                                     <div class="product-main-image__item">
                                         <div class="img_box_1">
                                             <img
-                                                v-if="product.images"
+                                                v-if="productInView.images"
                                                 class="full-width"
-                                                :alt="product.title"
-                                                :src="product.images[0].url"
+                                                :alt="productInView.title"
+                                                :src="productInView.images[0].url"
                                             />
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                             <div class="cras product-info">
                                 <div class="product-name">
                                     <h1 class="product_title">
-                                        {{ product.title }}
+                                        {{ productInView.title }}
                                     </h1>
                                 </div>
                                 <div class="price-box-3">
@@ -56,16 +56,16 @@
                                                 amount2
                                                 new-price
                                             "
-                                            v-if="product.promotionals"
+                                            v-if="productInView.promotionals"
                                             style="display: inline"
                                             ><span
                                                 class="money"
-                                                v-if="product.promotionals.length > 0"
-                                                >&#8358;{{discount(product.promotionals[0].discount, product.amount)}}.00</span
+                                                v-if="productInView.promotionals.length > 0"
+                                                >&#8358;{{discount(productInView.promotionals[0].discount, productInView.amount)}}.00</span
                                             >
                                             <span class="money" v-else
                                                 >&#8358;{{
-                                                    formatPrice(product.amount)
+                                                    formatPrice(productInView.amount)
                                                 }}.00</span
                                             ></span
                                         >
@@ -76,10 +76,10 @@
                                                 amount
                                                 price-box__old
                                             "
-                                            v-if="product.promotionals"
-                                            ><span class="money" v-if="product.promotionals.length > 0"
+                                            v-if="productInView.promotionals"
+                                            ><span class="money" v-if="productInView.promotionals.length > 0"
                                                 >&#8358;{{
-                                                    formatPrice(product.amount)
+                                                    formatPrice(productInView.amount)
                                                 }}.00</span
                                             ></span
                                         >
@@ -100,7 +100,7 @@
                                         "
                                     >
                                         <p>
-                                            {{ synopsis(product.desc, 150) }}
+                                            {{ synopsis(productInView.desc, 150) }}
                                         </p>
                                     </div>
                                 </div>
@@ -116,14 +116,14 @@
                                                         class="variants_selects"
                                                     >
                                                         <div
-                                                            v-if="product.sizes"
+                                                            v-if="productInView.sizes"
                                                         >
                                                             <div
                                                                 class="
                                                                     selector-wrapper
                                                                 "
                                                                 v-if="
-                                                                    product
+                                                                    productInView
                                                                         .sizes
                                                                         .length !=
                                                                     0 && !inputOn
@@ -158,7 +158,7 @@
                                                                         :value="
                                                                             size.id
                                                                         "
-                                                                        v-for="size in product.sizes"
+                                                                        v-for="size in productInView.sizes"
                                                                         :key="
                                                                             size.id
                                                                         "
@@ -175,7 +175,7 @@
                                                                     selector-wrapper
                                                                 "
                                                                 v-if="
-                                                                    product
+                                                                    productInView
                                                                         .sizes
                                                                         .length !=
                                                                     0 && inputOn
@@ -201,7 +201,7 @@
                                                         </div>
                                                         <div
                                                             v-if="
-                                                                product.colors
+                                                                productInView.colors
                                                             "
                                                         >
                                                             <div
@@ -209,7 +209,7 @@
                                                                     selector-wrapper
                                                                 "
                                                                 v-if="
-                                                                    product
+                                                                    productInView
                                                                         .colors
                                                                         .length !=
                                                                     0
@@ -241,7 +241,7 @@
                                                                         color
                                                                     </option>
                                                                     <option
-                                                                        v-for="color in product.colors"
+                                                                        v-for="color in productInView.colors"
                                                                         :key="
                                                                             color.id
                                                                         "
@@ -258,7 +258,7 @@
                                                         </div>
                                                         <div
                                                             v-if="
-                                                                product.materials
+                                                                productInView.materials
                                                             "
                                                             class="
                                                                 selector-wrapper
@@ -406,7 +406,7 @@
                 inputOn: false,
                 selectedSize: '',
                 selectedColor: '',
-                productInView: this.product,
+                productInView: [],
             };
         },
         methods: {
@@ -426,15 +426,16 @@
             },
             addToCartForm() {
                 this.adding = true;
-
-                this.productInView.input = parseInt(document.getElementById("quantity").value);
-                this.productInView.color = this.productInView.colors.find(
+                let customized = '0'; // If customer enters his own size
+                let input = parseInt(document.getElementById("quantity").value);
+                let selColor = this.productInView.colors.find(
                     (el) => el.id == this.selectedColor
                 );
-                this.productInView.size = this.inputOn ? this.selectedSize : this.productInView.sizes.find(
+                let selSize = this.inputOn ? this.selectedSize : this.productInView.sizes.find(
                     (el) => el.id == this.selectedSize
                 );
-                this.$store.commit("addToCart", this.productInView);
+                this.inputOn ? customized = '1' : null; 
+                this.$store.commit("addToCart", {...this.productInView, color: selColor, size: selSize, input: input, customized: customized});
                 setTimeout(() => {
                     this.adding = false;
                     this.added = true;
@@ -446,14 +447,12 @@
                         this.inputOn = false;
                         this.selectedColor = "";
                         this.selectedSize = "";
-                        this.$forceUpdate();
                     }, 1000);
                 }, 1000);
             },
         },
         
-        mounted() {
-        },
+        mounted() {},
         watch: {
             product(product) {
                 this.productInView = { ...product }; // shallow copy

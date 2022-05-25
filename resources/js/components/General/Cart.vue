@@ -44,7 +44,7 @@
                                             <div
                                                 class="empty-cart-page"
                                                 v-if="
-                                                    $store.state.cart.lenght ==
+                                                    $store.state.cart.length ==
                                                     0
                                                 "
                                             >
@@ -54,7 +54,8 @@
                                                 </h2>
                                                 <p>
                                                     Continue browsing
-                                                    <a href="collections">here</a>.
+                                                    <a href="/products">here</a
+                                                    >.
                                                 </p>
                                             </div>
                                             <div v-else>
@@ -113,9 +114,9 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr
-                                                                v-for="item in $store
+                                                                v-for="(item, index) in $store
                                                                     .state.cart"
-                                                                :key="item.id"
+                                                                :key="index"
                                                             >
                                                                 <td
                                                                     class="
@@ -124,7 +125,7 @@
                                                                 >
                                                                     <a
                                                                         :href="
-                                                                            'collections/' +
+                                                                            'products/' +
                                                                             item.title
                                                                         "
                                                                         ><img
@@ -148,12 +149,41 @@
                                                                     ></a
                                                                     ><a
                                                                         :href="
-                                                                            'collections/' +
+                                                                            'products/' +
                                                                             item.title
                                                                         "
                                                                         >{{
                                                                             item.title
-                                                                        }}</a
+                                                                        }}
+                                                                        <span
+                                                                            v-if="
+                                                                                item.color ||
+                                                                                item.size
+                                                                            "
+                                                                        >
+                                                                            <span> - </span>
+                                                                        </span>
+                                                                        <span
+                                                                            v-if="
+                                                                                item.size
+                                                                            "
+                                                                            >{{
+                                                                                item
+                                                                                    .size
+                                                                                    .name || item.size
+                                                                            }}
+                                                                            /
+                                                                        </span>
+                                                                        <span
+                                                                            v-if="
+                                                                                item.color
+                                                                            "
+                                                                            >{{
+                                                                                item
+                                                                                    .color
+                                                                                    .name
+                                                                            }}</span
+                                                                        ></a
                                                                     >
                                                                 </td>
                                                                 <td
@@ -169,7 +199,32 @@
                                                                             class="
                                                                                 money
                                                                             "
-                                                                            >&#8358;
+                                                                            v-if="
+                                                                                item
+                                                                                    .promotionals
+                                                                                    .length >
+                                                                                0
+                                                                            "
+                                                                        >
+                                                                            &#8358;
+
+                                                                            {{
+                                                                                formatPrice(
+                                                                                    discount(
+                                                                                        item
+                                                                                            .promotionals[0]
+                                                                                            .discount,
+                                                                                        item.amount
+                                                                                    )
+                                                                                )
+                                                                            }}.00 </span
+                                                                        ><span
+                                                                            class="
+                                                                                money
+                                                                            "
+                                                                            v-else
+                                                                        >
+                                                                            &#8358;
                                                                             {{
                                                                                 formatPrice(
                                                                                     item.amount
@@ -238,7 +293,12 @@
                                                                             v-model="
                                                                                 item.quantity
                                                                             "
-                                                                            @input="quantity(item.quantity, item)"
+                                                                            @input="
+                                                                                quantity(
+                                                                                    item.quantity,
+                                                                                    item
+                                                                                )
+                                                                            "
                                                                             data-category="user-data"
                                                                             required
                                                                             disabled
@@ -340,8 +400,7 @@
                                                                 value="Update Cart"
                                                                 @click="refresh"
                                                             />
-                                                            <a
-                                                                href="/products"
+                                                            <a href="/products"
                                                                 >Continue
                                                                 Shopping</a
                                                             >
@@ -2176,65 +2235,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-                                                            <!-- <script
-                                                                id="shipping-calculator-response-template"
-                                                                type="text/template"
-                                                            >
-                                                                <p id="shipping-rates-feedback" <% if (success) { %> class="success" <% } else { %> class="error" <% } %>>
-                                                                <% if (success) { %>
-                                                                  <% if (rates.length > 1) { %>
-                                                                  There are <%= rates.length %> shipping rates available for <%= address %>, starting at <%= rates[0].price %>.
-                                                                  <% } else if (rates.length == 1) { %>
-                                                                  There is one shipping rate available for <%= address %>.
-                                                                  <% } else { %>
-                                                                  We do not ship to this destination.
-                                                                  <% } %>
-                                                                <% } else { %>
-                                                                  <%= errorFeedback %>
-                                                                <% } %>
-                                                                </p>
-                                                                <ul id="shipping-rates">
-                                                                  <% for (var i=0; i<rates.length; i++) { %>
-                                                                  <li><%= rates[i].name %> at <%= rates[i].price %></li>
-                                                                  <% } %>
-                                                                </ul>
-                                                            </script> -->
-
-                                                            <!--[if lte IE 8]>
-                                                                <style>
-                                                                    #shipping-calculator {
-                                                                        display: none;
-                                                                    }
-                                                                </style>
-                                                            <![endif]-->
-
-                                                            <!-- <script
-                                                                src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"
-                                                                type="text/javascript"
-                                                            ></script>
-                                                            <script
-                                                                src="/services/javascripts/countries.js"
-                                                                type="text/javascript"
-                                                            ></script>
-
-                                                            <script
-                                                                src="//cdn.shopify.com/s/files/1/2300/9895/t/10/assets/cart-shipping-calculator.min.js?v=7431826122072276895"
-                                                                type="text/javascript"
-                                                            ></script>
-
-                                                            <script>
-                                                                Shopify.Cart.ShippingCalculator.show(
-                                                                    {
-                                                                        submitButton:
-                                                                            "Calculate shipping",
-                                                                        submitButtonDisabled:
-                                                                            "Calculating...",
-                                                                        moneyFormat:
-                                                                            "\u003cspan class=money\u003e${{amount}} USD\u003c\/span\u003e",
-                                                                    }
-                                                                );
-                                                            </script> -->
                                                         </div>
                                                     </div>
                                                     <div
@@ -2270,7 +2270,9 @@
                                                                                             money
                                                                                         "
                                                                                         >&#8358;
-                                                                                        {{totalPrice}}</span
+                                                                                        {{
+                                                                                            totalPrice
+                                                                                        }}</span
                                                                                     ></span
                                                                                 ></span
                                                                             >
@@ -2297,7 +2299,9 @@
                                                                                                 money
                                                                                             "
                                                                                             >&#8358;
-                                                                                        {{totalPrice}}</span
+                                                                                            {{
+                                                                                                totalPrice
+                                                                                            }}</span
                                                                                         ></span
                                                                                     ></span
                                                                                 ></strong
@@ -2358,11 +2362,16 @@
         data() {
             return {
                 item: {
-                    quantity: '',
+                    quantity: "",
                 },
             };
         },
         methods: {
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return Math.round(newPrice);
+            },
             formatPrice(value) {
                 let val = value / 1;
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -2374,7 +2383,7 @@
                     input: this.item.quantity,
                 });
             },
-            refresh(){
+            refresh() {
                 location.reload();
             },
             removeFromCart(res) {

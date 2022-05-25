@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Auth;
 
 class WishlistController extends Controller
 {
@@ -15,7 +16,7 @@ class WishlistController extends Controller
      */
     public function index($id)
     {
-        $wishlist = Wishlist::where('user_id', $id)->with('product.images')->paginate();
+        $wishlist = Wishlist::where('user_id', $id)->with('product.images')->paginate(1);
         return response()->json(['message' => 'Wishlists retrieved successfully', 'wishlists' => $wishlist]);
     }
 
@@ -38,25 +39,28 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'product_id' => ['required','integer'],
-            'user_id' => ['required','integer'],
-        ]);
-        $checkData = Wishlist::where([['product_id', $request->product_id], ['user_id', $request->user_id]])->first();
-        if ($checkData) {
-            // Delete the product
-            $checkData->delete();
-            return response()->json(['message' => 'Removed from Wishlist'], 204);
-        }
-        else {
-            // Craete
-            $wishlist = Wishlist::create([
-                'product_id' => $request->get('product_id'),
-                'user_id' => $request->get('user_id'),
-                'created_at' => now(),
+        if (Auth::user()) {
+            $request->validate([
+                'product_id' => ['required','integer'],
+                'user_id' => ['required','integer'],
             ]);
-            return response()->json(['success' => 'New wishlist added.', 'wishlist' => $wishlist], 201);
+            $checkData = Wishlist::where([['product_id', $request->product_id], ['user_id', $request->user_id]])->first();
+            if ($checkData) {
+                // Delete the product
+                $checkData->delete();
+                return response()->json(['message' => 'Removed from Wishlist'], 204);
+            }
+            else {
+                // Craete
+                $wishlist = Wishlist::create([
+                    'product_id' => $request->get('product_id'),
+                    'user_id' => $request->get('user_id'),
+                    'created_at' => now(),
+                ]);
+                return response()->json(['success' => 'New wishlist added.', 'wishlist' => $wishlist], 201);
+            }
         }
+        else return response()->json(['success' => false, 'msg' => 'Please login']);
 
     }
 
@@ -68,8 +72,8 @@ class WishlistController extends Controller
      */
     public function show($id)
     {
-        $wishlist = Wishlist::where('id', $id)->first();
-        return response()->json(['wishlist' => $wishlist, 'message' => 'Wishlist retrieved successfuly'], 200);
+        $wishlist = Wishlist::where('user_id', $id)->with('product.images', 'product.promotionals', 'product.sizes', 'product.colors')->paginate();
+        return response()->json(['message' => 'Wishlists retrieved successfully', 'wishlists' => $wishlist]);
     }
 
 }

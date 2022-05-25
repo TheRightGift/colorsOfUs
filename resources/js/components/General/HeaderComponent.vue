@@ -481,7 +481,7 @@
                         <div class="off__contact">
                             <div class="logo">
                                 <a href="/"
-                                    ><img src="/img/2_medium.png" alt="logo"
+                                    ><img src="/img/logo2.png" alt="logo"
                                 /></a>
                             </div>
 
@@ -640,8 +640,7 @@
                             <div class="shp__cart__wrap">
                                 <ul>
                                     <li
-                                        v-for="(item, index) in $store.state
-                                            .cart"
+                                        v-for="(item, index) in carts"
                                         :key="index"
                                     >
                                         <div class="shp__single__product">
@@ -779,6 +778,10 @@
                     maximumFractionDigits: 2,
                 });
             },
+
+            carts() {
+                return {...this.$store.state.cart}
+            }
         },
         methods: {
             checkHome() {
@@ -1111,13 +1114,15 @@
             },
             search() {
                 window.location.href = location.origin+'/search?q='+this.query;
-            }
+            },
+            
         },
         mounted() {
             this.checkHome();
             this.mobileMenu();
             this.getCategories();
             this.getProducts();
+            this.$store.state.token != null ? this.$store.dispatch("fetchUserWishlists") : null;
         },
     };
 </script>
