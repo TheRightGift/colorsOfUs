@@ -708,6 +708,12 @@
     div.new__product__thumb a img {
         height: 290px;
     }
+    @media (max-width: 767px) { 
+        .new__product__thumb img {
+            height: 137px !important;
+        }
+    }
+    
 </style>
 <style>
     .righted {
