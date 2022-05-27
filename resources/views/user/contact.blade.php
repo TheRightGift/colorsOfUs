@@ -295,7 +295,7 @@
                     6.161251196139091, 6.7769349446760465
                 ),
                 map: map,
-                title: "Tasfiu!",
+                title: "Coloursofus!",
                 icon: "/img/map_small.webp",
 
                 animation: google.maps.Animation.BOUNCE,

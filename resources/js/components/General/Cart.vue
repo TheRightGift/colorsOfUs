@@ -2,7 +2,7 @@
     <div>
         <div class="jaliana">
             <header-component />
-            <div class="fixed-footer">
+            <div class="">
                 <div class="">
                     <!-- BREADCRUMBS SETCTION START -->
 
@@ -253,7 +253,8 @@
                                                                             @click="
                                                                                 quantity(
                                                                                     0,
-                                                                                    item
+                                                                                    item,
+                                                                                    index
                                                                                 )
                                                                             "
                                                                         >
@@ -296,7 +297,8 @@
                                                                             @input="
                                                                                 quantity(
                                                                                     item.quantity,
-                                                                                    item
+                                                                                    item,
+                                                                                    index
                                                                                 )
                                                                             "
                                                                             data-category="user-data"
@@ -315,7 +317,8 @@
                                                                             @click="
                                                                                 quantity(
                                                                                     1,
-                                                                                    item
+                                                                                    item,
+                                                                                    index
                                                                                 )
                                                                             "
                                                                         >
@@ -2376,11 +2379,14 @@
                 let val = value / 1;
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
-            quantity(action, res) {
+            quantity(action, res, index) {
+                
+                console.log(res);
                 this.$store.commit("updateCart", {
                     item: res,
                     action: action,
                     input: this.item.quantity,
+                    index
                 });
             },
             refresh() {

@@ -71,7 +71,7 @@
                                 "
                             >
                                 <div class="ft__widget">
-                                    <h2 class="ft__title">FAQ</h2>
+                                    <h2 class="ft__title">FAQ ?</h2>
                                     <div class="newsletter__form">
                                         <p></p>
                                         <div
@@ -271,13 +271,13 @@
                                         </li>
 
                                         <li>
-                                            <a href="pages/wishlist.html"
+                                            <a href="/dashboard?wishlist"
                                                 >Wishlist</a
                                             >
                                         </li>
 
                                         <li>
-                                            <a href="contact">Contact Us</a>
+                                            <a href="/contact">Contact Us</a>
                                         </li>
                                     </ul>
                                 </div>

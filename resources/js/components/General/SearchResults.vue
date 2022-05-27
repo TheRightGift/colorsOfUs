@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="jalaina">
-            <div class="fixed__footer" style="margin-bottom: 319px">
+            <div class="" style="">
                 <header-component />
                 <div class="">
                     <!-- BREADCRUMBS SETCTION START -->

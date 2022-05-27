@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="jalaina">
-            <div class="fixed__footer">
+            <div class="">
                 <header-component />
                 <div class="">
                     <main role="main">

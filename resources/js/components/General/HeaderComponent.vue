@@ -844,7 +844,7 @@
                             meanMenuContainer: ".mobile-menu-area .container",
                             meanMenuClose: "X",
                             meanMenuCloseSize: "18px",
-                            meanMenuOpen: "<span><span/>",
+                            meanMenuOpen: "<i class='fa fa-bars' aria-hidden='true'></i>",
                             meanRevealPosition: "right",
                             meanRevealPositionDistance: "0",
                             meanRevealColour: "",
@@ -1123,10 +1123,17 @@
             this.getCategories();
             this.getProducts();
             this.$store.state.token != null ? this.$store.dispatch("fetchUserWishlists") : null;
+            this.home ? $('.mean-container a.meanmenu-reveal').css('top', '-10px') : null;
         },
     };
 </script>
 <style>
+    .mean-container a.meanmenu-reveal {
+        text-align: center;
+        text-indent: 0px;
+        font-size: 18px;
+    }
+    
     .logo img {
         /* font-size: 1em !important; */
         width: 105px;    height: 57px;
@@ -1136,9 +1143,6 @@
             /* font-size: 1em !important; */
             width: 79px;    height: 57px;
         }
-    }
-    .mean-bar .meanmenu-reveal {
-        top: -10px;
     }
     .pr-2 {
         padding-right: 1em;

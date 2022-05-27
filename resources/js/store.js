@@ -97,17 +97,18 @@ let store = {
             this.commit("saveCart");
         },
         updateCart(state, item) {
-            let found = state.cart.find(
-                (product) => product.id == item.item.id
-            );
-
+            let found = state.cart.at(item.index);
             if (found) {
                 if (item.action == true) {
                     found.quantity++;
                 } else if (item.action == false && found.quantity != 1) {
                     found.quantity--;
                 }
-                found.totalPrice = found.quantity * found.amount;
+                found.totalPrice =
+                    item.item.promotionals.length > 0
+                        ? found.quantity *
+                        discount(item.item.promotionals[0].discount, item.item.amount)
+                        : found.quantity * item.item.amount;
             }
 
             state.cartCount = state.cart.length;

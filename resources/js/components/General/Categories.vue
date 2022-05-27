@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="jaliana">
-            <div class="fixed-footer">
+            <div class="">
                 <header-component @categorize="getCategories($event)" />
                 <div class="">
                     <!-- BREADCRUMBS SETCTION START -->
