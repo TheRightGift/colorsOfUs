@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="jalaina">
-            <div class="fixed__footer">
+            <div class="">
                 <!-- Header -->
                 <header-component @produce="produce($event)" @categorize="categorize($event)"/>
 
@@ -721,4 +721,5 @@
         border-bottom-left-radius: 20px;
         border-top-left-radius: 20px
     }
+    
 </style>

@@ -2,7 +2,7 @@
     <div>
         <div class="jaliana">
             <header-component />
-            <div class="fixed-footer">
+            <div class="">
                 <div class="">
                     <!-- BREADCRUMBS SETCTION START -->
 
@@ -192,8 +192,7 @@
                                                         </h2>
                                                     </div>
                                                     <form
-                                                        method="post"
-                                                        action=""
+                                                        @submit.prevent="sendMail"
                                                         id="contact_form"
                                                         accept-charset="UTF-8"
                                                         class="contact-form"
@@ -222,18 +221,14 @@
                                                                 <input
                                                                     type="text"
                                                                     placeholder="Your name"
-                                                                    class=""
-                                                                    name="contact[name]"
-                                                                    id="ContactFormName"
-                                                                    value=""
+                                                                    v-model="mail.name"
+                                                                    required
                                                                 />
                                                                 <input
                                                                     type="email"
+                                                                    v-model="mail.email"
                                                                     placeholder="Your email"
-                                                                    class=""
-                                                                    name="contact[email]"
-                                                                    id="ContactFormEmail"
-                                                                    value=""
+                                                                    required
                                                                 />
                                                             </div>
                                                         </div>
@@ -253,7 +248,8 @@
                                                                     id="ContactFormSubject"
                                                                     name="contact[subject]"
                                                                     placeholder="Subject"
-                                                                    value=""
+                                                                    v-model="mail.subject"
+                                                                    required
                                                                 />
                                                             </div>
                                                         </div>
@@ -273,7 +269,7 @@
                                                                     class="
                                                                         custom-textarea
                                                                     "
-                                                                    name="contact[body]"
+                                                                    v-model="mail.message"
                                                                     id="ContactFormMessage"
                                                                 ></textarea>
                                                             </div>
@@ -284,6 +280,7 @@
                                                             <button
                                                                 type="submit"
                                                                 class="fv-btn"
+                                                                :disabled="saving"
                                                             >
                                                                 Send
                                                             </button>
@@ -324,5 +321,33 @@ import FooterComponent from './FooterComponent.vue';
     import HeaderComponent from "./HeaderComponent.vue";
     export default {
         components: { HeaderComponent, FooterComponent },
+        data() {
+            return {
+                success: false,
+                saving: false,
+                mail: {
+                    email: '',
+                    name: '',
+                    message: '',
+                    subject: ''
+                }
+            }
+        },
+        methods: {
+            sendMail(){
+                this.saving = true
+                axios.post('api/contact-us', this.mail)
+                .then(response => {
+                    this.success = response.data[0]
+                    setTimeout(() => {
+                        this.$router.go()
+                    }, 3000)
+                })
+                .catch(error => {
+                    // console.log(error);
+                    this.saving = false
+                })
+            }
+        },
     };
 </script>
