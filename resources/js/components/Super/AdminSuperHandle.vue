@@ -155,19 +155,12 @@
                                                                 admin.user.email
                                                             }}
                                                         </h5>
-                                                        <small class="field">
-                                                            {{
-                                                                admin.user
-                                                                    .user_type ==
-                                                                1
-                                                                    ? "Admin" +
-                                                                      "(" +
-                                                                      admin.role
-                                                                          .name +
-                                                                      ")"
-                                                                    : "Tech Admin"
-                                                            }} </small
-                                                        ><span>{{
+                                                        <small class="field" v-if="admin.user.user_type == 1">
+                                                                Admin
+                                                                <span v-if="admin.role != null">{{admin.role.name}}</span>
+                                                        </small>
+                                                        <small class="field" v-else>Tech Admin</small>
+                                                        <span>{{
                                                             admin.deleted_at !=
                                                             null
                                                                 ? "(Suspended)"
@@ -242,7 +235,7 @@
                                         class="container"
                                         v-if="
                                             adminClickedOn.user.user_type ==
-                                                1 && adminClickedOn.role.id == 1
+                                                1 && adminClickedOn.role != null ? adminClickedOn.role.id == 1 : null
                                         "
                                     >
                                         <!-- Page Heading -->
@@ -596,11 +589,12 @@
                                                                     role.name
                                                                 }}
                                                                 <i
-                                                                    v-if="
+                                                                    v-if=" adminClickedOn
+                                                                            .role != null ? 
                                                                         adminClickedOn
                                                                             .role
                                                                             .id ==
-                                                                        role.id
+                                                                        role.id : null
                                                                     "
                                                                     class="
                                                                         fa
@@ -791,22 +785,22 @@
                                             <div>
                                                 <p>Name:</p>
                                                 {{
-                                                    order.customer.firstname +
+                                                    order.shippinginfo.firstname +
                                                     " " +
-                                                    order.customer.lastname
+                                                    order.shippinginfo.lastname
                                                 }}
                                             </div>
                                             <div>
                                                 <p>Phone:</p>
-                                                {{ order.customer.phone }}
+                                                {{ order.shippinginfo.phone }}
                                             </div>
                                             <div>
                                                 <p>Address:</p>
-                                                {{ order.customer.address }}
+                                                {{ order.shippinginfo.address }}
                                             </div>
                                             <div>
                                                 <p>Postal Code:</p>
-                                                {{ order.customer.postal_code }}
+                                                {{ order.shippinginfo.postal_code }}
                                             </div>
                                         </div>
                                     </div>
@@ -943,6 +937,7 @@
                             this.adminClickedOn = res.data.admins.find(
                                 (el) => el.id == this.adminClickedOn.id
                             );
+                            window.location.reload();
                         }
                     })
                     .catch((err) => {

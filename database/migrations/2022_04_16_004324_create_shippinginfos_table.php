@@ -26,6 +26,8 @@ class CreateShippinginfosTable extends Migration
             $table->unsignedBigInteger('lga');
             $table->unsignedBigInteger('state');
             $table->unsignedBigInteger('city')->nullable();
+            $table->enum('active',[1, 0])->default(0);
+            $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();
         });

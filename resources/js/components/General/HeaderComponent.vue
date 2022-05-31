@@ -559,17 +559,17 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="dashboard?shipping">
+                                            <a href="dashboard?address">
                                                 <i class="fa fa-truck"></i>
                                                 <span>Shipping Details</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="dashboard?profile">
                                                 <i class="fa fa-user-o"></i>
                                                 <span>Profile</span>
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                                 <!-- sidebar-menu  -->

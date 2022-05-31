@@ -23,11 +23,12 @@
 			@foreach ($data as $item)
 				<tr>
 				<td>
-					<img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}/images/resources/{{$item['images'][0]['url']}}" width="150" height="160" >
+					<img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}/{{$item['images'][0]['url']}}" width="150" height="160" >
 				</td>
 				<td>
 					<p>{{$item['title']}}</p>
 					<p>x{{$item['quantity']}}</p>
+					<p>&#8358;{{$item['quantity'] * $item['amount']}}</p>
 					<p>&#8358;{{$item['quantity'] * $item['amount']}}</p>
 				</td>
 				</tr>

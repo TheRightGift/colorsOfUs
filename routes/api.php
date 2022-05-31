@@ -8,6 +8,7 @@ use App\Http\Controllers\API\BlogController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ColorController;
 use App\Http\Controllers\API\ImageController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProfileController;
@@ -77,6 +78,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('color', ColorController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::patch('color-refresh/{id}', [ColorController::class, 'refresh']);
     
+
+    // Notify
+    Route::post('notify-cancel', [NotificationController::class, 'notifyCancel']);
+    Route::put('notify/{id}', [NotificationController::class, 'markRead']);
+    Route::get('notify', [NotificationController::class, 'index']);
+    Route::get('notify-prdmin', [NotificationController::class, 'prdMin']);
+
     // Order;
     Route::apiResource('order', OrderController::class);
     Route::get('order-home', [OrderController::class, 'home']);
@@ -124,6 +132,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('blog-published', [BlogController::class, 'published']);
 
 // Product;
-Route::get('product/{sort}/{category}', [ProductController::class, 'sort']);
+Route::get('product-sort/{sort}', [ProductController::class, 'sort']);
 Route::post('product-filter/', [ProductController::class, 'filter']);
 Route::get('product-home', [ProductController::class, 'home']);

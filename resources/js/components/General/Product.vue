@@ -173,17 +173,54 @@
                                                         }}
                                                     </p>
                                                 </div>
-                                                <ul class="pro__dtl__prize">
+                                                <ul
+                                                    class="pro__dtl__prize"
+                                                    v-if="resource.promotionals"
+                                                >
+                                                    <li
+                                                        class="old__prize"
+                                                        v-if="
+                                                            resource
+                                                                .promotionals
+                                                                .length > 0
+                                                        "
+                                                    >
+                                                        <span id="ComparePrice">
+                                                            <span class="money"
+                                                                >&#8358;{{
+                                                                    formatPrice(
+                                                                        resource.amount
+                                                                    )
+                                                                }}.00</span
+                                                            ></span
+                                                        >
+                                                    </li>
                                                     <li>
                                                         <span id="ProductPrice"
-                                                            ><span v-if="resource.promotionals"><span
+                                                            ><span
                                                                 class="money"
-                                                                v-if="resource.promotionals.length > 0"
-                                                                >&#8358;{{discount(resource.promotionals[0].discount, resource.amount)}}.00</span
-                                                            ></span>
-                                                            <span class="money" v-else
+                                                                v-if="
+                                                                    resource
+                                                                        .promotionals
+                                                                        .length >
+                                                                    0
+                                                                "
                                                                 >&#8358;{{
-                                                                    formatPrice(resource.amount)
+                                                                    discount(
+                                                                        resource
+                                                                            .promotionals[0]
+                                                                            .discount,
+                                                                        resource.amount
+                                                                    )
+                                                                }}.00</span
+                                                            >
+                                                            <span
+                                                                class="money"
+                                                                v-else
+                                                                >&#8358;{{
+                                                                    formatPrice(
+                                                                        resource.amount
+                                                                    )
                                                                 }}.00</span
                                                             ></span
                                                         >
@@ -192,12 +229,18 @@
                                                 <form
                                                     enctype="multipart/form-data"
                                                     id="add-item-form"
-                                                    @submit.prevent="addToCartRes"
+                                                    @submit.prevent="
+                                                        addToCartRes
+                                                    "
                                                 >
                                                     <div
                                                         class="pro__dtl__color"
                                                     >
-                                                        <template v-if="resource.sizes">
+                                                        <template
+                                                            v-if="
+                                                                resource.sizes
+                                                            "
+                                                        >
                                                             <div
                                                                 class="
                                                                     swatch
@@ -205,70 +248,118 @@
                                                                     Size
                                                                 "
                                                                 data-option-index="0"
-                                                                v-if="resource.sizes.length > 0"
+                                                                v-if="
+                                                                    resource
+                                                                        .sizes
+                                                                        .length >
+                                                                    0
+                                                                "
                                                             >
-                                                                <div class="header">
+                                                                <div
+                                                                    class="
+                                                                        header
+                                                                    "
+                                                                >
                                                                     Size :
                                                                     <p
                                                                         class="
                                                                             field__message
                                                                             field__message--error
                                                                         "
-                                                                        v-if="sizeInvalid"
+                                                                        v-if="
+                                                                            sizeInvalid
+                                                                        "
                                                                     >
-                                                                        Pick a size
+                                                                        Pick a
+                                                                        size
                                                                     </p>
                                                                 </div>
-                                                                <div v-if="!inputOn" class="blocked">
+                                                                <div
+                                                                    v-if="
+                                                                        !inputOn
+                                                                    "
+                                                                    class="
+                                                                        blocked
+                                                                    "
+                                                                >
                                                                     <div
-                                                                        :data-value="size.name"
+                                                                        :data-value="
+                                                                            size.name
+                                                                        "
                                                                         class="
                                                                             swatch-element
                                                                             x
                                                                             available
                                                                         "
-                                                                        :class="resource.sizes[0].name"
-                                                                        v-for="size in resource.sizes" :key="size.id"
-                                                                       
+                                                                        :class="
+                                                                            resource
+                                                                                .sizes[0]
+                                                                                .name
+                                                                        "
+                                                                        v-for="size in resource.sizes"
+                                                                        :key="
+                                                                            size.id
+                                                                        "
                                                                     >
                                                                         <input
-                                                                            :id="'swatch-0-'+size.name"
+                                                                            :id="
+                                                                                'swatch-0-' +
+                                                                                size.name
+                                                                            "
                                                                             type="radio"
                                                                             name="size"
-                                                                            :value="size"
-                                                                            v-model="selectedSize"
+                                                                            :value="
+                                                                                size
+                                                                            "
+                                                                            v-model="
+                                                                                selectedSize
+                                                                            "
                                                                         />
 
                                                                         <label
-                                                                            :for="'swatch-0-'+size.name"
+                                                                            :for="
+                                                                                'swatch-0-' +
+                                                                                size.name
+                                                                            "
                                                                         >
-                                                                        {{size.name}}
+                                                                            {{
+                                                                                size.name
+                                                                            }}
                                                                         </label>
                                                                     </div>
                                                                     <div
                                                                         data-value="custom"
                                                                         class="
                                                                             swatch-element
-                                                                            
                                                                             available
                                                                         "
-                                                                        @click="updateSize(
+                                                                        @click="
+                                                                            updateSize(
                                                                                 $event
-                                                                            )"   
+                                                                            )
+                                                                        "
                                                                     >
                                                                         <input
-                                                                            :id="'swatch-0-'+'custom'"
+                                                                            :id="
+                                                                                'swatch-0-' +
+                                                                                'custom'
+                                                                            "
                                                                             type="radio"
                                                                             name="size"
                                                                             value="custom"
-                                                                            v-model="selectedSize"
-                                                                            
+                                                                            v-model="
+                                                                                selectedSize
+                                                                            "
                                                                         />
 
                                                                         <label
-                                                                            :for="'swatch-0-'+'custom'"
+                                                                            :for="
+                                                                                'swatch-0-' +
+                                                                                'custom'
+                                                                            "
                                                                         >
-                                                                            Custom Size
+                                                                            Custom
+                                                                            Size
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -276,77 +367,141 @@
                                                                     class="
                                                                         selector-wrapper
                                                                     "
-                                                                    v-if="inputOn
+                                                                    v-if="
+                                                                        inputOn
                                                                     "
-                                                                    style="display: block;"
-                                                                ><input
+                                                                    style="
+                                                                        display: block;
+                                                                    "
+                                                                >
+                                                                    <input
                                                                         type="number"
                                                                         class="
                                                                             single-option-selector
                                                                             select--wd
                                                                         "
-                                                                        v-model="selectedSize"
+                                                                        v-model="
+                                                                            selectedSize
+                                                                        "
                                                                         min="20"
                                                                         required
                                                                         autofocus
+                                                                    />
+                                                                    <button
+                                                                        data-v-0841b95d=""
+                                                                        type="button"
+                                                                        aria-label="Close"
+                                                                        @click="
+                                                                            closeInput
+                                                                        "
                                                                     >
-                                                                    <button data-v-0841b95d="" type="button" aria-label="Close" @click="closeInput"><span data-v-0841b95d="" aria-hidden="true">×</span></button>
-                                                                    <p><small>Custom sizes are pre-orders, and will be produced to meet desired size, thus takes time.</small></p>
+                                                                        <span
+                                                                            data-v-0841b95d=""
+                                                                            aria-hidden="true"
+                                                                            >×</span
+                                                                        >
+                                                                    </button>
+                                                                    <p>
+                                                                        <small
+                                                                            >Custom
+                                                                            sizes
+                                                                            are
+                                                                            pre-orders,
+                                                                            and
+                                                                            will
+                                                                            be
+                                                                            produced
+                                                                            to
+                                                                            meet
+                                                                            desired
+                                                                            size,
+                                                                            thus
+                                                                            takes
+                                                                            time.</small
+                                                                        >
+                                                                    </p>
                                                                 </div>
-                                                                
                                                             </div>
                                                         </template>
-                                                        <template v-if="resource.colors">
+                                                        <template
+                                                            v-if="
+                                                                resource.colors
+                                                            "
+                                                        >
                                                             <div
                                                                 class="
                                                                     swatch
                                                                     clearfix
                                                                     Color
                                                                 "
-                                                                v-if="resource.colors.length > 0"
+                                                                v-if="
+                                                                    resource
+                                                                        .colors
+                                                                        .length >
+                                                                    0
+                                                                "
                                                                 data-option-index="2"
                                                             >
-                                                                <div class="header">
+                                                                <div
+                                                                    class="
+                                                                        header
+                                                                    "
+                                                                >
                                                                     Color :
                                                                     <p
                                                                         class="
                                                                             field__message
                                                                             field__message--error
                                                                         "
-                                                                        v-if="colorInvalid"
+                                                                        v-if="
+                                                                            colorInvalid
+                                                                        "
                                                                     >
-                                                                        Pick a color
+                                                                        Pick a
+                                                                        color
                                                                     </p>
                                                                 </div>
 
                                                                 <div
-                                                                    :data-value="color.name"
+                                                                    :data-value="
+                                                                        color.name
+                                                                    "
                                                                     class="
                                                                         swatch-element
                                                                         color
                                                                         brown
                                                                         available
                                                                     "
-                                                                    v-for="color in resource.colors" :key="color.id"
+                                                                    v-for="color in resource.colors"
+                                                                    :key="
+                                                                        color.id
+                                                                    "
                                                                 >
                                                                     <input
-                                                                        :id="color.id"
+                                                                        :id="
+                                                                            color.id
+                                                                        "
                                                                         type="radio"
                                                                         name="color"
-                                                                        :value="color"
-                                                                        v-model="selectedColor"
+                                                                        :value="
+                                                                            color
+                                                                        "
+                                                                        v-model="
+                                                                            selectedColor
+                                                                        "
                                                                     />
 
                                                                     <label
-                                                                        :for="color.id"
-                                                                        :style="{
-                                                                            'background-color': color.name
-                                                                        }
+                                                                        :for="
+                                                                            color.id
                                                                         "
+                                                                        :style="{
+                                                                            'background-color':
+                                                                                color.name,
+                                                                        }"
                                                                     >
                                                                     </label>
                                                                 </div>
-                                                                
                                                             </div>
                                                         </template>
                                                     </div>
@@ -406,20 +561,73 @@
                                                                     addtocart
                                                                     cart__menu
                                                                 "
-                                                                
                                                             >
                                                                 add to cart
                                                             </button>
                                                         </li>
 
                                                         <li>
-                                                            <a class="action--wishlist tile-actions--btn flex wishlist-btn wishlist" :class="{'is-active': checkWishlist(resource)}" href="#!" :data-product-handle="resource.title" @click="addRemoveWishList(resource)">
-                                                                <span data-toggle="tooltip" title="" class="ti-heart" data-original-title="Add Wishlist" v-if="!checkWishlist(resource)"></span>
-                                                                <span data-toggle="tooltip" title="" class="ti-heart-broken" data-original-title="Remove Wishlist" v-else></span>
+                                                            <a
+                                                                class="
+                                                                    action--wishlist
+                                                                    tile-actions--btn
+                                                                    flex
+                                                                    wishlist-btn
+                                                                    wishlist
+                                                                "
+                                                                :class="{
+                                                                    'is-active':
+                                                                        checkWishlist(
+                                                                            resource
+                                                                        ),
+                                                                }"
+                                                                href="#!"
+                                                                :data-product-handle="
+                                                                    resource.title
+                                                                "
+                                                                @click="
+                                                                    addRemoveWishList(
+                                                                        resource
+                                                                    )
+                                                                "
+                                                            >
+                                                                <span
+                                                                    data-toggle="tooltip"
+                                                                    title=""
+                                                                    class="
+                                                                        ti-heart
+                                                                    "
+                                                                    data-original-title="Add Wishlist"
+                                                                    v-if="
+                                                                        !checkWishlist(
+                                                                            resource
+                                                                        )
+                                                                    "
+                                                                ></span>
+                                                                <span
+                                                                    data-toggle="tooltip"
+                                                                    title=""
+                                                                    class="
+                                                                        ti-heart-broken
+                                                                    "
+                                                                    data-original-title="Remove Wishlist"
+                                                                    v-else
+                                                                ></span>
                                                             </a>
 
-                                                            <a class="go-to-wishlist" v-if="checkWishlist(resource)" href="/dashboard?wishlist">go to wishlist</a>
-
+                                                            <a
+                                                                class="
+                                                                    go-to-wishlist
+                                                                "
+                                                                v-if="
+                                                                    checkWishlist(
+                                                                        resource
+                                                                    )
+                                                                "
+                                                                href="/dashboard?wishlist"
+                                                                >go to
+                                                                wishlist</a
+                                                            >
                                                         </li>
 
                                                         <li>
@@ -452,7 +660,11 @@
                                                                 _2-dUletcCZ2ZL1aaH0GXxT
                                                             "
                                                             data-testid="Checkout-button"
-                                                            @click="checkout(resource)"
+                                                            @click="
+                                                                checkout(
+                                                                    resource
+                                                                )
+                                                            "
                                                         >
                                                             Buy it now
                                                         </button>
@@ -896,73 +1108,154 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        <div class="add__to__wishlist">
-      
-                                                            <a class="action--wishlist tile-actions--btn flex wishlist-btn wishlist" :class="{'is-active' : checkWishlist(related)}" href="#!" :data-product-handle="related.title" @click.prevent="addRemoveWishList(related)" tabindex="0">
-                                                            <span data-toggle="tooltip" title="Add Wishlist" class="ti-heart" data-original-title="Add Wishlist" v-if="!checkWishlist(related)"></span>
-                                                            <span data-toggle="tooltip" title="Remove Wishlist" class="ti-heart-broken" data-original-title="Remove Wishlist" v-else></span>
+                                                        <div
+                                                            class="
+                                                                add__to__wishlist
+                                                            "
+                                                        >
+                                                            <a
+                                                                class="
+                                                                    action--wishlist
+                                                                    tile-actions--btn
+                                                                    flex
+                                                                    wishlist-btn
+                                                                    wishlist
+                                                                "
+                                                                :class="{
+                                                                    'is-active':
+                                                                        checkWishlist(
+                                                                            related
+                                                                        ),
+                                                                }"
+                                                                href="#!"
+                                                                :data-product-handle="
+                                                                    related.title
+                                                                "
+                                                                @click.prevent="
+                                                                    addRemoveWishList(
+                                                                        related
+                                                                    )
+                                                                "
+                                                                tabindex="0"
+                                                            >
+                                                                <span
+                                                                    data-toggle="tooltip"
+                                                                    title="Add Wishlist"
+                                                                    class="
+                                                                        ti-heart
+                                                                    "
+                                                                    data-original-title="Add Wishlist"
+                                                                    v-if="
+                                                                        !checkWishlist(
+                                                                            related
+                                                                        )
+                                                                    "
+                                                                ></span>
+                                                                <span
+                                                                    data-toggle="tooltip"
+                                                                    title="Remove Wishlist"
+                                                                    class="
+                                                                        ti-heart-broken
+                                                                    "
+                                                                    data-original-title="Remove Wishlist"
+                                                                    v-else
+                                                                ></span>
                                                             </a>
 
-                                                            <a class="go-to-wishlist" href="/dashboard?wishlist" tabindex="0" v-if="checkWishlist(resource)">go to wishlist</a>
-
-
+                                                            <a
+                                                                class="
+                                                                    go-to-wishlist
+                                                                "
+                                                                href="/dashboard?wishlist"
+                                                                tabindex="0"
+                                                                v-if="
+                                                                    checkWishlist(
+                                                                        resource
+                                                                    )
+                                                                "
+                                                                >go to
+                                                                wishlist</a
+                                                            >
                                                         </div>
                                                     </div>
                                                     <div
                                                         class="product__details"
                                                     >
                                                         <h2>
-                                                            <a :href="'/products/'+related.title">{{
-                                                                related.title
-                                                            }}</a>
+                                                            <a
+                                                                :href="
+                                                                    '/products/' +
+                                                                    related.title
+                                                                "
+                                                                >{{
+                                                                    related.title
+                                                                }}</a
+                                                            >
                                                         </h2>
                                                         <ul
+                                                            class="
+                                                                product__price
+                                                            "
+                                                        >
+                                                            <li
                                                                 class="
-                                                                    product__price
+                                                                    old__price
+                                                                "
+                                                                v-if="
+                                                                    related
+                                                                        .promotionals
+                                                                        .length >
+                                                                    0
                                                                 "
                                                             >
-                                                                <li
+                                                                <span
                                                                     class="
-                                                                        old__price
+                                                                        money
                                                                     "
-                                                                    v-if="related.promotionals.length > 0"
+                                                                    >&#8358;{{
+                                                                        formatPrice(
+                                                                            related.amount
+                                                                        )
+                                                                    }}.00</span
                                                                 >
-                                                                    <span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        >&#8358;{{
-                                                                            formatPrice(
-                                                                                related.amount
-                                                                            )
-                                                                        }}.00</span
-                                                                    >
-                                                                </li>
+                                                            </li>
 
-                                                                <li
+                                                            <li
+                                                                class="
+                                                                    new__price
+                                                                "
+                                                            >
+                                                                <span
                                                                     class="
-                                                                        new__price
+                                                                        money
                                                                     "
+                                                                    v-if="
+                                                                        related
+                                                                            .promotionals
+                                                                            .length >
+                                                                        0
+                                                                    "
+                                                                    >&#8358;{{
+                                                                        discount(
+                                                                            related
+                                                                                .promotionals[0]
+                                                                                .discount,
+                                                                            related.amount
+                                                                        )
+                                                                    }}.00</span
                                                                 >
-                                                                    <span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        v-if="related.promotionals.length > 0"
-                                                                        >&#8358;{{discount(related.promotionals[0].discount, related.amount)}}.00</span
-                                                                    >
-                                                                    <span
-                                                                        class="
-                                                                            money
-                                                                        "
-                                                                        v-else
-                                                                        >&#8358;{{
-                                                                            formatPrice(
-                                                                                related.amount
-                                                                            )
-                                                                        }}.00</span
-                                                                    >
-                                                                </li>
+                                                                <span
+                                                                    class="
+                                                                        money
+                                                                    "
+                                                                    v-else
+                                                                    >&#8358;{{
+                                                                        formatPrice(
+                                                                            related.amount
+                                                                        )
+                                                                    }}.00</span
+                                                                >
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -993,7 +1286,7 @@
     import FooterComponent from "./FooterComponent.vue";
     import HeaderComponent from "./HeaderComponent.vue";
     import QuickviewComponent from "./QuickviewComponent.vue";
-    
+
     export default {
         beforeUpdate() {
             if (this.$refs.slick) {
@@ -1091,30 +1384,48 @@
                 });
             },
             addToCartRes() {
-                this.resource.colors.length > 0 ? 
-                    Object.entries(this.selectedColor).length == 0 ? this.colorInvalid = true : this.colorInvalid = false 
+                this.resource.colors.length > 0
+                    ? Object.entries(this.selectedColor).length == 0
+                        ? (this.colorInvalid = true)
+                        : (this.colorInvalid = false)
                     : null;
 
-                this.resource.sizes.length > 0 ? 
-                    Object.entries(this.selectedSize).length == 0 ? this.sizeInvalid = true : this.sizeInvalid = false 
-                : null;
-                
-                if (!this.sizeInvalid && !this.colorInvalid)  {
+                this.resource.sizes.length > 0
+                    ? Object.entries(this.selectedSize).length == 0
+                        ? (this.sizeInvalid = true)
+                        : (this.sizeInvalid = false)
+                    : null;
+
+                if (!this.sizeInvalid && !this.colorInvalid) {
                     let color, size;
-                    let input = parseInt(document.getElementById("resourceQty").value);
-                    let customized = '0'; // If customer enters his own size
-                    this.resource.colors.length > 0 ?  color = this.selectedColor : null;
-                    this.resource.sizes.length > 0 ?  size = this.selectedSize : null;
-                    this.inputOn ? customized = '1' : null; 
-                    this.$store.commit("addToCart", {...this.resource, color: color, size: size, input: input, customized: customized});
+                    let input = parseInt(
+                        document.getElementById("resourceQty").value
+                    );
+                    let customized = "0"; // If customer enters his own size
+                    this.resource.colors.length > 0
+                        ? (color = this.selectedColor)
+                        : null;
+                    this.resource.sizes.length > 0
+                        ? (size = this.selectedSize)
+                        : null;
+                    this.inputOn ? (customized = "1") : null;
+                    this.$store.commit("addToCart", {
+                        ...this.resource,
+                        color: color,
+                        size: size,
+                        input: input,
+                        customized: customized,
+                    });
                     document.getElementById("resourceQty").value = 1;
                 }
             },
             checkout(res) {
                 console.log(res);
             },
-            checkWishlist(product){
-                let wished = this.$store.state.wishlist.find(el => product.id == el.product_id);
+            checkWishlist(product) {
+                let wished = this.$store.state.wishlist.find(
+                    (el) => product.id == el.product_id
+                );
                 return wished;
             },
             closeInput() {
@@ -1214,7 +1525,7 @@
             },
             updateSize(e) {
                 this.selectedSize = e.target.value;
-                if (this.selectedSize == 'custom') {
+                if (this.selectedSize == "custom") {
                     this.inputOn = true;
                 }
             },
@@ -1262,13 +1573,23 @@
     .blocked {
         display: block;
     }
-    .field__message{line-height:1.3em;margin:0.5714285714em 0 0.2857142857em}.field__message--error{color:#ff6d6d}.field__message__icon{margin-right:0.25em;vertical-align:-3px}
-    @media (min-width: 1366px) { 
+    .field__message {
+        line-height: 1.3em;
+        margin: 0.5714285714em 0 0.2857142857em;
+    }
+    .field__message--error {
+        color: #ff6d6d;
+    }
+    .field__message__icon {
+        margin-right: 0.25em;
+        vertical-align: -3px;
+    }
+    @media (min-width: 1366px) {
         a.image img {
             height: 370px;
         }
     }
-    @media (max-width: 767px) { 
+    @media (max-width: 767px) {
         a.image img {
             height: 270px;
         }

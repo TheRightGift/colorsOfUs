@@ -17,7 +17,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admin = Admin::with('role', 'user', 'orders.products.images', 'orders.shippinginfo')->withTrashed('user')->get();
+        $admin = Admin::with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user')->withTrashed('user')->get();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
     }
 
@@ -56,7 +56,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $admin = Admin::where('user_id', $id)->first();
+        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes')->first();
         return response()->json(['admin' => $admin, 'message' => 'Admin retrieved successfuly'], 200);
     }
 

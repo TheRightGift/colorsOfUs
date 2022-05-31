@@ -64,9 +64,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sort($sortBy, $category)
+    public function sort(Request $request, $sortBy)
     {
         // ZA, AZ, 0, 1, 01, 10, RM
+        $category = $request->query('category');
         $data = new Product();
         $sort;
         $order = 'orderBy';
