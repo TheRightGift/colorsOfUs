@@ -101,7 +101,15 @@
                                                                 <p>
                                                                     Location :
                                                                     <br />
-                                                                    Colorsofus House 1 Ikeja
+                                                                    D33B
+                                                                    PLATINUM
+                                                                    MEGA MALL
+                                                                    OPPOSITE
+                                                                    MABUSHI
+                                                                    ULTRA MODERN
+                                                                    MARKET
+                                                                    JAHI,ABUJA
+                                                                    FCT
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -137,10 +145,9 @@
                                                                 <p>
                                                                     Phone :
                                                                     <br />
-                                                                    <a href="#"
-                                                                        >+00 111
-                                                                        222 333
-                                                                        44</a
+                                                                    <a
+                                                                        href="tel:09042630991"
+                                                                        >09042630991</a
                                                                     >
                                                                 </p>
                                                             </div>
@@ -171,8 +178,9 @@
                                                                 <p>
                                                                     Mail :
                                                                     <br />
-                                                                    <a href="#"
-                                                                        >colorsofus@gmail.com</a
+                                                                    <a
+                                                                        href="mailto:coloursofus05@gmail.com"
+                                                                        >coloursofus05@gmail.com</a
                                                                     >
                                                                 </p>
                                                             </div>
@@ -192,21 +200,22 @@
                                                         </h2>
                                                     </div>
                                                     <form
-                                                        @submit.prevent="sendMail"
+                                                        @submit.prevent="
+                                                            sendMail
+                                                        "
                                                         id="contact_form"
                                                         accept-charset="UTF-8"
                                                         class="contact-form"
                                                     >
-                                                        <input
-                                                            type="hidden"
-                                                            name="form_type"
-                                                            value="contact"
-                                                        /><input
-                                                            type="hidden"
-                                                            name="utf8"
-                                                            value="✓"
-                                                        />
-
+                                                        <p
+                                                            class="
+                                                                note
+                                                                form-success
+                                                            "
+                                                            v-if="isSuccess"
+                                                        >
+                                                            {{ success }}
+                                                        </p>
                                                         <div
                                                             class="
                                                                 single-contact-form
@@ -221,12 +230,16 @@
                                                                 <input
                                                                     type="text"
                                                                     placeholder="Your name"
-                                                                    v-model="mail.name"
+                                                                    v-model="
+                                                                        mail.name
+                                                                    "
                                                                     required
                                                                 />
                                                                 <input
                                                                     type="email"
-                                                                    v-model="mail.email"
+                                                                    v-model="
+                                                                        mail.email
+                                                                    "
                                                                     placeholder="Your email"
                                                                     required
                                                                 />
@@ -248,7 +261,9 @@
                                                                     id="ContactFormSubject"
                                                                     name="contact[subject]"
                                                                     placeholder="Subject"
-                                                                    v-model="mail.subject"
+                                                                    v-model="
+                                                                        mail.subject
+                                                                    "
                                                                     required
                                                                 />
                                                             </div>
@@ -269,7 +284,9 @@
                                                                     class="
                                                                         custom-textarea
                                                                     "
-                                                                    v-model="mail.message"
+                                                                    v-model="
+                                                                        mail.message
+                                                                    "
                                                                     id="ContactFormMessage"
                                                                 ></textarea>
                                                             </div>
@@ -280,8 +297,22 @@
                                                             <button
                                                                 type="submit"
                                                                 class="fv-btn"
-                                                                :disabled="saving"
+                                                                :disabled="
+                                                                    saving
+                                                                "
                                                             >
+                                                                <i
+                                                                    v-if="
+                                                                        saving
+                                                                    "
+                                                                    class="
+                                                                        fa
+                                                                        fa-circle-o-notch
+                                                                        fa-spin
+                                                                        fa-fw
+                                                                    "
+                                                                    aria-hidden="true"
+                                                                ></i>
                                                                 Send
                                                             </button>
                                                         </div>
@@ -307,47 +338,54 @@
                             <!-- End Contact Area -->
 
                             <!-- Google Map js -->
-                            
                         </div>
                     </main>
-                    <footer-component/>
+                    <footer-component />
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-import FooterComponent from './FooterComponent.vue';
+    import FooterComponent from "./FooterComponent.vue";
     import HeaderComponent from "./HeaderComponent.vue";
     export default {
         components: { HeaderComponent, FooterComponent },
         data() {
             return {
-                success: false,
-                saving: false,
+                isSuccess: false,
                 mail: {
-                    email: '',
-                    name: '',
-                    message: '',
-                    subject: ''
-                }
-            }
+                    email: "",
+                    name: "",
+                    message: "",
+                    subject: "",
+                },
+                saving: false,
+                success: "",
+            };
         },
         methods: {
-            sendMail(){
-                this.saving = true
-                axios.post('api/contact-us', this.mail)
-                .then(response => {
-                    this.success = response.data[0]
-                    setTimeout(() => {
-                        this.$router.go()
-                    }, 3000)
-                })
-                .catch(error => {
-                    // console.log(error);
-                    this.saving = false
-                })
-            }
+            sendMail() {
+                this.saving = true;
+                axios
+                    .post("api/contact-us", this.mail)
+                    .then((response) => {
+                        this.isSuccess = true;
+                        this.success = response.data.message;
+                        setTimeout(() => {
+                            this.isSuccess = false;
+                            this.mail.email = "";
+                            this.mail.name = "";
+                            this.mail.message = "";
+                            this.mail.subject = "";
+                            this.saving = false;
+                        }, 6000);
+                    })
+                    .catch((error) => {
+                        // console.log(error);
+                        this.saving = false;
+                    });
+            },
         },
     };
 </script>

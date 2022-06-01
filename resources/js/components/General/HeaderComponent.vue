@@ -15,7 +15,7 @@
                     class="mainmenu__area sticky__header"
                     :class="{ 'header--2': home }"
                 >
-                    <div class="container">
+                    <div class="container container-no-width-on-small">
                         <div class="row">
                             <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                                 <div class="logo">
@@ -485,7 +485,7 @@
                                 /></a>
                             </div>
 
-                            <p v-if="$store.state.token">Good Day! {{$store.state.user.firstname + $store.state.user.lastname}}</p>
+                            <p v-if="$store.state.token">Good Day! {{$store.state.user.firstname +' '+ $store.state.user.lastname}}</p>
                         </div>
 
                         <ul class="sidebar__thumd">
@@ -586,16 +586,16 @@
                                 <li>
                                     <a
                                         class="bg--facebook"
-                                        href="#"
+                                        href="https://www.facebook.com/coloursofus05" target="_blank"
                                         title="Facebook"
                                         ><i class="zmdi zmdi-facebook"></i
                                     ></a>
                                 </li>
 
-                                <li>
+                                <!-- <li>
                                     <a
                                         class="bg--google-plus"
-                                        href="#"
+                                        href="https://www.googleplus.com/coloursofus05" target="_blank"
                                         title="Google-plus"
                                         ><i class="zmdi zmdi-google-plus"></i
                                     ></a>
@@ -604,16 +604,16 @@
                                 <li>
                                     <a
                                         class="bg--twitter"
-                                        href="#"
+                                        href="https://www.twitter.com/coloursofus05" target="_blank"
                                         title="Twitter"
                                         ><i class="zmdi zmdi-twitter"></i
                                     ></a>
-                                </li>
+                                </li> -->
 
                                 <li>
                                     <a
                                         class="bg--instagram"
-                                        href="#"
+                                        href="https://www.instagram.com/coloursofus05" target="_blank"
                                         title="Instagram"
                                         ><i class="zmdi zmdi-instagram"></i
                                     ></a>
@@ -752,6 +752,13 @@
         <!-- End Header Style -->
     </div>
 </template>
+<style scoped>
+    @media (max-width: 767px) {
+        header .container {
+            width: 360px;
+        }
+    }
+</style>
 <script>
     export default {
         name: "Header",

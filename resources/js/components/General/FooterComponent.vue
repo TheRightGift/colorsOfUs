@@ -11,10 +11,6 @@
                                 <div class="ft__widget">
                                     <div class="ft__logo">
                                         <a href="index.html">
-                                            <!-- <img
-                                                src="/img/uniqlo_medium1.png"
-                                                alt="logo"
-                                        /> -->
                                             <a
                                                 href="/"
                                                 style="
@@ -22,16 +18,12 @@
                                                     color: black;
                                                 "
                                             >
-                                                <!-- <img
-                                            src="/img/2_medium.png"
-                                            alt="logo"
-                                    /> -->
                                                 COLORSOFUS
                                             </a>
                                         </a>
                                     </div>
                                     <div class="footer__details">
-                                        <h2 class="ft__title">Newsletters</h2>
+                                        <!-- <h2 class="ft__title">Newsletters</h2> -->
                                         <p>Get 10% discount with notified about the latest news and updates.</p>
                                         <div class="ft__widget">
                                         <div class="newsletter__form">
@@ -65,9 +57,10 @@
                             <!-- Start Single Footer Widget -->
                             <div
                                 class="
-                                    col-md-3 col-lg-3 col-lg-offset-1 col-sm-6
+                                    col-md-3 col-lg-3 col-sm-6
                                     smb-30
                                     xmt-30
+                                    faq
                                 "
                             >
                                 <div class="ft__widget">
@@ -194,9 +187,11 @@
                                     <h2 class="ft__title">Contact Us</h2>
                                     <div class="footer__inner">
                                         <p>
-                                            Your address or
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                            <a href="tel:09042630991">09042630991</a>
                                             <br />
-                                            contact info goes here
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            D33B PLATINUM MEGA MALL OPPOSITE MABUSHI ULTRA MODERN MARKET JAHI,ABUJA FCT
                                         </p>
                                     </div>
                                 </div>
@@ -204,21 +199,21 @@
                             <!-- End Single Footer Widget -->
                             <!-- Start Single Footer Widget -->
                             <div
-                                class="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30"
+                                class="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30 col-lg-offset-1"
                             >
                                 <div class="ft__widget">
                                     <h2 class="ft__title">Follow Us</h2>
                                     <ul class="social__icon">
                                         <li>
-                                            <a href="#" title="Facebook"
+                                            <a href="https://www.facebook.com/coloursofus05" target="_blank" title="Facebook"
                                                 ><i
                                                     class="zmdi zmdi-facebook"
                                                 ></i
                                             ></a>
                                         </li>
 
-                                        <li>
-                                            <a href="#" title="Google-plus"
+                                        <!-- <li>
+                                            <a href="https://www.googleplus.com/coloursofus05" target="_blank" title="Google-plus"
                                                 ><i
                                                     class="
                                                         zmdi zmdi-google-plus
@@ -228,15 +223,15 @@
                                         </li>
 
                                         <li>
-                                            <a href="#" title="Twitter"
+                                            <a href="https://www.twitter.com/coloursofus05" target="_blank" title="Twitter"
                                                 ><i
                                                     class="zmdi zmdi-twitter"
                                                 ></i
                                             ></a>
-                                        </li>
+                                        </li> -->
 
                                         <li>
-                                            <a href="#" title="Instagram"
+                                            <a href="https://www.instagram.com/coloursofus05" target="_blank" title="Instagram"
                                                 ><i
                                                     class="zmdi zmdi-instagram"
                                                 ></i
@@ -300,5 +295,10 @@
 <style>
     .panel-title a, .panel-body {
         font-size: 11px;
+    }
+    @media (min-width: 1200px) {
+        .faq {
+            padding-left: 50px;
+        }
     }
 </style>

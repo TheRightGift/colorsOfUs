@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('orderID');
             $table->integer('unit_price');
             $table->integer('discount')->nullable();
-            $table->enum('is_finished', [0, 1])->default(0);
+            $table->integer('is_finished')->nullable();
             $table->enum('is_customized', [0, 1])->default(0);
             $table->unsignedBigInteger('color_id')->nullable();
             $table->unsignedBigInteger('size_id')->nullable();

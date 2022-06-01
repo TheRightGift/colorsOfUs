@@ -15,7 +15,7 @@ class Order extends Model
     // 1 for order in transit
     // 2 for order completed, marked by user 
 
-    protected $fillable = ['product_id', 'shippinginfo_id', 'color_id', 'size_id', 'unit_price', 'quantity', 'status', 'orderID', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['product_id', 'shippinginfo_id', 'color_id', 'size_id', 'discount', 'is_finished', 'is_customized', 'unit_price', 'quantity', 'status', 'orderID', 'deleted_at', 'created_at', 'updated_at'];
 
     public function product() {
         return $this->belongsTo(Product::class, 'product_id');

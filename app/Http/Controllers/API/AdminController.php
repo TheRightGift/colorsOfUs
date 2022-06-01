@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Order;
 
 class AdminController extends Controller
 {
@@ -47,7 +48,7 @@ class AdminController extends Controller
         $admin = Admin::with('role', 'user', 'orders.products.images', 'orders.shippinginfo')->withTrashed('user')->get();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -57,7 +58,8 @@ class AdminController extends Controller
     public function show($id)
     {
         $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes')->first();
-        return response()->json(['admin' => $admin, 'message' => 'Admin retrieved successfuly'], 200);
+        $orders = Order::get();
+        return response()->json(['admin' => $admin, 'message' => 'Admin retrieved successfuly', 'orders' => $orders], 200);
     }
 
     /**

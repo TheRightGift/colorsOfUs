@@ -26,7 +26,6 @@ class OrderController extends Controller
     public function index($id)
     {
         $orders = Auth::user()->with('orders', 'orders.products.images', 'order.shippinginfo');
-        // $orders = Order::where('shippinginfo_id', $id)->with('products.images');
         
         return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders->paginate(), 'orderNotPaginated' => $orders->get()]);
     }
@@ -58,65 +57,55 @@ class OrderController extends Controller
         ]);
 
         $data = $request->cart;
-        // dd($data);
-        // $useradmins = User::where('user_type', 1)->with('admin')->get('id');
-        // echo($useradmins);
-        // $users = DB::table('users')->where('user_type', 1)
-        //     ->join('admins', 'users.id', '=', 'admins.user_id')
-        //     ->join('admin_order', 'admins.id', '=', 'admin_order.admin_id')
-        //     ->join('orders', 'admin_order.order_id', 'orders.id')->where('status', '<=', 1)
-        //     ->join('products', 'orders.product_id', 'products.id')
-        //     ->select('users.email', 'admins.*', 'orders.quantity', 'orders.status', 'products.title')
-        //     ->get();
+
         $admins = Admin::where('role_id', 1)->with(['orders' => function ($query) {
             $query->where('status', '<=', 1);
         }], 'user', 'orders.products')->get();
+
         $adminGrouped = $admins->groupBy('id');
+
         $admin = $admins->first(function ($value, $key) {
             return count($value->orders) <= 10;
+            // If theres an order assigned to admin and inprocesing or intransit <= 10;
         });
-        
-        // If theres an order assigned to admin and inprocesing or intransit <= 10;
+
         if ($admin != null) {
-            $assignee = $admins->pluck('id')->unique();
-            $assigneeId = $assignee[0];
-            // dd($admin, $assignee, $assigneeId);
+            $assigneeId = $admin['id'];
+            $assigneeName = $admin;
         }
         else if ($admin == null) {
-            $useradmins = Admin::where('role_id', 1)->doesntHave('orders')->with('user')->first();
-            // dd($useradmins);
-            if ($useradmins != null) {
-                // If on orders table the admins have 10 items at hand processing, pick other admins from or admin that doesn't have orders;
-                $assigneeId = $useradmins->admin['id'];
-            }
-            else {
-                // If all admins have orders == 10 or more, pick all admins at random and assign;
-                $useradmins = User::where('user_type', 1)->with('admin.orders.products')->get();
-                $assignee = $useradmins->pluck('admin.id');
-                $assigneeId = $assignee->random();
-            }
+            // If all admins have orders == 10 or more, pick all admins at random and assign;
+            $useradmins = Admin::where('role_id', 1)->get();
+            $assignee = $useradmins->random();
+            $assigneeId = $assignee['id'];
+            $assigneeName = $assignee;
+            
         }
         foreach ($request->cart as $value => $item) {
-            // dd($item['customized'], $item);
             $order = Order::create([
                 'shippinginfo_id' => $request->get('shippinginfo_id'),
                 'product_id' => $item['id'],
                 'orderID' => $request->get('orderID'),
                 'unit_price' => $item['amount'],
-                'unit_price' => $item['amount'],
                 'quantity' => $item['quantity'],
                 'size_id' => is_array($item['size']) ? $item['size']['id'] : $item['size'],
                 'color_id' => $item['color']['id'],
+                'discount' => $item['discount'],
+                'is_customized' => $item['customized'],
+                'is_finished' => $item['customized'] == '1' ? 1 : null,
                 'created_at' => now(),
             ]);
             $order->admins()->sync(['admin_id' => $assigneeId]);
-            if ($item['customized'] == '1') {
             // Notify product admin
+            if ($item['customized'] == '1') {
                 $dataNotify = [
                     'user_id' => auth()->user()->id,
                     'order_id' => $order->id,
                     'typeof' => '2',
-                    'message' => 'A User has requested a custom size of '.$item['size'].',proceed to production.',
+                    'title' => 'Pre-Order Request',
+                    'message' => 
+                        'A user has requested '.$item['title'].' product, with her custom size of '.$item['size'].' and the preferred color is '.$item['color']['name'].'. Please proceed to production with above details. And return finished product to the admin that will handle the shipping process/store pickup. Thanks
+                        <p>Please refer to Admin '.$assigneeName['firstname'].' '.$assigneeName['lastname'].'.</p>',
                     'admin_id' => $assigneeId,
                 ];
         

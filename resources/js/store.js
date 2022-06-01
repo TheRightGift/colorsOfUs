@@ -31,14 +31,14 @@ let store = {
     actions: {
         async fetchUserWishlists({ commit }) {
             try {
-              const data = await axios.get(`/api/user-wishlist/${store.state.user.id}`)
+                const data = await axios.get(`/api/user-wishlist/${store.state.user.id}`)
                 commit('SET_USER_WISHLISTS', data.data)
-              }
-              catch (error) {
-                  alert(error)
-                  console.log(error)
-              }
-          }
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        }
     },
     mutations: {
         addToCart(state, item) {
@@ -51,6 +51,7 @@ let store = {
                         ? found.quantity *
                         discount(item.promotionals[0].discount, item.amount)
                         : found.quantity * item.amount;
+                found.discount = item.promotionals.length > 0 ? item.promotionals[0].discount : 0;
             } else {
                 state.cart.unshift(item);
 
@@ -62,6 +63,7 @@ let store = {
                     : item.promotionals.length > 0
                         ? discount(item.promotionals[0].discount, item.amount)
                         : item.amount);
+                Vue.set(item, 'discount', item.promotionals.length > 0 ? item.promotionals[0].discount : 0);
             }
             state.cartCount = state.cart.length;
             this.commit('saveCart');

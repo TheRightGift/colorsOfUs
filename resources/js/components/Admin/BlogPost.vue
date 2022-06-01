@@ -1187,12 +1187,15 @@
         },
     };
 </script>
-<style>
+<style scoped>
     .padd {
         padding: 0 1.1em;
     }
     .float-end {
         float: right;
         clear: both;
+    }
+    .card img {
+        height: 200.5px;
     }
 </style>

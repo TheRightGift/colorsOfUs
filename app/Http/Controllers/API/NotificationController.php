@@ -51,7 +51,7 @@ class NotificationController extends Controller
 
     public function prdMin() {
         $notifiers = Notification::where('typeof', '2');
-        $notify = $notifiers->with('order', 'admin', 'user')->get();
+        $notify = $notifiers->with('order', 'admin', 'user')->latest()->get();
 
         return response()->json(['messge' => 'Success Fetching', 'status' => 200, 'notify' => $notify]);
     }

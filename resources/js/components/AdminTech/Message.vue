@@ -314,7 +314,7 @@
                                                             </tbody>
                                                         </table>
                                                         <div class="card-footer pb-0 pt-3">
-                                                            <jw-pagination :pageSize="50" :items="messages" @changePage="onChangePage"></jw-pagination>
+                                                            <jw-pagination :pageSize="25" :items="messages" @changePage="onChangePage"></jw-pagination>
                                                         </div>      
                                                     </div>
                                                     <div v-if="msgOpen">
@@ -581,6 +581,7 @@
                 this.unreadActive = false;
                 this.trashActive = true;
                 this.msgsActive = false;
+                this.msgOpen = false;
             },
             getUnread() {
                 this.messages = this.notifications.filter(
@@ -589,6 +590,7 @@
                 this.unreadActive = true;
                 this.trashActive = false;
                 this.msgsActive = false;
+                this.msgOpen = false;
             },
             moment(arg) {
                 return moment(arg);

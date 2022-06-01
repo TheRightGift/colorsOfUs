@@ -7,6 +7,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BlogController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ColorController;
+use App\Http\Controllers\API\ContactUSController;
 use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\OrderController;
@@ -78,7 +79,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('color', ColorController::class, ['only' => ['store', 'update', 'destroy']]);
     Route::patch('color-refresh/{id}', [ColorController::class, 'refresh']);
     
-
     // Notify
     Route::post('notify-cancel', [NotificationController::class, 'notifyCancel']);
     Route::put('notify/{id}', [NotificationController::class, 'markRead']);
@@ -130,6 +130,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Blog;
 Route::get('blog-published', [BlogController::class, 'published']);
+
+// CONTACT US
+Route::get('contact-us', [ContactUSController::class, 'contactUS']);
+Route::post('contact-us', [ContactUSController::class, 'contactSaveData']);
 
 // Product;
 Route::get('product-sort/{sort}', [ProductController::class, 'sort']);
