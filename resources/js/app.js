@@ -12,6 +12,8 @@ import ElementUI from 'element-ui';
 import VueMeta from 'vue-meta';
 import 'element-ui/lib/theme-chalk/index.css';
 import store from './store.js';
+import JwPagination from 'jw-vue-pagination';
+
 import Vue from 'vue';
 
 window.Vue = require('vue').default;
@@ -42,6 +44,7 @@ Vue.use(VueMeta, {
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.component('jw-pagination', JwPagination);
 Vue.component('singleproduct-component', require('./components/General/Product.vue').default);
 Vue.component('blogs-component', require('./components/General/Blogs.vue').default);
 Vue.component('blog-component', require('./components/General/Blog.vue').default);

@@ -70,9 +70,8 @@
                         <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
-                            v-for="message in messages"
+                            v-for="message in messages.slice(0, 5)"
                             :key="message._id"
-                            @click="getMsgDet(message)"
                         >
                             <div class="mr-3">
                                 <div class="icon-circle bg-primary">
@@ -89,23 +88,16 @@
                                 </div>
                                 <span
                                     :class="{
-                                        'font-weight-bold': !message.receipt,
+                                        'font-weight-bold': message.track == '0',
                                     }"
-                                    v-if="message.message"
-                                    >{{ message.subject.slice(0, 30) }}...</span
+                                    >{{ message.message.slice(0, 28) }}...</span
                                 >
-                                <span
-                                    :class="{
-                                        'font-weight-bold': !message.receipt,
-                                    }"
-                                    v-else
-                                    >ORDERID {{message.order.orderID}} to be cancelled</span
-                                >
+                                
                             </div>
                         </a>
                         <a
                             class="dropdown-item text-center small text-gray-500"
-                            href="message"
+                            href="/message"
                             >Show All Alerts</a
                         >
                     </div>
@@ -236,23 +228,23 @@ export default {
                     this.$store.commit("logout");
                     window.location.replace("/");
                 }
-                console.log(res);
             })
             .catch((err) => {
                 console.log(err);
             });
         },
         getNotifications() {
-            axios.get('api/notify').then(res => {
-                this.messages = res.data.notify.data.filter(el => el.typeof == 1 && el.order != null);
-                let msgLength = res.data.notify.data.filter(el => el.order != null);
-                this.msgLength = msgLength.length;
+            let adminOn = this.$store.state.user.role_id;
+            let url =
+                adminOn == 2
+                    ? "/api/notify-prdmin"
+                    : "api/notify";
+            axios.get(url).then(res => {
+                this.messages = res.data.notify.filter(el => adminOn == 2 ? el.typeof == 2 : el.typeof == 1);
+                this.msgLength = res.data.notify.filter(el => el.track == '0').length;
             }).catch(err => {
                 console.log(err);
             })
-        },
-        getMsgDet(message) {
-            console.log(message);
         },
     },
     mounted() {

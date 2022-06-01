@@ -36,7 +36,7 @@
 
                 // The latitude and longitude to center the map (always required)
                 center: new google.maps.LatLng(
-                    6.161251196139091, 6.7769349446760465
+                   9.094751, 7.442759
                 ), // New York
 
                 // How you would like to style the map.
@@ -292,7 +292,7 @@
             // Let's also add a marker while we're at it
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(
-                    6.161251196139091, 6.7769349446760465
+                   9.094751, 7.442759
                 ),
                 map: map,
                 title: "Coloursofus!",

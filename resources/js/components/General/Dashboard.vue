@@ -367,59 +367,37 @@
                             
                         >
                             <div class="container">
-                                <h1>My Account</h1>
-
-                                <hr class="hr--small" />
-
-                                <div class="grid">
-                                    <div
-                                        class="
-                                            grid__item
-                                            two-thirds
-                                            medium-down--one-whole
-                                        "
-                                    >
-                                        <h2 class="h4">Order History</h2>
-
-                                        <p>
-                                            You haven't placed any orders yet.
-                                        </p>
-                                    </div>
-
-                                    <div
-                                        class="
-                                            grid__item
-                                            one-third
-                                            medium-down--one-whole
-                                            account-details
-                                        "
-                                    >
-                                        <h2 class="h4">Account Details</h2>
-
-                                        <h3 class="h5">Dev 0942</h3>
-
-                                        <p>
-                                            <br />
-
-                                            <br />
-
-                                            <br />
-
-                                            <br />
-
-                                            <br />
-
-                                            United States<br />
-                                        </p>
-
-                                        <p>
-                                            <a href="/account/addresses"
-                                                >View Addresses (1)</a
-                                            >
-                                        </p>
-                                    </div>
+                                <div class="card" id="orders" v-if="ordersView">
+                                    <order-component
+                                        :isInTransitView="isInTransitView"
+                                        :isProcessingView="isProcessingView"
+                                        :isCompletedView="isCompletedView"
+                                        :isOrdersView="isOrdersView"
+                                    />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="profile"
+                                    v-else-if="profileView"
+                                >
+                                    <profile-component />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="shipping"
+                                    v-else-if="shippingDetView"
+                                >
+                                    <shipping-component />
+                                </div>
+                                <div
+                                    class="card"
+                                    id="shipping"
+                                    v-else-if="wishlistView"
+                                >
+                                    <wishlist />
                                 </div>
                             </div>
+                                
                         </div>
                     </main>
                     <footer-component />
@@ -447,7 +425,6 @@
                 ordersView: true,
                 profileView: false,
                 shippingDetView: false,
-                cartView: false,
                 wishlistView: false,
                 isInTransitView: false,
                 isCompletedView: false,
@@ -471,10 +448,7 @@
                     this.viewOrders();
                     this.viewAllOrders();
                 }
-                if (path.has("cart")) {
-                    this.viewCart();
-                }
-                if (path.has("shipping")) {
+                if (path.has("address")) {
                     this.viewShippingDet();
                 }
                 if (path.has("wishlist")) {
@@ -492,13 +466,6 @@
                 if (path.has("profile")) {
                     this.viewProfile();
                 }
-            },
-            viewCart() {
-                this.cartView = true;
-                this.ordersView = false;
-                this.profileView = false;
-                this.shippingDetView = false;
-                this.windowHistoryToDashboard();
             },
             viewOrders() {
                 this.ordersView = true;
@@ -558,7 +525,7 @@
 <style scoped>
     .htc__login__register {
         background: rgba(0, 0, 0, 0)
-            url('/img/acctBg.webp')
+           
             no-repeat scroll center center / cover;         
     }
 </style>

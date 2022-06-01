@@ -97,6 +97,7 @@
                         .then((res) => {
                             if (res.data.status == 201) {
                                 this.$store.commit("clearCart");
+                                window.location.replace('/dashboard?order')
                                 this.getAllOrders();
                             }
                         })
@@ -111,13 +112,13 @@
                     .then((res) => {
                         this.ordersPaginated = res.data.shippinginfo[0].order;
                         this.completedOrders = this.ordersPaginated.filter(
-                            (el) => el.status == 2
+                            (el) => el.status == 2 && el.deleted_at == null
                         );
                         this.processingOrders = this.ordersPaginated.filter(
-                            (el) => el.status == 0
+                            (el) => el.status == 0 && el.deleted_at == null
                         );
                         this.orderInTransits = this.ordersPaginated.filter(
-                            (el) => el.status == 1
+                            (el) => el.status == 1 && el.deleted_at == null
                         );
                         this.ordersNotPaginated = this.ordersPaginated;
                     })

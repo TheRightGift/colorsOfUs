@@ -186,7 +186,7 @@
                                                                             class="
                                                                                 read__more__btn
                                                                             "
-                                                                            href="news/lipsum-dolor-sit-amet-consectetu-adipisicing-elit-sed-do-eius-8.html"
+                                                                            :href="'blog/'+blog.title"
                                                                             >Read
                                                                             more</a
                                                                         >
@@ -246,6 +246,11 @@
         </div>
     </div>
 </template>
+<style scoped>
+    .blog__des {
+        text-shadow: -1px -1px 9px lightpink
+    }
+</style>
 <script>
     import FooterComponent from "./FooterComponent.vue";
     import HeaderComponent from "./HeaderComponent.vue";

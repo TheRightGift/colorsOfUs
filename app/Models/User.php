@@ -63,7 +63,7 @@ class User extends Authenticatable
     ];
 
     public function shippinginfos(){
-        return $this->belongsToMany(Shippinginfo::class)->withTrashed();
+        return $this->hasMany(Shippinginfo::class)->withTrashed();
     }
 
     /**

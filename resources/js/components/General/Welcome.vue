@@ -727,5 +727,8 @@
         border-bottom-left-radius: 20px;
         border-top-left-radius: 20px
     }
-    
+    .blog__thumb img {
+        height: 340px;
+        width: 340px;
+    }
 </style>

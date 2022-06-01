@@ -837,7 +837,7 @@
                 this.page != 1 ? (this.loading = true) : null;
                 axios
                     .get(
-                        `api/product/${this.sortBy}/${this.categoryID}?page=${this
+                        `api/product-sort/${this.sortBy}?category=${this.categoryID}&page=${this
                             .page++}`
                     )
                     .then((res) => {

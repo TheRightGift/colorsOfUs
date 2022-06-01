@@ -55,11 +55,10 @@ class ShippinginfoController extends Controller
             'address2',
             'postal_code',
             'lga',
-            'user_id',
             'created_at' => now(),
+            'user_id',
         ]);
         $shippinginfo = Shippinginfo::create($data);
-        $shippinginfo->users()->sync(['user_id' => $request->user_id, 'primary' => $request->primary]);
         return response()->json(['message' => 'New Shippinginfo added.', 'shippinginfo' => $shippinginfo, 'status' => 'ok']);
     }
 
@@ -71,7 +70,7 @@ class ShippinginfoController extends Controller
      */
     public function show($userId)
     {
-        $shippinginfo = Shippinginfo::whereRelation('users', 'users.id', $userId)->with('order.product.images')->get();
+        $shippinginfo = Shippinginfo::whereRelation('user', 'users.id', $userId)->with('order.product.images', 'order.product.colors', 'order.product.sizes', 'order.admins')->withTrashed('order')->get();
         return response()->json(['shippinginfo' => $shippinginfo, 'message' => 'Shippinginfo retrieved successfuly'], 200);
     }
 

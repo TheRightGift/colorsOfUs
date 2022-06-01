@@ -1,5 +1,5 @@
 
-<h2>Hello tomumsread,</h2>
+<h2>Hello Team Coloursofus,</h2>
 <p class="lead">You received an email from : {{ $name }}</p>
 <p class="lead">Here are the details:</p>
 <p>Name: {{ $name }}</p>

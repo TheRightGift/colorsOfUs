@@ -1396,10 +1396,9 @@
                         console.log(err);
                     });
             },
-
             getProducts() {
                 this.loading = true;
-                axios.get(`api/product/${this.sortBy}/null`).then((res) => {
+                axios.get(`api/product-sort/${this.sortBy}?category=null`).then((res) => {
                     this.products = res.data.products;
                     this.productTrashed = res.data.trashed;
                     this.loading = false;
@@ -1427,7 +1426,7 @@
             paginate(url) {
                 this.loading = true;
                 axios
-                    .get(url)
+                    .get(url+'&category=null')
                     .then((res) => {
                         this.products = res.data.products;
                         this.productTrashed = res.data.trashed;
