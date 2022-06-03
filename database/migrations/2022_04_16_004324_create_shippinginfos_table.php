@@ -23,8 +23,8 @@ class CreateShippinginfosTable extends Migration
             $table->string('phone');
             $table->string('phone2')->nullable();
             $table->integer('postal_code')->nullable();
-            $table->unsignedBigInteger('lga');
-            $table->unsignedBigInteger('state');
+            $table->unsignedBigInteger('lga_id');
+            $table->unsignedBigInteger('state_id');
             $table->unsignedBigInteger('city')->nullable();
             $table->enum('active',[1, 0])->default(0);
             $table->unsignedBigInteger('user_id');

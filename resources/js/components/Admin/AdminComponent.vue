@@ -12,14 +12,13 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <div v-if="$store.state.user.role_id == 1">
-                           <order-admin-component/>
+                            <order-admin-component />
                         </div>
                         <div v-else-if="$store.state.user.role_id == 2">
                             <product-admin-component />
                         </div>
                     </div>
                     <!-- /.container-fluid -->
-                   
                 </div>
                 <!-- End of Main Content -->
 
@@ -43,7 +42,7 @@
     import FooterComponent from "../Super/FooterComponent.vue";
     import SidebarComponent from "../Super/SidebarComponent.vue";
     import ProductAdminComponent from "./ProductAdminComponent.vue";
-    import OrderAdminComponent from './OrderAdminComponent.vue';
+    import OrderAdminComponent from "./OrderAdminComponent.vue";
     export default {
         components: {
             NavbarComponent,
@@ -53,14 +52,9 @@
             OrderAdminComponent,
         },
         data() {
-            return {
-                
-            };
+            return {};
         },
-        methods: {
-            
-        },
-        
+        methods: {},
     };
 </script>
 <style scoped>

@@ -38,8 +38,9 @@ class OrderController extends Controller
     public function home()
     {
         $orders = Order::with('product.images', 'shippinginfo')->paginate();
+        $isCustomizedOrders = Order::where('is_customized', 1)->with('product.images', 'product.sizes', 'product.colors', 'shippinginfo')->paginate();
         
-        return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders]);
+        return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders, 'orderCustomized' => $isCustomizedOrders]);
     }
 
     /**
@@ -105,7 +106,7 @@ class OrderController extends Controller
                     'title' => 'Pre-Order Request',
                     'message' => 
                         'A user has requested '.$item['title'].' product, with her custom size of '.$item['size'].' and the preferred color is '.$item['color']['name'].'. Please proceed to production with above details. And return finished product to the admin that will handle the shipping process/store pickup. Thanks
-                        <p>Please refer to Admin '.$assigneeName['firstname'].' '.$assigneeName['lastname'].'.</p>',
+                        <p>Please refer to Admin '.$assigneeName['firstname'].' '.$assigneeName['lastname'].' with orderID '.$request->get('orderID').'</p>',
                     'admin_id' => $assigneeId,
                 ];
         
@@ -160,7 +161,8 @@ class OrderController extends Controller
         // $order->fill(['status' => $request->status]);
         $order->status = $request->status;
         $order->save();
-        return response()->json(['message' => 'Order updated successfully', 'order' => $order]);
+        $orders = Order::get();
+        return response()->json(['message' => 'Order updated successfully', 'order' => $order, 'orders' => $orders]);
     }
 
     /**
@@ -185,5 +187,26 @@ class OrderController extends Controller
     {
         Order::where('id', $id)->restore();
         return response()->json(['message' => 'Unarchived successfuly'], 201);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markFinished(Request $request, $id)
+    {
+        $request->validate([
+            'is_finished' => ['required'],
+        ]);
+        
+        $order = Order::findOrFail($id);
+        unset($order->is_finished);
+        // $order->fill(['status' => $request->status]);
+        $order->is_finished = $request->is_finished;
+        $order->save();
+        return response()->json(['message' => 'Order updated successfully', 'order' => $order, 'status' => 200]);
     }
 }

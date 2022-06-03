@@ -53,6 +53,7 @@ Route::resource('product', ProductController::class, ['only' => ['index', 'show'
 Route::resource('promotion', PromotionalController::class, ['only' => ['index', 'show']]);
 Route::resource('size', SizeController::class, ['only' => ['index', 'show']]);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     // Basic Auth :: Password Change;
     Route::patch('change-password', [AuthController::class, 'changePassword']);
@@ -89,6 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('order', OrderController::class);
     Route::get('order-home', [OrderController::class, 'home']);
     Route::patch('order-refresh/{id}', [OrderController::class, 'refresh']);
+    Route::put('markFinished/{id}', [OrderController::class, 'markFinished']);
     
     // Product;
     Route::resource('product', ProductController::class, ['only' => 'store']);

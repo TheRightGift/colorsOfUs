@@ -57,9 +57,12 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes')->first();
-        $orders = Order::get();
-        return response()->json(['admin' => $admin, 'message' => 'Admin retrieved successfuly', 'orders' => $orders], 200);
+        $orders = new Order();
+        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes', 'orders.shippinginfo.state', 'orders.shippinginfo.lga')->first();
+        $order = $orders->get();
+        $ordersGrouped = $orders->with('admins')->get()->groupBy('orderID');
+        
+        return response()->json(['admin' => $admin, 'message' => 'Admin retrieved successfuly', 'orders' => $order, 'ordersGrouped' => $ordersGrouped], 200);
     }
 
     /**
