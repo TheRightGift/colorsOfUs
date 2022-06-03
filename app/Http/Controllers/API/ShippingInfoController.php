@@ -36,11 +36,11 @@ class ShippinginfoController extends Controller
             'phone' => 'required',
             'phone2' => 'nullable',
             'city' => 'required',
-            'state' => 'required',
+            'state_id' => 'required',
             'address' => 'required',
             'address2' => 'nullable',
             'postal_code' => 'required',
-            'lga' => 'required',
+            'lga_id' => 'required',
         ]);
         $data = $request->only([
             'lastname',
@@ -49,12 +49,12 @@ class ShippinginfoController extends Controller
             'phone',
             'phone2',
             'city',
-            'state',
+            'state_id',
             'country',
             'address',
             'address2',
             'postal_code',
-            'lga',
+            'lga_id',
             'created_at' => now(),
             'user_id',
         ]);
@@ -89,17 +89,17 @@ class ShippinginfoController extends Controller
             'othername' => 'nullable',
             'phone' => 'required',
             'phone2' => 'nullable',
-            'state' => 'required',
+            'state_id' => 'required',
             'country' => 'required',
             'address' => 'required',
             'address2' => 'nullable',
             'postal_code' => 'required',
-            'lga' => 'required',
+            'lga_id' => 'required',
         ]);
 
         $shippinginfo = Shippinginfo::where('id', $id)->update($request->only([
             'lastname', 'firstname', 'othername', 'phone', 'phone2', 
-            'state', 'country', 'address', 'address2', 'postal_code', 'lga', 'updated_at' => now()]));
+            'state_id', 'country', 'address', 'address2', 'postal_code', 'lga_id', 'updated_at' => now()]));
 
         return response()->json(['message' => 'Shippinginfo updated successfully', 'shippinginfo' => $shippinginfo]);
     }

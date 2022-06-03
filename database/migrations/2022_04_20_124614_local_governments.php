@@ -18,6 +18,7 @@ class LocalGovernments extends Migration
             $table->unsignedBigInteger('state_id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

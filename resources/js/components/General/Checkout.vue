@@ -2074,6 +2074,8 @@
                         this.requesting = true;
                         this.user.user_id = this.$store.state.user.user_id;
                         this.user.primary = '1';
+                        this.user.lga_id = this.user.lga;
+                        this.user.state_id = this.user.state;
                         axios.post("/api/shipping", this.user).then((res) => {
                             if (res.data.status == "ok") {
                                 this.nextStep.payment = true;
