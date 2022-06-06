@@ -465,4 +465,9 @@
         width: 519px;
         height: 480px;
     }
+    @media (max-width: 767px) {
+        img {
+            height: unset !important;
+        }
+    }
 </style>

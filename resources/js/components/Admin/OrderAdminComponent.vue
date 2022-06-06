@@ -761,7 +761,7 @@
         },
     };
 </script>
-<style scoped>
+<style>
     .locatorS:hover {
         color: unset;
     }
