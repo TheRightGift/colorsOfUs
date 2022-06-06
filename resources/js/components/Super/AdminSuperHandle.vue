@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- Area Chart -->
-                <div class="col-xl-12 col-lg-11">
+                <div class="col-xl-12 col-lg-12">
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
                         <div
@@ -16,10 +16,10 @@
                                 justify-content-between
                             "
                         >
-                            <h6 class="m-0 font-weight-bold text-primary">
+                            <h6 class="m-0 font-weight-bold text-primary d-inline-block">
                                 Admins Overview
                             </h6>
-                            <div class="dropdown no-arrow">
+                            <div class="dropdown no-arrow right">
                                 <a
                                     class="dropdown-toggle"
                                     href="#"

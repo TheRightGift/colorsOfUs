@@ -16,11 +16,7 @@
                                         >
                                             <h2 class="bradcaump-title">
                                                 Search:
-                                                {{
-                                                    prdLen == 0
-                                                        ? 0
-                                                        : prdLen
-                                                }}
+                                                {{ prdLen == 0 ? 0 : prdLen }}
                                                 results found for "{{ query }}
                                                 "
                                             </h2>
@@ -42,8 +38,7 @@
                                                             <span
                                                                 >Search:
                                                                 {{
-                                                                    prdLen ==
-                                                                    0
+                                                                    prdLen == 0
                                                                         ? 0
                                                                         : prdLen
                                                                 }}
@@ -72,18 +67,45 @@
                                 <div class="row">
                                     <div class="col-md-8 col-md-push-2">
                                         <h4 class="text-center search-title">
-                                            Your search for "{{query}}"{{prdLen == 0 ? ' did not yield any results.' : ' revealed the following:'}}            
+                                            Your search for "{{ query }}"{{
+                                                prdLen == 0
+                                                    ? " did not yield any results."
+                                                    : " revealed the following:"
+                                            }}
                                         </h4>
-                                        
+                                        <div class="hidden-xl">
+                                            <form class="form-inline" @submit.prevent="searchVal">
+                                                <input
+                                                    class="form-control mr-sm-2"
+                                                    type="search"
+                                                    placeholder="Search"
+                                                    aria-label="Search"
+                                                    v-model="searchValue"
+                                                />
+                                                <button
+                                                    class="
+                                                        btn btn-outline-success
+                                                        my-2 my-sm-0
+                                                    "
+                                                    type="submit"
+                                                >
+                                                    Search
+                                                </button>
+                                            </form>
+                                        </div>
                                         <hr class="hr--clear mb-50" />
-                                        <div class="search-item" v-if="!nextPrev">
+                                        <div
+                                            class="search-item"
+                                            v-if="!nextPrev"
+                                        >
                                             <div class="row">
                                                 <div
                                                     class="
                                                         single__list__content
                                                         clearfix
                                                     "
-                                                    v-for="item in products.data" :key="item.id"
+                                                    v-for="item in products.data"
+                                                    :key="item.id"
                                                 >
                                                     <div
                                                         class="
@@ -98,14 +120,25 @@
                                                         >
                                                             <a
                                                                 class=""
-                                                                :href="'/products/'+item.title"
+                                                                :href="
+                                                                    '/products/' +
+                                                                    item.title
+                                                                "
                                                                 ><img
-                                                                    v-if="!item.body"
-                                                                    :src="item.images[0].url"
-                                                                    :alt="item.title"
+                                                                    v-if="
+                                                                        !item.body
+                                                                    "
+                                                                    :src="
+                                                                        item
+                                                                            .images[0]
+                                                                            .url
+                                                                    "
+                                                                    :alt="
+                                                                        item.title
+                                                                    "
                                                             /></a>
                                                         </div>
-                                                    </div>                                            
+                                                    </div>
                                                     <div
                                                         class="
                                                             col-md-8
@@ -121,8 +154,13 @@
                                                         >
                                                             <h2>
                                                                 <a
-                                                                    :href="'/products/'+item.title"
-                                                                    >{{item.title}}</a
+                                                                    :href="
+                                                                        '/products/' +
+                                                                        item.title
+                                                                    "
+                                                                    >{{
+                                                                        item.title
+                                                                    }}</a
                                                                 >
                                                             </h2>
 
@@ -132,7 +170,12 @@
                                                                 "
                                                             >
                                                                 <p>
-                                                                    {{synopsis(item.desc, 120)}}
+                                                                    {{
+                                                                        synopsis(
+                                                                            item.desc,
+                                                                            120
+                                                                        )
+                                                                    }}
                                                                 </p>
                                                             </div>
 
@@ -144,7 +187,9 @@
                                                                     class="
                                                                         money
                                                                     "
-                                                                    >&#8358;{{item.amount}}</span
+                                                                    >&#8358;{{
+                                                                        item.amount
+                                                                    }}</span
                                                                 ></span
                                                             >
                                                             <div
@@ -158,7 +203,11 @@
                                                                         cart__menu
                                                                     "
                                                                     href="#!"
-                                                                    @click.prevent="addToCart(item)"
+                                                                    @click.prevent="
+                                                                        addToCart(
+                                                                            item
+                                                                        )
+                                                                    "
                                                                     ><span
                                                                         class="
                                                                             ti-shopping-cart
@@ -170,22 +219,64 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 col-sm-12 col-xs-12" v-else>
-                                                        <div class="list__details__inner">
-                                                            <h2><a :href="'/blog/'+item.title" v-html="synopsis(item.body, 80)"></a></h2>
+                                                    <div
+                                                        class="
+                                                            col-md-12
+                                                            col-sm-12
+                                                            col-xs-12
+                                                        "
+                                                        v-else
+                                                    >
+                                                        <div
+                                                            class="
+                                                                list__details__inner
+                                                            "
+                                                        >
+                                                            <h2>
+                                                                <a
+                                                                    :href="
+                                                                        '/blog/' +
+                                                                        item.title
+                                                                    "
+                                                                    v-html="
+                                                                        synopsis(
+                                                                            item.body,
+                                                                            80
+                                                                        )
+                                                                    "
+                                                                ></a>
+                                                            </h2>
 
-                                                            <div class="search-description"></div>  
+                                                            <div
+                                                                class="
+                                                                    search-description
+                                                                "
+                                                            ></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                    
                                             </div>
                                         </div>
-                                        <div id="loading-center-absolute" v-else>
-                                            <div class="object" id="object_four"></div>
-                                            <div class="object" id="object_three"></div>
-                                            <div class="object" id="object_two"></div>
-                                            <div class="object" id="object_one"></div>
+                                        <div
+                                            id="loading-center-absolute"
+                                            v-else
+                                        >
+                                            <div
+                                                class="object"
+                                                id="object_four"
+                                            ></div>
+                                            <div
+                                                class="object"
+                                                id="object_three"
+                                            ></div>
+                                            <div
+                                                class="object"
+                                                id="object_two"
+                                            ></div>
+                                            <div
+                                                class="object"
+                                                id="object_one"
+                                            ></div>
                                         </div>
                                         <div
                                             class="
@@ -193,7 +284,7 @@
                                                 text-center
                                                 mt--60
                                             "
-                                            :class="{'mt--60--add': nextPrev}"
+                                            :class="{ 'mt--60--add': nextPrev }"
                                         >
                                             <div class="pagination-ineer">
                                                 <div
@@ -207,13 +298,19 @@
                                                     <nav class="pagination">
                                                         <ul class="">
                                                             <li
-                                                                class="
-                                                                   
-                                                                    prev
-                                                                "
-                                                                 :class="{'disabled' : prevPage == null}"
+                                                                class="prev"
+                                                                :class="{
+                                                                    disabled:
+                                                                        prevPage ==
+                                                                        null,
+                                                                }"
                                                             >
-                                                                <a href="" @click.prevent="prev">
+                                                                <a
+                                                                    href=""
+                                                                    @click.prevent="
+                                                                        prev
+                                                                    "
+                                                                >
                                                                     <span
                                                                         ><i
                                                                             class="
@@ -225,15 +322,42 @@
                                                                 </a>
                                                             </li>
 
-                                                            <li :class="{'active': link.active}" v-for="(link, index) in links" :key="index">
-                                                                <a href="#!" @click.prevent="page(link.url)" >{{link.label}}</a>
+                                                            <li
+                                                                :class="{
+                                                                    active: link.active,
+                                                                }"
+                                                                v-for="(
+                                                                    link, index
+                                                                ) in links"
+                                                                :key="index"
+                                                            >
+                                                                <a
+                                                                    href="#!"
+                                                                    @click.prevent="
+                                                                        page(
+                                                                            link.url
+                                                                        )
+                                                                    "
+                                                                    >{{
+                                                                        link.label
+                                                                    }}</a
+                                                                >
                                                             </li>
 
-                                                            <li class="next" :class="{'disabled' : nextPage == null}">
+                                                            <li
+                                                                class="next"
+                                                                :class="{
+                                                                    disabled:
+                                                                        nextPage ==
+                                                                        null,
+                                                                }"
+                                                            >
                                                                 <a
                                                                     href="#!"
                                                                     title="Next »"
-                                                                    @click.prevent="next"
+                                                                    @click.prevent="
+                                                                        next
+                                                                    "
                                                                     ><span
                                                                         aria-hidden="true"
                                                                         ><i
@@ -271,19 +395,20 @@
                 initial: 0,
                 links: [],
                 nextPrev: false,
-                pageClickedUrl: '',
+                pageClickedUrl: "",
                 prdLen: 0,
-                prevPage: '',
+                prevPage: "",
                 products: [],
-                nextPage: '',
+                nextPage: "",
                 query: "",
+                searchValue: "",
             };
         },
         methods: {
             addToCart(item) {
-                item.colors ? item.color = item.colors[0] : null;
-                item.sizes ? item.size = item.sizes[0] : null;
-            
+                item.colors ? (item.color = item.colors[0]) : null;
+                item.sizes ? (item.size = item.sizes[0]) : null;
+
                 this.$store.commit("addToCart", item);
                 $(".cart__menu").on("click", function () {
                     $(".shopping__cart").addClass("shopping__cart__on"),
@@ -306,12 +431,15 @@
                 this.initial = 2;
                 this.search();
             },
+            searchVal() {
+                window.location.href = location.origin+'/search?q='+this.searchValue;
+            },
             search() {
                 let path = new URLSearchParams(window.location.search);
                 if (path.has("q")) {
                     this.query = path.get("q");
                     let url;
-                    switch(this.initial) {
+                    switch (this.initial) {
                         case 0:
                             url = `api/search/${this.query}`;
                             break;
@@ -335,7 +463,10 @@
                             let linksLen = res.data.results.links.length;
                             this.prevPage = res.data.results.prev_page_url;
                             this.nextPage = res.data.results.next_page_url;
-                            let linksNumber = res.data.results.links.splice(1, linksLen - 2);
+                            let linksNumber = res.data.results.links.splice(
+                                1,
+                                linksLen - 2
+                            );
                             this.links = linksNumber;
                             this.nextPrev = false;
                         })
@@ -359,5 +490,25 @@
 <style>
     .mt--60--add {
         margin-top: 150px !important;
+    }
+</style>
+<style scoped>
+    .form-inline {
+        display: flex;
+        margin-top: 10px;
+    }
+    @media (max-width: 767px) {
+        .hidden-xl {
+            display: block;
+        }
+    }
+    @media (min-width: 1200px) {
+        .hidden-xl {
+            display: none;
+        }
+    }
+    .btn:hover {
+        color: rgb(243, 240, 240);
+        background-color: rgb(247, 173, 185) !important;
     }
 </style>

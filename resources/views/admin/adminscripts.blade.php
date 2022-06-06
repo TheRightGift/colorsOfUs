@@ -6,3 +6,4 @@
 <!-- Core plugin JavaScript-->
 <script src="{{ asset('/js/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('/js/sb-admin-2.min.js') }}"></script>
+<script src="{{ asset('/js/raphael/raphael-min.js')}}"></script>

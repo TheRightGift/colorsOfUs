@@ -8,5 +8,5 @@
     <link rel="manifest" href="/favicon/site.webmanifest">
     <link href="{{ asset('/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-    
+    <link rel="stylesheet" href="{{asset('/style.min.css')}}">
 </head>

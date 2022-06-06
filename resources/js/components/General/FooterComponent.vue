@@ -266,8 +266,8 @@
                                         </li>
 
                                         <li>
-                                            <a href="/dashboard?wishlist"
-                                                >Wishlist</a
+                                            <a href="/search"
+                                                >Search</a
                                             >
                                         </li>
 

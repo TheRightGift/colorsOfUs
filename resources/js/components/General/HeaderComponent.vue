@@ -328,6 +328,9 @@
                                             <li>
                                                 <a href="/contact">Contact</a>
                                             </li>
+                                            <li>
+                                                <a href="/search">Search</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
