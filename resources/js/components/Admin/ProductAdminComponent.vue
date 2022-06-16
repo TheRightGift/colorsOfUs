@@ -17,12 +17,7 @@
                         </h6>
                         <div class="loadingPage" v-if="loading">
                             <a href="#">
-                                <i
-                                    class="
-                                        fas
-                                        fa-spinner fa-spin fa-3x
-                                    "
-                                ></i>
+                                <i class="fas fa-spinner fa-spin fa-3x"></i>
                             </a>
                         </div>
                         <div class="table-responsive" v-else>
@@ -35,13 +30,23 @@
                                         <th>Status</th>
                                         <th>Size</th>
                                         <th>Color</th>
-                                        <th title="If product is marked finished">UnFinished</th>
+                                        <th
+                                            title="If product is marked finished"
+                                        >
+                                            UnFinished
+                                        </th>
                                         <th></th>
+                                        <th
+                                            data-bs-toggle="tooltip"
+                                            title="Send approx time to finish producing product requested"
+                                        >
+                                            Time to finish
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr
-                                        v-for="order in orderCustomized.data"
+                                        v-for="(order, index) in orderCustomized.data"
                                         :key="order.id"
                                     >
                                         <td>
@@ -69,30 +74,22 @@
                                         <td>
                                             <span
                                                 class="badge bg-primary"
-                                                v-if="
-                                                    order.status == 2
-                                                "
+                                                v-if="order.status == 2"
                                                 >Completed</span
                                             >
                                             <span
                                                 class="badge bg-info"
-                                                v-if="
-                                                    order.status == 0
-                                                "
+                                                v-if="order.status == 0"
                                                 >Pending</span
                                             >
                                             <span
                                                 class="badge bg-dark"
-                                                v-if="
-                                                    order.status == 1
-                                                "
+                                                v-if="order.status == 1"
                                                 >Shipped</span
                                             >
                                         </td>
                                         <td>
-                                            {{
-                                                order.size_id
-                                            }}
+                                            {{ order.size_id }}
                                         </td>
                                         <td>
                                             {{
@@ -102,12 +99,35 @@
                                             }}
                                         </td>
                                         <td>
-                                            {{
-                                                isFinished(order)
-                                            }}
+                                            {{ isFinished(order) }}
                                         </td>
                                         <td>
-                                            <input type="checkbox" name="expired" value="1" v-if="isFinished(order)" @change="markFinished(order)">
+                                            <input
+                                                type="checkbox"
+                                                name="expired"
+                                                value="1"
+                                                v-if="isFinished(order)"
+                                                @change="markFinished(order)"
+                                            />
+                                        </td>
+                                        <td :id="index">
+                                            <input
+                                                @keyup.enter="
+                                                    updateTimeToFinish(order, index)
+                                                "
+                                                type="number"
+                                                placeholder="Days"
+                                                v-model="order.time_to_finish_customized"
+                                                v-if="
+                                                    isFinished(order)
+                                                "
+                                            />
+                                            <span v-else>{{
+                                                order.time_to_finish_customized
+                                            }}</span>
+                                            <i
+                                                class="fas fa-spinner fa-spin hide"
+                                            ></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -183,21 +203,23 @@
             isFinished(e) {
                 if (e.is_finished == 1) {
                     return true;
-                }
-                else return false;
+                } else return false;
             },
             markFinished(e) {
-                axios.put(`/api/markFinished/${e.id}`, {is_finished: 0}).then(res => {
-                    if (res.data.status == 200) {
-                        e.is_finished = 0;
-                        this.$toasted.show("Change effected!", {
-                            duration: 2000,
-                            position: "top-right",
-                        });
-                    }
-                }).catch(err => {
-                    console.log(err);
-                })
+                axios
+                    .put(`/api/markFinished/${e.id}`, { is_finished: 0 })
+                    .then((res) => {
+                        if (res.data.status == 200) {
+                            e.is_finished = 0;
+                            this.$toasted.show("Change effected!", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             },
             moment(arg) {
                 return moment(arg);
@@ -214,9 +236,42 @@
                         console.log(err);
                     });
             },
+            updateTimeToFinish(order, index) {
+                let element = document.getElementById(`${index}`);
+                if (order.time_to_finish_customized != null) {
+                    element.lastElementChild.classList.remove('hide');
+                    element.firstElementChild.removeAttribute('class', 'errorDays');
+                    element.firstElementChild.setAttribute('disabled', true);
+                    let data = { time_to_finish_customized: order.time_to_finish_customized, user: order.shippinginfo.user_id };
+                    axios.put(`api/order/${order.id}`, data).then((res) => {
+                        if (res.data.order) {
+                            element.lastElementChild.classList.add('hide');
+                            element.firstElementChild.removeAttribute('disabled', true);
+                            this.$toasted.show("Change effected!, <small>User will be notified</small>", {
+                                duration: 2000,
+                                position: "top-right",
+                            });
+                        }
+
+                    });
+                } else {
+                    element.firstElementChild.setAttribute('class', 'errorDays');
+                }
+            },
         },
         mounted() {
             this.getAllOrders();
         },
     };
 </script>
+<style scoped>
+    input[type="number"] {
+        width: 80px;
+    }
+    .errorDays {
+        border-color: red;
+    }
+    .hide {
+        display: none;
+    }
+</style>

@@ -70,7 +70,7 @@
                         <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
-                            v-for="message in messages.slice(0, 5)"
+                            v-for="message in messages"
                             :key="message._id"
                         >
                             <div class="mr-3">
@@ -238,9 +238,9 @@ export default {
             let url =
                 adminOn == 2
                     ? "/api/notify-prdmin"
-                    : "api/notify";
+                    : "/api/notify";
             axios.get(url).then(res => {
-                this.messages = res.data.notify.filter(el => adminOn == 2 ? el.typeof == 2 : el.typeof == 1);
+                this.messages = res.data.notify.slice(0, 5);
                 this.msgLength = res.data.notify.filter(el => el.track == '0').length;
             }).catch(err => {
                 console.log(err);

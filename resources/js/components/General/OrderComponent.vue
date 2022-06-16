@@ -50,7 +50,7 @@
                             <p>{{ processingOrder.product.title }} - {{ processingOrder.color_id ? getColor(processingOrder) : '' }} / {{ processingOrder.size_id ? getSize(processingOrder) : '' }} </p>
                             <p>
                                 &#8358;{{
-                                    toLocaleStringe(processingOrder.unit_price)
+                                    toLocaleStringe(processingOrder.unit_price, processingOrder.discount)
                                 }}
                                 &nbsp;&nbsp;&nbsp; x{{
                                     processingOrder.quantity
@@ -62,7 +62,8 @@
                                 &#8358;{{
                                     totalPrice(
                                         processingOrder.unit_price,
-                                        processingOrder.quantity
+                                        processingOrder.quantity,
+                                        processingOrder.discount
                                     )
                                 }}
                             </p>
@@ -125,7 +126,7 @@
                             <p>{{ orderInTransit.product.title }}</p>
                             <p>
                                 &#8358;{{
-                                    toLocaleStringe(orderInTransit.unit_price)
+                                    toLocaleStringe(orderInTransit.unit_price, orderInTransit.discount)
                                 }}
                                 &nbsp;&nbsp;&nbsp; x{{
                                     orderInTransit.quantity
@@ -137,7 +138,8 @@
                                 &#8358;{{
                                     totalPrice(
                                         orderInTransit.unit_price,
-                                        orderInTransit.quantity
+                                        orderInTransit.quantity,
+                                        orderInTransit.discount
                                     )
                                 }}
                             </p>
@@ -199,7 +201,7 @@
                             <p>
                                 &#8358;{{
                                     toLocaleStringe(
-                                        completedOrder.unit_price
+                                        completedOrder.unit_price, completedOrder.discount
                                     )
                                 }}
                                 &nbsp;&nbsp;&nbsp; x{{
@@ -215,7 +217,8 @@
                                 &#8358;{{
                                     totalPrice(
                                         completedOrder.unit_price,
-                                        completedOrder.quantity
+                                        completedOrder.quantity,
+                                        completedOrder.discount
                                     )
                                 }}
                             </p>
@@ -286,7 +289,7 @@
                             <p>{{ orderPaginated.product.title }} - {{ orderPaginated.color_id ? getColor(orderPaginated) : '' }} / {{ orderPaginated.size_id ? getSize(orderPaginated) : '' }}</p>
                             <p>
                                 &#8358;{{
-                                    toLocaleStringe(orderPaginated.unit_price)
+                                    toLocaleStringe(orderPaginated.unit_price, orderPaginated.discount)
                                 }}
                                 &nbsp;&nbsp;&nbsp; x{{
                                     orderPaginated.quantity
@@ -298,7 +301,8 @@
                                 &#8358; {{
                                     totalPrice(
                                         orderPaginated.unit_price,
-                                        orderPaginated.quantity
+                                        orderPaginated.quantity,
+                                        orderPaginated.discount
                                     )
                                 }}
                             </p>
@@ -330,7 +334,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn cancelOrder" @click="orderConfirm ? confirmOrder() : cancelOrder()">{{ orderConfirm ? 'Confirm' : 'Proceed' }}</button>
-                        <button type="button" class="btn cancelOrder btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="clcik" class="btn cancelOrder btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -338,7 +342,7 @@
     </div>
 </template>
 <script>
-    import moment from "moment";
+    import moment, { now } from "moment";
     export default {
         computed: {},
         name: "OrderComponent",
@@ -355,8 +359,42 @@
                 let data = {
                     user_id: this.$store.state.user.user_id,
                     order_id: this.orderToCancel.id,
-                    message: this.message,
+                    message: `
+                        Good day coloursofus, this is to notify you of an order cancellation with details
+                        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>OrderId</th>
+                                        <th>User</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Quantity</th>
+                                        <th>Amount(Refundable)</th>
+                                        <th>Product</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#${this.orderToCancel.orderID}</td>
+                                        <td>${this.$store.state.user.firstname + ' ' + this.$store.state.user.lastname}</td>
+                                        <td><span class="text-muted"><i class="fa fa-clock-o"></i>${moment(this.orderToCancel.created_at).format('ll')}</span> </td>
+                                        <td>&#8358;${this.orderToCancel.discount == null ? this.orderToCancel.unit_price : this.discount(this.orderToCancel.discount, this.orderToCancel.unit_price)}</td>
+                                        <td>${this.orderToCancel.quantity}</td>
+                                        <td>&#8358;${this.orderToCancel.discount == null ? this.orderToCancel.unit_price * this.orderToCancel.quantity : this.discount(this.orderToCancel.discount, this.orderToCancel.unit_price) * this.orderToCancel.quantity}</td>
+                                        <td>
+                                            ${this.orderToCancel.product.title}
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        This order has been automatically deleted!, reach out to the user to resolve refund using the email above.
+                        `,
                     admin_id: this.orderToCancel.admins[0].id,
+                    title: 'Order Cancellation',
                     'typeof': '1'  // 1 is to cancel orders
                 }
                 axios.post('/api/notify-cancel', data).then(res => {
@@ -365,10 +403,17 @@
                             duration: 2000,
                             position: "top-right",
                         });
+                        this.orderToCancel.deleted_at = moment();
+                        document.getElementById('clcik').click();
                     }
                 }).catch(err => {
                     console.log(err);
                 })
+            },
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return Math.round(newPrice);
             },
             confirmOrder() {
                 let data = { status: '2' };
@@ -377,6 +422,7 @@
                     .then((res) => {
                         if (res.data.order.status == 2) {
                             window.location.reload();
+                            document.getElementById('clcik').click();
                         }
                         console.log(res);
                     }).catch(err => {
@@ -394,16 +440,17 @@
             moment(arg) {
                 return moment(arg);
             },
-            totalPrice(amount, qty) {
-                let total = amount * qty;
-
+            totalPrice(amount, qty, discount) {
+                let total = discount == null ? amount * qty : this.discount(discount, amount) * qty;
+                
                 return total.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                 });
             },
-            toLocaleStringe(data) {
-                let datum = data.toLocaleString("en-US", {
+            toLocaleStringe(data, discount) {
+                let discounted = discount == null ? data : this.discount(discount, data);
+                let datum = discounted.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                 });

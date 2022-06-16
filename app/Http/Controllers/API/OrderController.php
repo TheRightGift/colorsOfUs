@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Notification;
+use App\Models\Shippinginfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -153,15 +154,37 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => ['required'],
+            'status' => ['nullable'],
+            'time_to_finish_customized' => ['nullable'],
+            'user' => ['required']
         ]);
+        $orders = new Order();
         
-        $order = Order::findOrFail($id);
-        unset($order->status);
-        // $order->fill(['status' => $request->status]);
-        $order->status = $request->status;
+        $order = $orders->findOrFail($id);
+        $user = User::where('id', $request->user)->value('email');
+        isset($request->status) ? $order->status = $request->status : $order->time_to_finish_customized = $request->time_to_finish_customized;
         $order->save();
+        $data = $order->where('id', $id)->with('product.images', 'color', 'size')->get();
         $orders = Order::get();
+        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
+        if (isset($request->status) && $request->status == 1) {
+            $beautymail->send('emails.orderShipped', ['data' => $data], function($message) use($user)
+            {
+                $message
+                    ->from('donotreply@coloursofus.com')
+                    ->to($user, 'Customer')
+                    ->subject('Order Has Been Shipped!');
+            });
+        }
+        elseif (isset($request->time_to_finish_customized)) {
+            $beautymail->send('emails.orderCustomized', ['data' => $data], function($message) use($user)
+            {
+                $message
+                    ->from('donotreply@coloursofus.com')
+                    ->to($user, 'Customer')
+                    ->subject('Customized Order Prod. Period!');
+            });
+        }
         return response()->json(['message' => 'Order updated successfully', 'order' => $order, 'orders' => $orders]);
     }
 
@@ -208,5 +231,12 @@ class OrderController extends Controller
         $order->is_finished = $request->is_finished;
         $order->save();
         return response()->json(['message' => 'Order updated successfully', 'order' => $order, 'status' => 200]);
+    }
+
+    // Get Products Ordered by a user 
+    public function myOrders($userId) {
+        $shippinginfo = Shippinginfo::whereRelation('user', 'users.id', $userId)->pluck('id');
+        $orders = Order::whereIn('shippinginfo_id', $shippinginfo)->with('product.images', 'product.colors', 'product.sizes', 'admins', 'shippinginfo.state', 'shippinginfo.lga')->withTrashed('order')->get();
+        return response()->json(['orders' => $orders, 'message' => 'Orders retrieved successfuly'], 200);
     }
 }

@@ -91,6 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('order-home', [OrderController::class, 'home']);
     Route::patch('order-refresh/{id}', [OrderController::class, 'refresh']);
     Route::put('markFinished/{id}', [OrderController::class, 'markFinished']);
+    Route::get('myOrders/{id}', [OrderController::class, 'myOrders']);
     
     // Product;
     Route::resource('product', ProductController::class, ['only' => 'store']);

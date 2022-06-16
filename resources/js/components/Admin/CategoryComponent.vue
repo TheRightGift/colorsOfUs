@@ -600,8 +600,6 @@
                 success: "",
                 update: false,
                 loading: false,
-                
-                
             };
         },
         methods: {

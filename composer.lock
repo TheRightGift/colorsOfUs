@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5bceb662945f4f348923068fec37f8f4",
+    "content-hash": "c1f7270ae595c328d507dcd3c33ea970",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -983,16 +983,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.2",
+            "version": "7.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4"
+                "reference": "e3ff079b22820c2029d4c2a87796b6a0b8716ad8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ac1ec1cd9b5624694c3a40be801d94137afb12b4",
-                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/e3ff079b22820c2029d4c2a87796b6a0b8716ad8",
+                "reference": "e3ff079b22820c2029d4c2a87796b6a0b8716ad8",
                 "shasum": ""
             },
             "require": {
@@ -1087,7 +1087,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.2"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.4"
             },
             "funding": [
                 {
@@ -1103,7 +1103,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-20T14:16:28+00:00"
+            "time": "2022-06-09T21:39:15+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3649,56 +3649,6 @@
                 "source": "https://github.com/spatie/server-side-rendering/tree/0.3.2"
             },
             "time": "2022-02-21T22:53:36+00:00"
-        },
-        {
-            "name": "staudenmeir/eloquent-eager-limit",
-            "version": "v1.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/staudenmeir/eloquent-eager-limit.git",
-                "reference": "439135c4b3361a313c2e7102d68bf807518d1bf9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/staudenmeir/eloquent-eager-limit/zipball/439135c4b3361a313c2e7102d68bf807518d1bf9",
-                "reference": "439135c4b3361a313c2e7102d68bf807518d1bf9",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "^8.0",
-                "php": "^7.3|^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Staudenmeir\\EloquentEagerLimit\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonas Staudenmeir",
-                    "email": "mail@jonas-staudenmeir.de"
-                }
-            ],
-            "description": "Laravel Eloquent eager loading with limit",
-            "support": {
-                "issues": "https://github.com/staudenmeir/eloquent-eager-limit/issues",
-                "source": "https://github.com/staudenmeir/eloquent-eager-limit/tree/v1.6.1"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/JonasStaudenmeir",
-                    "type": "custom"
-                }
-            ],
-            "time": "2020-11-22T18:13:55+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

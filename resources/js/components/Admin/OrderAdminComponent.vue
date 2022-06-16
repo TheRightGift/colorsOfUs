@@ -394,6 +394,7 @@
             :formatPrice="formatPrice"
             :orderDetails="orderDetails"
             @closeOrderDetails="closeOrderDetails($event)"
+            @indexId="indexId($event)"
             :moment="moment"
             :markInTransit="markInTransit"
         />
@@ -413,6 +414,7 @@
                 completedOrders: 0,
                 completedOrdersPercent: 0,
                 hidePen: false,
+                indexedID: 0,
                 isOrderDetails: false,
                 isWhatOrder: {
                     isCompleted: false,
@@ -434,6 +436,7 @@
                 processingOrders: 0,
                 processingOrdersPercent: 0,
                 recentOrders: [],
+                requesting: false,
                 searchVal: "",
                 status: 0,
                 success: "",
@@ -622,13 +625,21 @@
                         : Math.round((yesterdayOrders / totalOrderForYDay) * 100);
                 this.yesterdayOrders = yesterdayOrders;
             },
+            indexId(evt) {
+                this.indexedID = evt;
+            },
             markInTransit(order, status) {
                 this.status = status;
-                let data = { status: this.status };
+                let element = document.getElementById(`${this.indexedID}`);
+                element.firstElementChild.lastElementChild.classList.remove('hide');
+                element.firstElementChild.firstElementChild.setAttribute('disabled', true);
+                let data = { status: this.status, user: order.shippinginfo.user_id };
                 axios
                     .put(`api/order/${order.id}`, data)
                     .then((res) => {
                         if (res.data.order) {
+                            element.firstElementChild.lastElementChild.classList.add('hide');
+                            element.firstElementChild.firstElementChild.removeAttribute('disabled', true);
                             this.allOrders = res.data.orders;
                             if (this.status == 1) {
                                 this.ordersProcessing.splice(
@@ -654,6 +665,7 @@
                                 duration: 2000,
                                 position: "top-right",
                             });
+                            this.requesting = false;
                             this.getPercentOverAll();
                         }
                     })

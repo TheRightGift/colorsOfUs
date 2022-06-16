@@ -41,6 +41,7 @@ class ShippinginfoController extends Controller
             'address2' => 'nullable',
             'postal_code' => 'required',
             'lga_id' => 'required',
+            'active' => 'nullable',
         ]);
         $data = $request->only([
             'lastname',
@@ -55,11 +56,12 @@ class ShippinginfoController extends Controller
             'address2',
             'postal_code',
             'lga_id',
+            'active',
             'created_at' => now(),
             'user_id',
         ]);
         $shippinginfo = Shippinginfo::create($data);
-        return response()->json(['message' => 'New Shippinginfo added.', 'shippinginfo' => $shippinginfo, 'status' => 'ok']);
+        return response()->json(['message' => 'New Shippinginfo added.', 'shippinginfo' => $shippinginfo->load('state', 'lga'), 'status' => 'ok']);
     }
 
     /**
@@ -70,7 +72,7 @@ class ShippinginfoController extends Controller
      */
     public function show($userId)
     {
-        $shippinginfo = Shippinginfo::whereRelation('user', 'users.id', $userId)->with('order.product.images', 'order.product.colors', 'order.product.sizes', 'order.admins')->withTrashed('order')->get();
+        $shippinginfo = Shippinginfo::whereRelation('user', 'users.id', $userId)->with('order.product.images', 'order.product.colors', 'order.product.sizes', 'order.admins', 'state', 'lga')->get(); //->withTrashed('order')
         return response()->json(['shippinginfo' => $shippinginfo, 'message' => 'Shippinginfo retrieved successfuly'], 200);
     }
 
@@ -90,18 +92,18 @@ class ShippinginfoController extends Controller
             'phone' => 'required',
             'phone2' => 'nullable',
             'state_id' => 'required',
-            'country' => 'required',
             'address' => 'required',
             'address2' => 'nullable',
             'postal_code' => 'required',
             'lga_id' => 'required',
+            'active' => 'nullable',
         ]);
 
         $shippinginfo = Shippinginfo::where('id', $id)->update($request->only([
-            'lastname', 'firstname', 'othername', 'phone', 'phone2', 
+            'lastname', 'firstname', 'othername', 'phone', 'phone2', 'active',
             'state_id', 'country', 'address', 'address2', 'postal_code', 'lga_id', 'updated_at' => now()]));
 
-        return response()->json(['message' => 'Shippinginfo updated successfully', 'shippinginfo' => $shippinginfo]);
+        return response()->json(['message' => 'Shippinginfo updated successfully', 'shippinginfo' => $shippinginfo, 'status' => 'ok']);
     }
 
     /**

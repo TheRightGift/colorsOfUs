@@ -29,8 +29,8 @@ return [
             'height' => '50',
         ],
 
-        'twitter'  => 'tomumslittlereaders',
-        'facebook' => 'tomumslittlereaders',
+        'instagram'  => 'coloursofus05',
+        'facebook' => 'coloursofus05',
     ],
 
 ];

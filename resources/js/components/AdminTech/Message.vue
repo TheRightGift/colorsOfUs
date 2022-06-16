@@ -141,6 +141,7 @@
                                                         :class="{
                                                             active: trashActive,
                                                         }"
+                                                        v-if="$store.state.user.role_id == 2"
                                                     >
                                                         <a
                                                             href="#!"
@@ -165,8 +166,31 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                <h3 class="card-title m-t-40"></h3>
-                                                <div class="list-group b-0 mail-list"> <a href="#!" class="list-group-item"><span class="fa fa-circle text-info m-r-10"></span>Trashed messages have order that is deleted</a> </div>
+                                                <h3
+                                                    class="card-title m-t-40"
+                                                ></h3>
+                                                <div
+                                                    class="
+                                                        list-group
+                                                        b-0
+                                                        mail-list
+                                                    "
+                                                    v-if="$store.state.user.role_id == 2"
+                                                >
+                                                    <a
+                                                        href="#!"
+                                                        class="list-group-item"
+                                                        ><span
+                                                            class="
+                                                                fa fa-circle
+                                                                text-info
+                                                                m-r-10
+                                                            "
+                                                        ></span
+                                                        >Trashed messages have
+                                                        order that is deleted</a
+                                                    >
+                                                </div>
                                             </div>
                                         </div>
                                         <div
@@ -308,14 +332,37 @@
                                                                         </td>
                                                                     </span>
                                                                 </tr>
-                                                                <tr v-if="messages.length == 0" class="text-center">
-                                                                    No Notifications
+                                                                <tr
+                                                                    v-if="
+                                                                        messages.length ==
+                                                                        0
+                                                                    "
+                                                                    class="
+                                                                        text-center
+                                                                    "
+                                                                >
+                                                                    No
+                                                                    Notifications
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <div class="card-footer pb-0 pt-3">
-                                                            <jw-pagination :pageSize="25" :items="messages" @changePage="onChangePage"></jw-pagination>
-                                                        </div>      
+                                                        <div
+                                                            class="
+                                                                card-footer
+                                                                pb-0
+                                                                pt-3
+                                                            "
+                                                        >
+                                                            <jw-pagination
+                                                                :pageSize="25"
+                                                                :items="
+                                                                    messages
+                                                                "
+                                                                @changePage="
+                                                                    onChangePage
+                                                                "
+                                                            ></jw-pagination>
+                                                        </div>
                                                     </div>
                                                     <div v-if="msgOpen">
                                                         <div class="card-body">
@@ -510,9 +557,7 @@
                 validMsg: 0,
             };
         },
-        computed: {
-            
-        },
+        computed: {},
         methods: {
             deleteOrder(id) {
                 axios
@@ -547,7 +592,6 @@
                               if (res.data.status == 200) {
                                   this.message.track = "1";
                               }
-                              console.log(res);
                           })
                           .catch((err) => {
                               console.log(err);
@@ -565,10 +609,28 @@
                         this.unreadActive = false;
                         this.trashActive = false;
                         this.msgsActive = true;
-                        this.notifications = res.data.notify; 
-                        this.messages = res.data.notify.filter(el => el.order.deleted_at == null);
-                        this.unread = res.data.notify.filter(el => el.track == '0' && el.order.deleted_at == null).length;
-                        this.validMsg = this.messages.filter(el => el.order.deleted_at == null).length;
+                        this.notifications = res.data.notify;
+                        this.messages =
+                            this.$store.state.user.role_id == 2
+                                ? res.data.notify.filter(
+                                      (el) => el.order.deleted_at == null
+                                  )
+                                : res.data.notify;
+                        this.unread =
+                            this.$store.state.user.role_id == 2
+                                ? res.data.notify.filter(
+                                      (el) =>
+                                          el.track == "0" &&
+                                          el.order.deleted_at == null
+                                  ).length
+                                : res.data.notify.filter((el) => el.track == "0")
+                                      .length;
+                        this.validMsg =
+                            this.$store.state.user.role_id == 2
+                                ? this.messages.filter(
+                                      (el) => el.order.deleted_at == null
+                                  ).length
+                                : this.messages.length;
                     })
                     .catch((err) => {
                         console.log(err);
@@ -584,9 +646,12 @@
                 this.msgOpen = false;
             },
             getUnread() {
-                this.messages = this.notifications.filter(
-                    (el) => el.track == "0" && el.order.deleted_at == null
-                );
+                this.messages =
+                    this.$store.state.user.role_id == 2
+                        ? this.notifications.filter(
+                              (el) => el.track == "0" && el.order.deleted_at == null
+                          )
+                        : this.notifications.filter((el) => el.track == "0");
                 this.unreadActive = true;
                 this.trashActive = false;
                 this.msgsActive = false;
@@ -603,25 +668,25 @@
                 this.getNotifications();
             },
             search() {
-                if (this.searchVal != '') {
-                    return this.messages = this.notifications.filter((item) => {
+                if (this.searchVal != "") {
+                    return (this.messages = this.notifications.filter((item) => {
                         return this.searchVal
                             .toLowerCase()
                             .split(" ")
                             .every(
                                 (v) =>
-                                    item.user.email.toLowerCase().includes(v) || item.message.toLowerCase().includes(v)
-                            )
-                    });
-                }
-                else {
+                                    item.user.email.toLowerCase().includes(v) ||
+                                    item.message.toLowerCase().includes(v)
+                            );
+                    }));
+                } else {
                     if (this.msgsActive) {
-                        this.messages = this.notifications.filter(el => el.order.deleted_at == null);
-                    }
-                    else if (this.unreadActive) {
+                        this.messages = this.$store.state.user.role_id == 2 ? this.notifications.filter(
+                            (el) => el.order.deleted_at == null
+                        ) : this.notifications;
+                    } else if (this.unreadActive) {
                         this.getUnread();
-                    }
-                    else if (this.trashActive) {
+                    } else if (this.trashActive) {
                         this.getTrashed();
                     }
                 }

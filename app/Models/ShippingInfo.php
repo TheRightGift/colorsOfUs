@@ -10,13 +10,13 @@ class Shippinginfo extends Model
     use HasFactory, SoftDeletes;
 
 
-    protected $fillable = ['lastname', 'firstname', 'postal_code', 'state_id', 'town', 'country', 'phone', 'phone2', 'address', 'address2', 'lga_id', 'created_at', 'deleted_at', 'updated_at', 'primary', 'user_id'];
+    protected $fillable = ['lastname', 'firstname', 'postal_code', 'state_id', 'town', 'country', 'phone', 'phone2', 'address', 'address2', 'lga_id', 'created_at', 'deleted_at', 'updated_at', 'active', 'user_id'];
 
     public function user(){
         return $this->belongsTo(User::class); //->withTrashed()
     }
 
-    public function order() {
+    public function orders() {
         return $this->hasMany(Order::class)->withTrashed();
     }
 

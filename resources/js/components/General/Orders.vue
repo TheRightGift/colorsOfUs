@@ -108,9 +108,9 @@
             },
             getAllOrders() {
                 axios
-                    .get(`api/shipping/${this.$store.state.user.user_id}`)
+                    .get(`/api/myOrders/${this.$store.state.user.user_id}`)
                     .then((res) => {
-                        this.ordersPaginated = res.data.shippinginfo[0].order;
+                        this.ordersPaginated = res.data.orders;
                         this.completedOrders = this.ordersPaginated.filter(
                             (el) => el.status == 2 && el.deleted_at == null
                         );
