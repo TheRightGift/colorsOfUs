@@ -378,10 +378,23 @@
                                                             "
                                                             aria-hidden="true"
                                                         ></i
-                                                        >{{
+                                                        >Hi {{
                                                             $store.state.user
                                                                 .firstname
                                                         }}</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a href="/dashboard?settings"
+                                                        ><i
+                                                            class="
+                                                                fa
+                                                                fa-cog
+                                                                pr-2
+                                                            "
+                                                            aria-hidden="true"
+                                                        ></i
+                                                        >Settings</a
                                                     >
                                                 </li>
                                                 <li>
@@ -398,19 +411,7 @@
                                                         >Logout</a
                                                     >
                                                 </li>
-                                                <li>
-                                                    <a href="/dashboard?orders"
-                                                        ><i
-                                                            class="
-                                                                fa
-                                                                fa-first-order
-                                                                pr-2
-                                                            "
-                                                            aria-hidden="true"
-                                                        ></i
-                                                        >View Orders</a
-                                                    >
-                                                </li>
+                                                
                                             </ul>
                                         </div>
                                     </li>

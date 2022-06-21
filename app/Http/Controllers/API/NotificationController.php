@@ -22,6 +22,7 @@ class NotificationController extends Controller
             'typeof' => 'required',
             'message' => 'nullable',
             'admin_id' => 'nullable', //Admin_id handling the order.
+            'title' => 'nullable'
         ]);
         
         $data = $request->only([
@@ -30,8 +31,8 @@ class NotificationController extends Controller
             'typeof',
             'message',
             'admin_id',
+            'title'
         ]);
-
         $notify = Notification::create($data);
         $orderToCancel = Order::findOrFail($request->order_id)->delete();
         return response()->json(['message' => 'Order Cancelled', 'status' => 200, 'notify' => $notify]);
@@ -44,7 +45,8 @@ class NotificationController extends Controller
     }
 
     public function index() {
-        $notify = Notification::with('order', 'admin')->latest()->paginate();
+        $notifiers = Notification::where('typeof', '1');
+        $notify = $notifiers->with('order', 'admin', 'user')->latest()->get();
 
         return response()->json(['messge' => 'Success Fetching', 'status' => 200, 'notify' => $notify]);
     }

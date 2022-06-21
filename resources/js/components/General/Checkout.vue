@@ -509,8 +509,7 @@
                                                                         field__label--visible
                                                                     "
                                                                     for="checkout_shipping_address_first_name"
-                                                                    >First name
-                                                                    (optional)</label
+                                                                    >First name</label
                                                                 >
                                                                 <input
                                                                     placeholder="First name (optional)"
@@ -525,6 +524,7 @@
                                                                     v-model="
                                                                         user.firstname
                                                                     "
+                                                                    required
                                                                 />
                                                             </div>
                                                         </div>
@@ -565,6 +565,7 @@
                                                                     v-model="
                                                                         user.lastname
                                                                     "
+                                                                    required
                                                                 />
                                                             </div>
                                                         </div>
@@ -603,6 +604,7 @@
                                                                     v-model="
                                                                         user.address
                                                                     "
+                                                                    required
                                                                 />
 
                                                                 <p
@@ -2073,7 +2075,7 @@
                     } else {
                         this.requesting = true;
                         this.user.user_id = this.$store.state.user.user_id;
-                        this.user.primary = '1';
+                        // this.user.active = '1';
                         this.user.lga_id = this.user.lga;
                         this.user.state_id = this.user.state;
                         axios.post("/api/shipping", this.user).then((res) => {
@@ -4399,25 +4401,6 @@
         .floating-labels .field--quarter {
             width: 25%;
         }
-    }
-
-    .field__message {
-        line-height: 1.3em;
-        margin: 0.5714285714em 0 0.2857142857em;
-    }
-
-    .field__message--error {
-        display: none;
-        color: #ff6d6d;
-    }
-
-    .field--error .field__message--error {
-        display: block;
-    }
-
-    .field__message__icon {
-        margin-right: 0.25em;
-        vertical-align: -3px;
     }
 
     .field__label {

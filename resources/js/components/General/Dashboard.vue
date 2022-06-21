@@ -364,9 +364,30 @@
                                 ptb--130
                                 custom_page
                             "
-                            
                         >
                             <div class="container">
+                                <section id="navTab" class="flexedSection">
+                                    <div class="wishlists flexed">
+                                        <a href="/dashboard?wishlist">
+                                            <i class="fa fa-heart" aria-hidden="true"></i>
+                                        </a>
+                                        <p>Wishlist</p>
+                                       
+                                    </div>
+                                    <div class="orders flexed">
+                                        <a href="/dashboard?orders">
+                                            <img src="/img/order.jpg" alt="order">
+                                        </a>
+                                        <p>Orders</p>
+                                    </div>
+                                    <div class="address flexed">
+                                        <a href="/dashboard?address">
+                                            <i class="fa fa-address-book-o" aria-hidden="true"></i>
+                                        </a>
+                                        <p>Address</p>
+                                        
+                                    </div>
+                                </section>
                                 <div class="card" id="orders" v-if="ordersView">
                                     <order-component
                                         :isInTransitView="isInTransitView"
@@ -527,5 +548,46 @@
         background: rgba(0, 0, 0, 0)
            
             no-repeat scroll center center / cover;         
+    }
+    .ptb--130 {
+        padding: 70px 0 !important;
+    }
+    @media(min-width: 1200px) { 
+        #navTab {
+            display: none;
+        }
+    }
+    @media(max-width: 765px) {
+        #navTab {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid darkgrey;
+            border-left: 0px;
+            border-right: 0px;
+            height: 65px;
+            margin-bottom: 30px;
+        }
+        .fa {
+            font-size: xx-large;
+        }
+        img {
+            height: 35px;
+        }
+        .center {
+            text-align: center;
+        }
+        #navTab p {
+            font-size: 0.9em;
+        }
+        .flexed {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        a:hover, a:focus {
+            text-decoration: none;
+            color: unset;
+        }
     }
 </style>

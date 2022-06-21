@@ -28,7 +28,7 @@
 				<td>
 					<p>{{$item['title']}} 
 						<em>
-							{{in_array($item['size'], $item) ? $item['customized'] == '1' ? $item['size'].' / ' : $item['size']['name'].' / ' : ''}} 
+							{{in_array($item['size'], $item) ? $item['is_customized'] == '1' ? $item['size'].' / ' : $item['size']['name'].' / ' : ''}} 
 						</em>
 						<em>
 							{{in_array($item['color'], $item) ? $item['color']['name'] : ''}}

@@ -175,7 +175,7 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                            v-for="order in orderDetails"
+                                            v-for="(order, index) in orderDetails"
                                             :key="order.id"
                                         >
                                             <td>
@@ -222,7 +222,7 @@
                                                         : "-"
                                                 }}
                                             </td>
-                                            <td v-if="order.status <= 1">
+                                            <td v-if="order.status <= 1" :id="index">
                                                 <div
                                                     class="
                                                         form-check form-switch
@@ -242,8 +242,9 @@
                                                         id="customSwitch1"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#warnBeforeSave"
-                                                        @click="getOrder(order)"
+                                                        @click="getOrder(order, index)"
                                                     />
+                                                    <i class="fa fa-spinner fa-spin hide" aria-hidden="true"></i>
                                                     <!-- <label class="form-check-label" for="customSwitch1">Toggle this switch element</label> -->
                                                 </div>
                                             </td>
@@ -368,8 +369,9 @@
                 let color = e.product.colors.find((el) => el.id == e.color_id);
                 return color.name;
             },
-            getOrder(order) {
+            getOrder(order, index) {
                 this.order = order;
+                this.$emit('indexId', index);
             },
             getSize(e) {
                 let size = e.product.sizes.find((el) => el.id == e.size_id);
@@ -399,5 +401,8 @@
     }
     .btn:hover {
         background-color: #5e9ada !important;
+    }
+    .hide {
+        display: none;
     }
 </style>

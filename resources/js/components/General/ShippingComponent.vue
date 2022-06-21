@@ -1,42 +1,8 @@
 <template>
     <div>
-        <!-- <h5 class="ptb--60">Choose default shipping address</h5>
-        <p>
-            You will be able to add a new shipping address on your next checkout
-        </p> -->
-        <!-- <div class="row">
-            <div class="col-md-9 main">
-                <div class="section__content">
-                    <fieldset class="content-box">
-                        <legend class="visually-hidden">
-                            Choose default shipping address
-                        </legend>
-
-                        <div class="radio-wrapper content-box__row" v-for="shipping in shippinginfos" :key="shipping.id">
-                            <div class="radio__input">
-                                <input
-                                    class="input-radio"
-                                    type="radio"
-                                    value="false"
-                                    checked="checked"
-                                    id="checkout_different_billing_address_false"
-                                />
-                            </div>
-
-                            <label
-                                class="radio__label content-box__emphasis"
-                                for="checkout_different_billing_address_false"
-                            >
-                                {{shipping.address + ' ' + shipping.postal_code + ' ' + shipping.city + ' ' + shipping.state}}
-                            </label>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-        </div> -->
         <header class="section-header">
             <h1 class="section-header__left">
-                My Account (Shipping Information)
+               {{$store.state.user.firstname + ' ' + $store.state.user.lastname}} (Shipping Information)
             </h1>
             <div class="section-header__right">
                 <a
@@ -55,67 +21,49 @@
             </div>
             <div class="grid__item two-thirds medium-down--one-whole">
                 <h2>Your Addresses</h2>
-                <shipping-form-component v-if="newAddress" :toggleNewForm="toggleNewForm"/>
-                <span>
-                    <h3>Dev5 Oasis</h3>
+                <shipping-form-component v-if="newAddress || editAddress" :toggleNewForm="toggleNewForm" :editAddress="editAddress" @cancelEdit="cancelEdit($event)" :inputs="inputs" @addToAddress="addToAddress($event)"/>
+                <span v-for="shipping in shippingAddrs" :key="shipping.id">
+                    <h3>{{shipping.firstname + ' '+ shipping.lastname}} <span v-if="shipping.active == 1">(Default)</span></h3>
 
                     <p>
                         <br />
-                        SSQ9 River Port Onitsha.<br />
-                        Onitsha<br />
+                        {{shipping.address}}.<br />
+                        {{shipping.lga.name}}<br />
 
-                        AN<br />
+                        {{shipping.state.name}}<br />
 
-                        430254<br />
+                        {{shipping.postal_code }}<br />
                         Nigeria<br />
-                        +2348166266824
+                        {{shipping.phone}}
                     </p>
                     <p class="pb-30">
                         <a
                             href="#"
-                            @click="toggleFormEdit"
+                            @click="toggleFormEdit(shipping)"
                             >Edit</a
                         >
                         |
                         <a
-                            href="#"
-                            onclick='Shopify.CustomerAddress.destroy(6758427754531, "Are you sure you wish to delete this address?"); return false'
+                            href="#!"
+                            data-toggle="modal" data-target="#deleteAlert"
+                            @click.prevent="getAddressToDel(shipping.id)"
                             >Delete</a
                         >
                     </p>
-                    <shipping-form-component v-if="editAddress" @cancelEdit="cancelEdit($event)" :editAddress="editAddress"/>
                 </span>
-               
-                <!-- <span>
-                    <h3>Amaizu Somtoo (Default)</h3>
+                <span v-if="shippingAddrs.length == 0">No Shipping Address added yet!</span>
+            </div>
+        </div>
 
-                    <p>
-                        <br />
-                        SSQ9 River Port Onitsha.<br />
-                        Onitsha<br />
-
-                        AB<br />
-
-                        430254<br />
-                        Nigeria<br />
-                        +2347087917557
-                    </p>
-                    <p>
-                        <a
-                            href="#"
-                            onclick="Shopify.CustomerAddress.toggleForm(6758445842467); return false"
-                            >Edit</a
-                        >
-                        |
-                        <a
-                            href="#"
-                            onclick='Shopify.CustomerAddress.destroy(6758445842467, "Are you sure you wish to delete this address?"); return false'
-                            >Delete</a
-                        >
-                    </p>
-                </span> -->
-                 
-
+        <div class="modal fade" id="deleteAlert" tabindex="-1" role="dialog" aria-labelledby="deleteAlertLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <h5 class="center">Are you sure to delete?</h5>
+                    <div class="flexed">
+                        <a href="#!" @click="deleteAddress">Yes</a>
+                        <a href="#!" id="clcik" data-dismiss="modal">No</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -126,32 +74,69 @@ import ShippingFormComponent from './ShippingFormComponent.vue';
     components: { ShippingFormComponent },
         data() {
             return {
+                addressToDelete: 0,
                 editAddress: false,
+                inputs: {
+                    state_id: "",
+                    lga_id: ""
+                },
                 newAddress: false,
                 shippingAddrs: [],
             };
         },
         methods: {
+            addToAddress(evt) {
+                this.shippingAddrs.unshift(evt);
+            },
             cancelEdit(e) {
                 this.editAddress = e;
             },
+            deleteAddress() {
+                axios.delete(`/api/shipping/${this.addressToDelete}`).then(res => {
+                    if (res.data == '') {
+                        this.shippingAddrs.splice(
+                            this.shippingAddrs.findIndex(
+                                (rol) => rol.id === this.addressToDelete
+                            ),
+                            1
+                        );
+                        this.$toasted.show(
+                            "Shipping Address deleted!",
+                            {
+                                duration: 3000,
+                                position: "top-right",
+                            }
+                        );
+                        document.getElementById('clcik').click();
+                    }
+                    
+                }).catch(err => {
+                    console.log(err);
+                })
+            },
+            getAddressToDel(addr) {
+                this.addressToDelete = addr;
+            },
             getShippingAddr() {
                 axios
-                    .get(`api/shipping/${this.$store.state.user.id}`)
+                    .get(`/api/shipping/${this.$store.state.user.user_id}`)
                     .then((res) => {
                         this.shippingAddrs = res.data.shippinginfo;
                     });
             },
-            toggleFormEdit() {
+            toggleFormEdit(inputs) {
+                this.newAddress = false;
                 this.editAddress = !this.editAddress;
+                this.inputs = inputs;
             },
             toggleNewForm() {
+                this.editAddress = false;
                 this.newAddress = !this.newAddress;
+                this.inputs = {};
             },
         },
         mounted() {
             this.getShippingAddr();
-            console.log("Shipping details mounted");
         },
         name: "Shipping",
     };
@@ -171,5 +156,15 @@ import ShippingFormComponent from './ShippingFormComponent.vue';
     .pb-30 {
         margin-bottom: 25px;
     }
-    /*  */
+    .modal-content {
+        padding: 15px 20px;
+    }
+    .flexed {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+    .center {
+        text-align: center;
+    }
 </style>
