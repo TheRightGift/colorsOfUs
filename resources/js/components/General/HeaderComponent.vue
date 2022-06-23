@@ -686,7 +686,7 @@
                                                                     .size
                                                                     .name || item.size
                                                             }}
-                                                            /
+                                                            <span v-if="item.size && item.color">/</span>
                                                         </span>
                                                         <span
                                                             v-if="

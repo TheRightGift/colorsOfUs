@@ -9,4 +9,5 @@
     <link href="{{ asset('/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('/style.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/assets/morris.css')}}">
 </head>

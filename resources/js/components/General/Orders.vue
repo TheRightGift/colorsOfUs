@@ -54,6 +54,9 @@
     import ShortUniqueId from "short-unique-id";
     export default {
         components: { OrderComponent },
+        created() {
+            this.checkIfPaymentSuccessful();
+        },
         name: "Order",
         data() {
             return {
@@ -137,7 +140,6 @@
             },
         },
         mounted() {
-            this.checkIfPaymentSuccessful();
             this.getAllOrders();
             this.generateOrderID();
         },

@@ -39,7 +39,7 @@ class OrderController extends Controller
     public function home()
     {
         $orders = Order::with('product.images', 'shippinginfo')->paginate();
-        $isCustomizedOrders = Order::where('is_customized', 1)->with('product.images', 'product.sizes', 'product.colors', 'shippinginfo')->paginate();
+        $isCustomizedOrders = Order::where('is_customized', '1')->with('product.images', 'product.sizes', 'product.colors', 'shippinginfo')->paginate();
         
         return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders, 'orderCustomized' => $isCustomizedOrders]);
     }
@@ -90,23 +90,24 @@ class OrderController extends Controller
                 'orderID' => $request->get('orderID'),
                 'unit_price' => $item['amount'],
                 'quantity' => $item['quantity'],
-                'size_id' => is_array($item['size']) ? $item['size']['id'] : $item['size'],
-                'color_id' => $item['color']['id'],
+                'size_id' => isset($item['size']) ? is_array($item['size']) ? $item['size']['id'] : $item['size'] : null,
+                'color_id' => isset($item['color']) ? $item['color']['id'] : null,
                 'discount' => $item['discount'],
-                'is_customized' => $item['customized'],
-                'is_finished' => $item['customized'] == '1' ? 1 : null,
+                'is_customized' => isset($item['customized']) ? $item['customized'] : '0',
+                'is_finished' => isset($item['customized']) ? $item['customized'] == '1' ? 1 : null : null,
                 'created_at' => now(),
             ]);
             $order->admins()->sync(['admin_id' => $assigneeId]);
             // Notify product admin
-            if ($item['customized'] == '1') {
+            if (isset($item['customized']) && $item['customized'] == '1') {
+                $colorMsg = isset($item['color']) ?  ' and the preferred color is '.$item['color']['name'].'.' : '.';
                 $dataNotify = [
                     'user_id' => auth()->user()->id,
                     'order_id' => $order->id,
                     'typeof' => '2',
                     'title' => 'Pre-Order Request',
                     'message' => 
-                        'A user has requested '.$item['title'].' product, with her custom size of '.$item['size'].' and the preferred color is '.$item['color']['name'].'. Please proceed to production with above details. And return finished product to the admin that will handle the shipping process/store pickup. Thanks
+                        'A user has requested '.$item['title'].' product, with her custom size of '.$item['size'].''.$colorMsg.' Please proceed to production with above details. And return finished product to the admin that will handle the shipping process/store pickup. Thanks
                         <p>Please refer to Admin '.$assigneeName['firstname'].' '.$assigneeName['lastname'].' with orderID '.$request->get('orderID').'</p>',
                     'admin_id' => $assigneeId,
                 ];

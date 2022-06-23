@@ -24,7 +24,7 @@ return [
         'address'     => null,
 
         'logo'        => [
-            'path'   => '%PUBLIC%/vendor/beautymail/assets/images/sunny/logo.png',
+            'path'   => '%PUBLIC%/img/logo.png',
             'width'  => '50',
             'height' => '50',
         ],

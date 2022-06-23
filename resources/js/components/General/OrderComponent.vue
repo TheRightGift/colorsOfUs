@@ -47,7 +47,7 @@
                             />
                         </div>
                         <div id="productDetails" class="col-sm-6">
-                            <p>{{ processingOrder.product.title }} - {{ processingOrder.color_id ? getColor(processingOrder) : '' }} / {{ processingOrder.size_id ? getSize(processingOrder) : '' }} </p>
+                            <p>{{ processingOrder.product.title }} <span v-if="processingOrder.color_id != null || processingOrder.size_id != null"></span> {{ processingOrder.color_id ? getColor(processingOrder) : '' }} <span v-if="processingOrder.color_id != null && processingOrder.size_id != null">/</span> {{ processingOrder.size_id ? getSize(processingOrder) : '' }} </p>
                             <p>
                                 &#8358;{{
                                     toLocaleStringe(processingOrder.unit_price, processingOrder.discount)
@@ -123,7 +123,7 @@
                             />
                         </div>
                         <div id="productDetails" class="col-sm-6">
-                            <p>{{ orderInTransit.product.title }}</p>
+                            <p>{{ orderInTransit.product.title }} <span v-if="orderInTransit.color_id != null || orderInTransit.size_id != null">-</span> {{ orderInTransit.color_id ? getColor(orderInTransit) : '' }} <span v-if="orderInTransit.color_id != null && orderInTransit.size_id != null">/</span> {{ orderInTransit.size_id ? getSize(orderInTransit) : '' }} </p>
                             <p>
                                 &#8358;{{
                                     toLocaleStringe(orderInTransit.unit_price, orderInTransit.discount)
@@ -197,7 +197,7 @@
                             />
                         </div>
                         <div id="productDetails" class="col-sm-6">
-                            <p>{{ completedOrder.product.title }}</p>
+                            <p>{{ completedOrder.product.title }} <span v-if="completedOrder.color_id != null || completedOrder.size_id != null">-</span> {{ completedOrder.color_id ? getColor(completedOrder) : '' }} <span v-if="completedOrder.color_id != null && completedOrder.size_id != null">/</span> {{ completedOrder.size_id ? getSize(completedOrder) : '' }} </p>
                             <p>
                                 &#8358;{{
                                     toLocaleStringe(
@@ -286,7 +286,7 @@
                             />
                         </div>
                         <div id="productDetails" class="col-sm-6">
-                            <p>{{ orderPaginated.product.title }} - {{ orderPaginated.color_id ? getColor(orderPaginated) : '' }} / {{ orderPaginated.size_id ? getSize(orderPaginated) : '' }}</p>
+                            <p>{{ orderPaginated.product.title }} <span v-if="orderPaginated.color_id != null || orderPaginated.size_id != null">-</span> {{ orderPaginated.color_id ? getColor(orderPaginated) : '' }} <span v-if="orderPaginated.color_id != null && orderPaginated.size_id != null">/</span> {{ orderPaginated.size_id ? getSize(orderPaginated) : '' }}</p>
                             <p>
                                 &#8358;{{
                                     toLocaleStringe(orderPaginated.unit_price, orderPaginated.discount)
