@@ -18,7 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('order_id');
             $table->enum('typeof', ['1', '0', '2']);
-            $table->enum('track', ['1', '0']);
+            $table->enum('track', ['1', '0'])->default('0');
             $table->longText('message')->nullable();
             $table->text('title')->nullable();
             $table->unsignedBigInteger('admin_id')->nullable();
