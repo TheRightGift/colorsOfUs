@@ -37,7 +37,7 @@ class AdminController extends Controller
 
         Admin::find($request->admin_id)->update(['role_id' => $request->role_id, 'updated_at' => now()]); 
         
-        $adminRole = Admin::find($request->admin_id)->withTrashed('user')->with('role', 'user', 'orders.products.images', 'orders.shippinginfo')->get();
+        $adminRole = Admin::find($request->admin_id)->withTrashed('user')->with('role', 'user', 'orders.product.images', 'orders.shippinginfo')->get();
         return response()->json(['message' => 'New role added.', 'admins' => $adminRole, 'status' => 1]);
     }
 
@@ -45,7 +45,7 @@ class AdminController extends Controller
      * Fetch all admins where usertype = 1 || 2
      */
     public function admin() {
-        $admin = Admin::with('role', 'user', 'orders.products.images', 'orders.shippinginfo')->withTrashed('user')->get();
+        $admin = Admin::with('role', 'user', 'orders.product.images', 'orders.shippinginfo')->withTrashed('user')->get();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
     }
     
@@ -58,7 +58,7 @@ class AdminController extends Controller
     public function show($id)
     {
         $orders = new Order();
-        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes', 'orders.shippinginfo.state', 'orders.shippinginfo.lga')->first();
+        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes', 'orders.shippinginfo.state', 'orders.shippinginfo.lga')->get();
         $order = $orders->get();
         $ordersGrouped = $orders->with('admins')->get()->groupBy('orderID');
         

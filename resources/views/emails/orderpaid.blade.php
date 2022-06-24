@@ -23,15 +23,15 @@
 			@foreach ($data as $item)
 				<tr>
 				<td>
-					<img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}/{{$item['images'][0]['url']}}" width="150" height="160" >
+					<img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}{{$item['images'][0]['url']}}" width="150" height="160" >
 				</td>
 				<td>
 					<p>{{$item['title']}} 
 						<em>
-							{{in_array($item['size'], $item) ? $item['is_customized'] == '1' ? $item['size'].' / ' : $item['size']['name'].' / ' : ''}} 
+							<small>{{isset($item['size']) ? 'Size: ' : ''}}{{isset($item['size']) ? in_array($item['size'], $item) ? $item['customized'] == '1' ? $item['size'] : $item['size']['name'] : '' : ''}} </small>
 						</em>
 						<em>
-							{{in_array($item['color'], $item) ? $item['color']['name'] : ''}}
+							<small>{{isset($item['color']) ? 'Color: '  : ''}}{{isset($item['color']) ? in_array($item['color'], $item) ? $item['color']['name'] : '' : ''}}</small>
 						</em>
 					</p>
 					<p>x{{$item['quantity']}}</p>

@@ -68,7 +68,6 @@ Vue.component('order-component', require('./components/Admin/Order.vue').default
 Vue.component('customer-component', require('./components/Admin/Customer.vue').default);
 
 Vue.component('profile-component', require('./components/Admin/Profile.vue').default);
-Vue.component('shipping_price-component', require('./components/Admin/Shippingprice.vue').default);
 
 Vue.component('promotions-component', require('./components/Super/Promotions.vue').default);
 Vue.component('superadmin-component', require('./components/Super/SuperAdminComponent.vue').default);

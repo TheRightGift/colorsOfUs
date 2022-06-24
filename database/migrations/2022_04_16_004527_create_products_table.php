@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('amount');
             $table->unsignedBigInteger('stock')->nullable();
             $table->enum('recommended', [0, 1])->default(0)->nullable();
+            $table->integer('shipping_price');
             $table->softDeletes();
             $table->timestamps();
         });

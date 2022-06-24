@@ -451,7 +451,7 @@
         methods: {
             checkIfRegisteredDetails() {
                 axios
-                    .get(`/api/admin/${this.$store.state.user.id}`)
+                    .get(`/api/admin/${this.$store.state.user.user_id}`)
                     .then((res) => {
                         if (res.data.admin != null && res.data.admin.role_id == 1) {
                             this.orders = res.data.admin.orders;

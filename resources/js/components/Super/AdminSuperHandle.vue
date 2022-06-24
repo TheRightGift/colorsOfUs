@@ -4,7 +4,7 @@
             <div class="row">
                 <!-- Area Chart -->
                 <div class="col-xl-12 col-lg-12">
-                    <div class="card shadow mb-4">
+                    <div class="shadow mb-4">
                         <!-- Card Header - Dropdown -->
                         <div
                             class="
@@ -16,7 +16,14 @@
                                 justify-content-between
                             "
                         >
-                            <h6 class="m-0 font-weight-bold text-primary d-inline-block">
+                            <h6
+                                class="
+                                    m-0
+                                    font-weight-bold
+                                    text-primary
+                                    d-inline-block
+                                "
+                            >
                                 Admins Overview
                             </h6>
                             <div class="dropdown no-arrow right">
@@ -155,11 +162,31 @@
                                                                 admin.user.email
                                                             }}
                                                         </h5>
-                                                        <small class="field" v-if="admin.user.user_type == 1">
-                                                                Admin
-                                                                <span v-if="admin.role != null">{{admin.role.name}}</span>
+                                                        <small
+                                                            class="field"
+                                                            v-if="
+                                                                admin.user
+                                                                    .user_type ==
+                                                                1
+                                                            "
+                                                        >
+                                                            Admin
+                                                            <span
+                                                                v-if="
+                                                                    admin.role !=
+                                                                    null
+                                                                "
+                                                                >{{
+                                                                    admin.role
+                                                                        .name
+                                                                }}</span
+                                                            >
                                                         </small>
-                                                        <small class="field" v-else>Tech Admin</small>
+                                                        <small
+                                                            class="field"
+                                                            v-else
+                                                            >Tech Admin</small
+                                                        >
                                                         <span>{{
                                                             admin.deleted_at !=
                                                             null
@@ -228,273 +255,137 @@
                                         data-toggle="modal"
                                         data-target="#deleteAdminModal"
                                     ></i>
-                                    <h5 class="center">
-                                        {{ adminClickedOn.user.email }}
-                                    </h5>
                                     <div
                                         class="container"
                                         v-if="
                                             adminClickedOn.user.user_type ==
-                                                1 && adminClickedOn.role != null ? adminClickedOn.role.id == 1 : null
+                                                1 && adminClickedOn.role != null
+                                                ? adminClickedOn.role.id == 1
+                                                : null
                                         "
                                     >
                                         <!-- Page Heading -->
-                                        <div
-                                            class="
-                                                d-sm-flex
-                                                align-items-center
-                                                justify-content-between
-                                                mb-4
-                                            "
-                                        ></div>
-
                                         <div class="row">
-                                            <div class="col-xl-3 col-md-6 mb-4">
+                                            <!-- Column -->
+                                            <div class="col-lg-4 col-md-6">
                                                 <div
-                                                    class="
-                                                        card
-                                                        border-left-primary
-                                                        shadow
-                                                        h-100
-                                                        py-2
-                                                        cursor-pointer
-                                                    "
-                                                    data-toggle="modal"
-                                                    data-target="#orderModal"
+                                                    class="card cursor-pointer"
                                                     @click="getAssigned"
                                                 >
                                                     <div class="card-body">
-                                                        <div
-                                                            class="
-                                                                row
-                                                                no-gutters
-                                                                align-items-center
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="col mr-2"
+                                                        <h4 class="card-title">
+                                                            Orders Assigned
+                                                        </h4>
+                                                        <div class="text-end">
+                                                            <span
+                                                                class="
+                                                                    text-muted
+                                                                "
+                                                                >Assigned</span
                                                             >
-                                                                <div
-                                                                    class="
-                                                                        text-xs
-                                                                        font-weight-bold
-                                                                        text-primary
-                                                                        text-uppercase
-                                                                        mb-1
-                                                                    "
-                                                                >
-                                                                    Orders
-                                                                    Assigned
-                                                                </div>
-                                                                <div
-                                                                    class="
-                                                                        h5
-                                                                        mb-0
-                                                                        font-weight-bold
-                                                                        text-gray-800
-                                                                    "
-                                                                >
-                                                                    <span
-                                                                        v-if="
-                                                                            ordersProcessing.length >
-                                                                            0
-                                                                        "
-                                                                        >{{
-                                                                            ordersProcessing.length
-                                                                        }}</span
-                                                                    >
-                                                                    <span v-else
-                                                                        >0</span
-                                                                    >
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="col-auto"
+                                                            <h1
+                                                                class="
+                                                                    font-light
+                                                                "
                                                             >
-                                                                <i
-                                                                    class="
-                                                                        fab
-                                                                        fa-buysellads
-                                                                        fa-2x
-                                                                        text-gray-300
+                                                                <span
+                                                                    v-if="
+                                                                        ordersProcessing.length >
+                                                                        0
                                                                     "
-                                                                ></i>
-                                                            </div>
+                                                                    >{{
+                                                                        ordersProcessing.length
+                                                                    }}</span
+                                                                >
+                                                                <span v-else
+                                                                    >0</span
+                                                                >
+                                                            </h1>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-1"></div>
-                                            <!-- Tasks Card Example -->
-                                            <div class="col-xl-3 col-md-6 mb-4">
+                                            <!-- Column -->
+                                            <!-- Column -->
+                                            <div class="col-lg-4 col-md-6">
                                                 <div
-                                                    class="
-                                                        card
-                                                        border-left-info
-                                                        shadow
-                                                        h-100
-                                                        py-2
-                                                        cursor-pointer
-                                                    "
-                                                    data-toggle="modal"
-                                                    data-target="#orderModal"
+                                                    class="card cursor-pointer" 
                                                     @click="getInTransit"
                                                 >
                                                     <div class="card-body">
-                                                        <div
-                                                            class="
-                                                                row
-                                                                no-gutters
-                                                                align-items-center
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="col mr-2"
+                                                        <h4 class="card-title">
+                                                            Orders In transit
+                                                        </h4>
+                                                        <div class="text-end">
+                                                            <span
+                                                                class="
+                                                                    text-muted
+                                                                "
+                                                                >Shipped</span
                                                             >
-                                                                <div
-                                                                    class="
-                                                                        text-xs
-                                                                        font-weight-bold
-                                                                        text-info
-                                                                        text-uppercase
-                                                                        mb-1
-                                                                    "
-                                                                >
-                                                                    Orders In
-                                                                    transit
-                                                                </div>
-                                                                <div
-                                                                    class="
-                                                                        row
-                                                                        no-gutters
-                                                                        align-items-center
-                                                                    "
-                                                                >
-                                                                    <div
-                                                                        class="
-                                                                            col-auto
-                                                                        "
-                                                                    >
-                                                                        <div
-                                                                            class="
-                                                                                h5
-                                                                                mb-0
-                                                                                mr-3
-                                                                                font-weight-bold
-                                                                                text-gray-800
-                                                                            "
-                                                                        >
-                                                                            <span
-                                                                                v-if="
-                                                                                    ordersInTransit.length >
-                                                                                    0
-                                                                                "
-                                                                                >{{
-                                                                                    ordersInTransit.length
-                                                                                }}</span
-                                                                            >
-                                                                            <span
-                                                                                v-else
-                                                                                >0</span
-                                                                            >
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="col-auto"
+                                                            <h1
+                                                                class="
+                                                                    font-light
+                                                                "
                                                             >
-                                                                <i
-                                                                    class="
-                                                                        fas
-                                                                        fa-truck
-                                                                        fa-2x
-                                                                        text-gray-300
+                                                                <span
+                                                                    v-if="
+                                                                        ordersInTransit.length >
+                                                                        0
                                                                     "
-                                                                ></i>
-                                                            </div>
+                                                                    >{{
+                                                                        ordersInTransit.length
+                                                                    }}</span
+                                                                >
+                                                                <span v-else
+                                                                    >0</span
+                                                                >
+                                                            </h1>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-1"></div>
-                                            <!-- Pending Requests Card Example -->
-                                            <div class="col-xl-3 col-md-6 mb-4">
+                                            <!-- Column -->
+                                            <!-- Column -->
+                                            <div class="col-lg-4 col-md-6">
                                                 <div
-                                                    class="
-                                                        card
-                                                        border-left-warning
-                                                        shadow
-                                                        h-100
-                                                        py-2
-                                                        cursor-pointer
-                                                    "
-                                                    data-toggle="modal"
-                                                    data-target="#orderModal"
+                                                    class="card cursor-pointer"
                                                     @click="getCompleted"
                                                 >
                                                     <div class="card-body">
-                                                        <div
-                                                            class="
-                                                                row
-                                                                no-gutters
-                                                                align-items-center
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="col mr-2"
+                                                        <h4 class="card-title">
+                                                            Orders Completed
+                                                        </h4>
+                                                        <div class="text-end">
+                                                            <span
+                                                                class="
+                                                                    text-muted
+                                                                "
+                                                                >Completed</span
                                                             >
-                                                                <div
-                                                                    class="
-                                                                        text-xs
-                                                                        font-weight-bold
-                                                                        text-warning
-                                                                        text-uppercase
-                                                                        mb-1
-                                                                    "
-                                                                >
-                                                                    Orders
-                                                                    Completed
-                                                                </div>
-                                                                <div
-                                                                    class="
-                                                                        h5
-                                                                        mb-0
-                                                                        font-weight-bold
-                                                                        text-gray-800
-                                                                    "
-                                                                >
-                                                                    <span
-                                                                        v-if="
-                                                                            ordersCompleted.length >
-                                                                            0
-                                                                        "
-                                                                        >{{
-                                                                            ordersCompleted.length
-                                                                        }}</span
-                                                                    >
-                                                                    <span v-else
-                                                                        >0</span
-                                                                    >
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="col-auto"
+                                                            <h1
+                                                                class="
+                                                                    font-light
+                                                                "
                                                             >
-                                                                <i
-                                                                    class="
-                                                                        fas
-                                                                        fa-book
-                                                                        fa-2x
-                                                                        text-gray-300
+                                                                <span
+                                                                    v-if="
+                                                                        ordersCompleted.length >
+                                                                        0
                                                                     "
-                                                                ></i>
-                                                            </div>
+                                                                    >{{
+                                                                        ordersCompleted.length
+                                                                    }}</span
+                                                                >
+                                                                <span v-else
+                                                                    >0</span
+                                                                >
+                                                            </h1>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-1"></div>
+                                            <!-- Column -->
                                         </div>
                                     </div>
                                     <div class="container mt-3">
@@ -527,10 +418,8 @@
                                                             d-inline-block
                                                         "
                                                         v-if="
-                                                            adminClickedOn
-                                                                .user
-                                                                .user_type ==
-                                                            1
+                                                            adminClickedOn.user
+                                                                .user_type == 1
                                                         "
                                                     >
                                                         <a
@@ -545,7 +434,6 @@
                                                             aria-expanded="false"
                                                         >
                                                             <i
-                                                                
                                                                 class="
                                                                     fa-fw
                                                                     text-gray-400
@@ -589,12 +477,14 @@
                                                                     role.name
                                                                 }}
                                                                 <i
-                                                                    v-if=" adminClickedOn
-                                                                            .role != null ? 
-                                                                        adminClickedOn
-                                                                            .role
-                                                                            .id ==
-                                                                        role.id : null
+                                                                    v-if="
+                                                                        adminClickedOn.role !=
+                                                                        null
+                                                                            ? adminClickedOn
+                                                                                  .role
+                                                                                  .id ==
+                                                                              role.id
+                                                                            : null
                                                                     "
                                                                     class="
                                                                         fa
@@ -611,6 +501,17 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
+                                                <p>
+                                                    Email
+                                                    <i
+                                                        class="fas fa-envelope"
+                                                    ></i>
+                                                    :
+                                                    {{
+                                                        adminClickedOn.user
+                                                            .email
+                                                    }}
+                                                </p>
                                                 <p>
                                                     Name
                                                     <i class="fas fa-user"></i>
@@ -691,7 +592,6 @@
                 </div>
             </div>
         </div>
-        <!-- <i class="fas fa-trash-restore-alt"></i> -->
         <!-- Order modal -->
         <div
             class="modal fade"
@@ -785,7 +685,8 @@
                                             <div>
                                                 <p>Name:</p>
                                                 {{
-                                                    order.shippinginfo.firstname +
+                                                    order.shippinginfo
+                                                        .firstname +
                                                     " " +
                                                     order.shippinginfo.lastname
                                                 }}
@@ -800,7 +701,10 @@
                                             </div>
                                             <div>
                                                 <p>Postal Code:</p>
-                                                {{ order.shippinginfo.postal_code }}
+                                                {{
+                                                    order.shippinginfo
+                                                        .postal_code
+                                                }}
                                             </div>
                                         </div>
                                     </div>
