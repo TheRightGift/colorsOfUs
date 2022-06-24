@@ -166,8 +166,8 @@
                                             <th>Photo</th>
                                             <th>Name</th>
                                             <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Total</th>
+                                            <th>Price(&#8358;)</th>
+                                            <th>Total(&#8358;)</th>
                                             <th>Size</th>
                                             <th>Color</th>
                                             <th></th>

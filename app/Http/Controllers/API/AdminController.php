@@ -58,7 +58,7 @@ class AdminController extends Controller
     public function show($id)
     {
         $orders = new Order();
-        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes', 'orders.shippinginfo.state', 'orders.shippinginfo.lga')->get();
+        $admin = Admin::where('user_id', $id)->with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.product.colors', 'orders.product.sizes', 'orders.shippinginfo.state', 'orders.shippinginfo.lga')->first();
         $order = $orders->get();
         $ordersGrouped = $orders->with('admins')->get()->groupBy('orderID');
         

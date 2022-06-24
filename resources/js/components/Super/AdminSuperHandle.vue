@@ -586,6 +586,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div v-else-if="adminOrderView" class="adminOrders">
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -801,6 +805,10 @@
                     usertype: "",
                 },
                 adminAddView: false,
+                adminOrderview: false,
+                // adminAssigned: false,
+                // adminCompleted: false,
+                // adminInTransit: false,
                 adminsView: true,
                 adminView: false,
                 adminClickedOn: {},
@@ -884,12 +892,27 @@
             },
             getAssigned() {
                 this.ordersOpened = this.ordersProcessing;
+                this.adminView = false;
+                this.adminOrderview = true;
+                // this.adminAssigned = true;
+                // this.adminInTransit = false;
+                // this.adminCompleted = false;
             },
             getCompleted() {
                 this.ordersOpened = this.ordersCompleted;
+                this.adminView = false;
+                this.adminOrderview = true;
+                // this.adminAssigned = false;
+                // this.adminInTransit = false;
+                // this.adminCompleted = true;
             },
             getInTransit() {
                 this.ordersOpened = this.ordersInTransit;
+                this.adminView = false;
+                this.adminOrderview = true;
+                // this.adminAssigned = false;
+                // this.adminInTransit = true;
+                // this.adminCompleted = false;
             },
             removeReadmit() {
                 this.registering = true;

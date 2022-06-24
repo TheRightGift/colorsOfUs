@@ -23,7 +23,7 @@
                 @foreach ($data as $item)
                     <tr>
                         <td>
-                            <img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}/{{$item['product']['images'][0]['url']}}" width="150" height="160" >
+                            <img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}{{$item['product']['images'][0]['url']}}" width="150" height="160" >
                         </td>
                         <td>
                             <p>{{$item['product']['title']}} 

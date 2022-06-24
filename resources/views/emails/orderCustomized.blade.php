@@ -16,19 +16,19 @@
     @include('beautymail::templates.ark.contentStart')
 
 		<h4 class="secondary"><strong>Customized Production</strong></h4>
-		<p>Hi!, your request for product below</p>
+		<p>Dear, your request for product below </p>
 		<p>.</p>
         <table>
             <table>
                 @foreach ($data as $item)
                     <tr>
                         <td>
-                            <img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}/{{$item['product']['images'][0]['url']}}" width="150" height="160" >
+                            <img src="{{(isset($_SERVER["HTTPS"]) ? "https://" : "http://") . $_SERVER["HTTP_HOST"]}}{{$item['product']['images'][0]['url']}}" width="150" height="160" >
                         </td>
                         <td>
                             <p>{{$item['product']['title']}} 
                                 <em>
-                                    {{(!empty($item['size']) ? $item['size']['name']. ' / ' : $item['is_customized'] == '1') ? $item['size_id'].' / ' : ''}} 
+                                    Requested Size {{(!empty($item['size']) ? $item['size']['name']. ' / ' : $item['is_customized'] == '1') ? $item['size_id'].' / ' : ''}} 
                                 </em>
                                 <em>
                                     {{!empty($item['color']) ? $item['color']['name'] : ''}}
