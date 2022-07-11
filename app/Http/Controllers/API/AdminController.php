@@ -18,7 +18,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admin = Admin::with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user')->withTrashed('user')->get();
+        $admin = Admin::with('role', 'user', 'orders.product.images', 'orders.shippinginfo.user', 'orders.shippinginfo.state', 'orders.shippinginfo.lga', 'orders.product.colors', 'orders.product.sizes',)->withTrashed('user')->get();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
     }
 
@@ -45,7 +45,7 @@ class AdminController extends Controller
      * Fetch all admins where usertype = 1 || 2
      */
     public function admin() {
-        $admin = Admin::with('role', 'user', 'orders.product.images', 'orders.shippinginfo')->withTrashed('user')->get();
+        $admin = Admin::with('role', 'user', 'orders.product.images', 'orders.shippinginfo', 'orders.shippinginfo.state', 'orders.shippinginfo.lga', 'orders.product.colors', 'orders.product.sizes',)->withTrashed('user')->get();
         return response()->json(['message' => 'Admins fetched successfuly', 'admins' => $admin]);
     }
     

@@ -20,7 +20,7 @@
                                     v-model="searchVal"
                                     @keyup="search"
                                     class="form-control"
-                                    placeholder="Search (Name or OrderID"
+                                    placeholder="Search (Name or OrderID)"
                                 />
                             </p>
                         </div>

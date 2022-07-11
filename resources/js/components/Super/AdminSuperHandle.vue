@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container-fluid">
+        <div class="container-fluid" v-if="!isOrderDetails">
             <div class="row">
                 <!-- Area Chart -->
                 <div class="col-xl-12 col-lg-12">
@@ -22,9 +22,11 @@
                                     font-weight-bold
                                     text-primary
                                     d-inline-block
+                                    enlarge
                                 "
                             >
-                                Admins Overview
+                                <i class="fa fa-chevron-left cursor-pointer" @click="adminOrderView = false, adminView = true" v-if="adminOrderView == true"></i>
+                                {{adminOrderView || adminView ? adminClickedOn.firstname + ' Details' : 'Admins Overview'}}
                             </h6>
                             <div class="dropdown no-arrow right">
                                 <a
@@ -588,7 +590,7 @@
                                 </div>
                                 
                                 <div v-else-if="adminOrderView" class="adminOrders">
-                                    
+                                    <order-table-component :totalPrice="totalPrice" :totalProductPerOrder="totalProductPerOrder" :onChangePage="onChangePage" :recentOrders="orders" @getOrdersSummary="getOrdersSummary($event)" @search="search($event)" :isWhatOrder="isWhatOrder" :moment="moment" :ordersView="true" :pageOfItems="pageOfItems" />
                                 </div>
                             </div>
                         </div>
@@ -596,6 +598,16 @@
                 </div>
             </div>
         </div>
+        <order-details-component
+            v-if="isOrderDetails"
+            :discount="discount"
+            :totalPrice="totalPrice"
+            :formatPrice="formatPrice"
+            :orderDetails="orderDetails"
+            @closeOrderDetails="closeOrderDetails($event)"
+            @indexId="indexId($event)"
+            :moment="moment"
+        />
         <!-- Order modal -->
         <div
             class="modal fade"
@@ -786,41 +798,51 @@
 </template>
 <script>
     import AdminRegisterForm from "../Admin/AdminRegisterForm.vue";
+    import OrderTableComponent from '../Admin/OrderTableComponent.vue';
+    import moment from "moment";
+    import OrderDetailsComponent from '../Admin/OrderDetailsComponent.vue';
     export default {
-        components: { AdminRegisterForm },
+        components: { AdminRegisterForm, OrderTableComponent, OrderDetailsComponent },
         name: "AdminSuperHandle",
         props: ["user"],
         data() {
             return {
                 // successMessage: "",
-                success: "",
                 // errorMessage: "",
                 // errorMsg: false,
-                updateAdminClickedOn: false,
                 emailError: "",
-                errors: [],
                 admins: [],
                 admin: {
                     email: "",
                     usertype: "",
                 },
                 adminAddView: false,
-                adminOrderview: false,
-                // adminAssigned: false,
-                // adminCompleted: false,
-                // adminInTransit: false,
+                adminOrderView: false,
                 adminsView: true,
                 adminView: false,
                 adminClickedOn: {},
-                recycle: false,
-                registering: false,
-                roles: [],
+                errors: [],
+                holderForRecentOrder: "",
+                isOrderDetails: false,
+                isWhatOrder: {
+                    isCompleted: false,
+                    isInTransit: false,
+                    isProcessing: false,
+                },
+                loading: false,
+                orders: [],
                 ordersProcessing: [],
                 ordersInTransit: [],
                 ordersCompleted: [],
+                orderDetails: [],
                 ordersOpened: [],
+                pageOfItems: [],
+                recycle: false,
+                registering: false,
+                roles: [],
+                success: "",
                 update: false,
-                loading: false,
+                updateAdminClickedOn: false,
             };
         },
         methods: {
@@ -856,6 +878,18 @@
                         console.log(err);
                     });
             },
+            closeOrderDetails() {
+                this.isOrderDetails = false;
+            },
+            discount(disc, e) {
+                let discount = (disc / 100) * e;
+                let newPrice = e - Math.round(discount);
+                return Math.round(newPrice);
+            },
+            formatPrice(value) {
+                let val = value / 1;
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             getAdmins() {
                 this.loading = true;
                 axios
@@ -881,6 +915,41 @@
                 this.updateAdminClickedOn = true;
                 this.update = true;
             },
+            getAssigned() {
+                this.ordersOpened = this.ordersProcessing;
+                this.isWhatOrder.isProcessing = true;
+                this.isWhatOrder.isCompleted = false;
+                this.isWhatOrder.isInTransit = false;
+                this.orders = _.isEmpty(this.ordersProcessing)
+                    ? this.ordersProcessing
+                    : [
+                          _.groupBy(this.ordersProcessing, function (n) {
+                              return n.orderID;
+                          }),
+                      ];
+                      this.holderForRecentOrder = this.orders;
+                this.adminView = false;
+                this.adminOrderView = true;
+                // this.adminAssigned = true;
+                // this.adminInTransit = false;
+                // this.adminCompleted = false;
+            },
+            getCompleted() {
+                this.ordersOpened = this.ordersCompleted;
+                this.adminView = false;
+                this.adminOrderView = true;
+                this.isWhatOrder.isProcessing = false;
+                this.isWhatOrder.isCompleted = true;
+                this.isWhatOrder.isInTransit = false;
+                this.orders = _.isEmpty(this.ordersCompleted)
+                    ? this.ordersCompleted
+                    : [
+                          _.groupBy(this.ordersCompleted, function (n) {
+                              return n.orderID;
+                          }),
+                      ];
+                      this.holderForRecentOrder = this.orders;
+            },
             getDetails(admin) {
                 this.adminsView = false;
                 this.adminView = true;
@@ -890,29 +959,41 @@
                 this.ordersInTransit = admin.orders.filter((el) => el.status == 1);
                 this.ordersCompleted = admin.orders.filter((el) => el.status == 2);
             },
-            getAssigned() {
-                this.ordersOpened = this.ordersProcessing;
-                this.adminView = false;
-                this.adminOrderview = true;
-                // this.adminAssigned = true;
-                // this.adminInTransit = false;
-                // this.adminCompleted = false;
-            },
-            getCompleted() {
-                this.ordersOpened = this.ordersCompleted;
-                this.adminView = false;
-                this.adminOrderview = true;
-                // this.adminAssigned = false;
-                // this.adminInTransit = false;
-                // this.adminCompleted = true;
-            },
             getInTransit() {
                 this.ordersOpened = this.ordersInTransit;
                 this.adminView = false;
-                this.adminOrderview = true;
+                this.adminOrderView = true;
+                this.isWhatOrder.isProcessing = false;
+                this.isWhatOrder.isCompleted = false;
+                this.isWhatOrder.isInTransit = true;
+                this.orders = _.isEmpty(this.ordersInTransit)
+                    ? this.ordersInTransit
+                    : [
+                          _.groupBy(this.ordersInTransit, function (n) {
+                              return n.orderID;
+                          }),
+                      ];
+                      this.holderForRecentOrder = this.orders;
                 // this.adminAssigned = false;
                 // this.adminInTransit = true;
                 // this.adminCompleted = false;
+            },
+            getOrdersSummary(recent) {
+                this.isOrderDetails = true;
+                this.orderDetails = recent;
+            },
+            getRoles() {
+                axios
+                    .get("api/role")
+                    .then((res) => {
+                        this.roles = res.data.roles;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            indexId(evt) {
+                this.indexedID = evt;
             },
             removeReadmit() {
                 this.registering = true;
@@ -955,15 +1036,83 @@
                         });
                 }
             },
-            getRoles() {
-                axios
-                    .get("api/role")
-                    .then((res) => {
-                        this.roles = res.data.roles;
-                    })
-                    .catch((err) => {
-                        console.log(err);
+            moment(arg) {
+                return moment(arg);
+            },
+            onChangePage(pageOfItems) {
+                // update page of items
+                this.pageOfItems = pageOfItems;
+            },
+            search(value) {
+                if (value != "") {
+                    // Cos I groupedBy for orderID
+                    // To search ungroup and search and
+                    // to return search items regroup
+                    let ungrouped;
+                    this.orders = this.holderForRecentOrder; // Serves as state to hold the initial order in the array;
+                    
+                    this.orders.filter((item) => {
+                        let filtered = _.values(item);
+                        ungrouped = filtered.flat();
                     });
+                    try {
+                        let groupe = ungrouped.filter((el) => {
+                            return value
+                                .toLowerCase()
+                                .split(" ")
+                                .every(
+                                    (v) =>
+                                        el.orderID.toLowerCase().includes(v) ||
+                                        el.shippinginfo.firstname
+                                            .toLowerCase()
+                                            .includes(v) ||
+                                        el.shippinginfo.lastname
+                                            .toLowerCase()
+                                            .includes(v)
+                                );
+                        });
+                        this.orders = _.isEmpty(groupe)
+                            ? groupe
+                            : [
+                                _.groupBy(groupe, function (n) {
+                                    return n.orderID;
+                                }),
+                            ];
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
+                } else {
+                    if (this.isWhatOrder.isCompleted) {
+                        this.getCompleted();
+                    } else if (this.isWhatOrder.isInTransit) {
+                        this.getInTransit();
+                    } else if (this.isWhatOrder.isProcessing) {
+                        this.getAssigned();
+                    }
+                }
+            },
+            totalPrice(recent) {
+                let totalAmt = 0;
+                recent.forEach((el) => {
+                    if (el.discount == null) {
+                        totalAmt = totalAmt + el.unit_price * el.quantity;
+                    } else if (el.discount != null) {
+                        let disc = this.discount(el.discount, el.unit_price);
+                        totalAmt = totalAmt + disc * el.quantity;
+                    }
+                });
+                return this.formatPrice(totalAmt);
+            },
+            totalProductPerOrder(recent) {
+                let len = recent.length;
+                let items;
+                if (len == 1) {
+                    items = recent[0].product.title;
+                } else if (len > 1) {
+                    items = len + " products";
+                }
+                return items;
             },
         },
         mounted() {
@@ -986,6 +1135,9 @@
     }
     #logoutModal {
         z-index: 999999;
+    }
+    .enlarge {
+        font-size: 1.2rem;
     }
 </style>
 <style scoped>

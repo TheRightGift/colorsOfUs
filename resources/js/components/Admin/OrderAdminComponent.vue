@@ -280,6 +280,7 @@
         name: "OrderAdmin",
         data() {
             return {
+                holderForRecentOrder : "",
                 admin: {},
                 allOrders: [],
                 completedOrders: 0,
@@ -370,6 +371,7 @@
                               return n.orderID;
                           }),
                       ];
+                      this.holderForRecentOrder = this.recentOrders;
             },
             getCompleted() {
                 this.ordersView = true;
@@ -384,6 +386,7 @@
                               return n.orderID;
                           }),
                       ];
+                      this.holderForRecentOrder = this.recentOrders;
             },
             getInTransit() {
                 this.ordersView = true;
@@ -398,6 +401,7 @@
                               return n.orderID;
                           }),
                       ];
+                      this.holderForRecentOrder = this.recentOrders;
             },
             getOrdersForToday(orders) {
                 let todayMoment = moment();
@@ -469,6 +473,7 @@
                           ),
                       ];
                 this.isWhatOrder.isRecentOrders = true;
+                this.holderForRecentOrder = this.recentOrders;
             },
             getYesterdayOrder(orders) {
                 let yesterday = moment().add(-1, "days");
@@ -566,38 +571,44 @@
                 this.pageOfItems = pageOfItems;
             },
             search(value) {
-                console.log(value);
                 if (value != "") {
                     // Cos I groupedBy for orderID
                     // To search ungroup and search and
                     // to return search items regroup
                     let ungrouped;
+                    this.recentOrders = this.holderForRecentOrder; // Serves as state to hold the initial order in the array;
+                    
                     this.recentOrders.filter((item) => {
                         let filtered = _.values(item);
                         ungrouped = filtered.flat();
                     });
-                    let groupe = ungrouped.filter((el) => {
-                        return value
-                            .toLowerCase()
-                            .split(" ")
-                            .every(
-                                (v) =>
-                                    el.orderID.toLowerCase().includes(v) ||
-                                    el.shippinginfo.firstname
-                                        .toLowerCase()
-                                        .includes(v) ||
-                                    el.shippinginfo.lastname
-                                        .toLowerCase()
-                                        .includes(v)
-                            );
-                    });
-                    this.recentOrders = _.isEmpty(groupe)
-                        ? groupe
-                        : [
-                              _.groupBy(groupe, function (n) {
-                                  return n.orderID;
-                              }),
-                          ];
+                    try {
+                        let groupe = ungrouped.filter((el) => {
+                            return value
+                                .toLowerCase()
+                                .split(" ")
+                                .every(
+                                    (v) =>
+                                        el.orderID.toLowerCase().includes(v) ||
+                                        el.shippinginfo.firstname
+                                            .toLowerCase()
+                                            .includes(v) ||
+                                        el.shippinginfo.lastname
+                                            .toLowerCase()
+                                            .includes(v)
+                                );
+                        });
+                        this.recentOrders = _.isEmpty(groupe)
+                            ? groupe
+                            : [
+                                _.groupBy(groupe, function (n) {
+                                    return n.orderID;
+                                }),
+                            ];
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
                 } else {
                     if (this.isWhatOrder.isRecentOrders) {
                         this.getRecentOrders();

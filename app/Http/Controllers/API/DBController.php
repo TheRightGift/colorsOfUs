@@ -30,7 +30,7 @@ class DBController extends Controller
     }
 
     public function user() {
-        $customers = User::where('user_type', 0)->paginate();
+        $customers = User::where('user_type', 0)->with('shippinginfos.orders.product.images', 'shippinginfos.state', 'shippinginfos.lga', 'profile')->paginate();
         return response()->json(['message' => 'Success Fetching Data', 'status' => 1, 'users' => $customers ]);
     }
 

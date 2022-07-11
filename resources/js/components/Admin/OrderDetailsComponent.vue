@@ -170,7 +170,7 @@
                                             <th>Total(&#8358;)</th>
                                             <th>Size</th>
                                             <th>Color</th>
-                                            <th></th>
+                                            <th>{{$store.state.user.role_id == null ? 'Processed' : ''}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -229,6 +229,7 @@
                                                     "
                                                 >
                                                     <input
+                                                        :disabled="$store.state.user.role_id == null"
                                                         type="checkbox"
                                                         :value="order.status"
                                                         :checked="checked(order.status)"

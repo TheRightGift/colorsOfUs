@@ -107,17 +107,6 @@
                                                     {{data.customers}}
                                                 </h1>
                                             </div>
-                                            <!-- <span class="text-info">60%</span>
-                                            <div class="progress">
-                                                <div
-                                                    class="progress-bar bg-info"
-                                                    role="progressbar"
-                                                    style="width: 60%; height: 6px"
-                                                    aria-valuenow="25"
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"
-                                                ></div>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </a>
@@ -137,17 +126,6 @@
                                                     {{data.admins}}
                                                 </h1>
                                             </div>
-                                            <!-- <span class="text-inverse">80%</span>
-                                            <div class="progress">
-                                                <div
-                                                    class="progress-bar bg-inverse"
-                                                    role="progressbar"
-                                                    style="width: 80%; height: 6px"
-                                                    aria-valuenow="25"
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"
-                                                ></div>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </a>
@@ -158,72 +136,6 @@
                         <!-- charts -->
                         <!-- ============================================================== -->
                         <div class="row">
-                            <!-- Column -->
-                            <!-- <div class="col-lg-8 col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div
-                                            class="
-                                                d-flex
-                                                m-b-40
-                                                align-items-center
-                                                no-block
-                                            "
-                                        >
-                                            <h5 class="card-title">
-                                                PRODUCT SALES
-                                            </h5>
-                                            <div class="ms-auto">
-                                                <ul
-                                                    class="list-inline text-end"
-                                                >
-                                                    <li>
-                                                        <h5>
-                                                            <i
-                                                                class="
-                                                                    fa fa-circle
-                                                                    m-r-5
-                                                                    text-inverse
-                                                                "
-                                                            ></i
-                                                            >iPhone
-                                                        </h5>
-                                                    </li>
-                                                    <li>
-                                                        <h5>
-                                                            <i
-                                                                class="
-                                                                    fa fa-circle
-                                                                    m-r-5
-                                                                    text-info
-                                                                "
-                                                            ></i
-                                                            >iPad
-                                                        </h5>
-                                                    </li>
-                                                    <li>
-                                                        <h5>
-                                                            <i
-                                                                class="
-                                                                    fa fa-circle
-                                                                    m-r-5
-                                                                    text-success
-                                                                "
-                                                            ></i
-                                                            >iPod
-                                                        </h5>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div
-                                            id="morris-area-chart"
-                                            style="height: 400px"
-                                        ></div>
-                                    </div>
-                                </div>
-                            </div> -->
-
                             <div
                                 class="col-md-12 col-lg-8 col-sm-12 col-xs-12"
                             >
