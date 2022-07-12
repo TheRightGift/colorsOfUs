@@ -11,11 +11,16 @@
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-                        <div v-if="$store.state.user.role_id == 1">
-                            <order-admin-component />
+                        <div v-if="$store.state.user.role_id == ''">
+                            <div v-if="$store.state.user.role_id == 1">
+                                <order-admin-component />
+                            </div>
+                            <div v-else-if="$store.state.user.role_id == 2">
+                                <product-admin-component />
+                            </div>
                         </div>
-                        <div v-else-if="$store.state.user.role_id == 2">
-                            <product-admin-component />
+                        <div v-else>
+                            
                         </div>
                     </div>
                     <!-- /.container-fluid -->

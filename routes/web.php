@@ -42,6 +42,10 @@ Route::get('/activate/{code}', function () {
     return view('user.activate');
 });
 
+Route::get('/reset-password/{hash}', function () {
+    return view('auth.reset_password');
+})->middleware('guest');
+
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->middleware('is_admin');

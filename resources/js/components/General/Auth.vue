@@ -158,8 +158,30 @@
                                                     id="RecoverPasswordForm"
                                                     style="display: none"
                                                 >
+                                                    <p
+                                                        class="success"
+                                                        v-if="success != ''"
+                                                        name="utf8"
+                                                    >
+                                                        {{ "✓" + success }}
+                                                    </p>
+                                                    <div
+                                                        class="errors"
+                                                        v-if="
+                                                            error != ''
+                                                        "
+                                                    >
+                                                        <ul>
+                                                            <li>
+                                                                {{
+                                                                    error
+                                                                }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                     <form
                                                         accept-charset="UTF-8"
+                                                        @submit.prevent="sendMail"
                                                     >
                                                         <input
                                                             type="hidden"
@@ -203,7 +225,13 @@
                                                         >
                                                             <button
                                                                 type="submit"
+                                                                :disabled="requesting"
                                                             >
+                                                                <i
+                                                                    v-if="requesting"
+                                                                    class="fa fa-circle-o-notch fa-spin fa-fw"
+                                                                    aria-hidden="true"
+                                                                ></i>
                                                                 Submit
                                                             </button>
                                                         </div>
@@ -267,6 +295,24 @@
                                                         placeholder="Last Name"
                                                         autocapitalize="words"
                                                         v-model="user.lastname"
+                                                    />
+
+                                                    <label
+                                                        for="Phone"
+                                                        class="hidden-label"
+                                                        >Phone</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        id="Phone"
+                                                        class="input-full"
+                                                        required
+                                                        pattern="(((^090)([1-9]{1}))|((^070)([1-9]{1}))|((^080)([2-9]))|((^081)([0-9]))|((^091)([2356])))(\d{7})"
+                                                        onKeyPress="if(this.value.length==11) return false;"
+                                                        placeholder="Phone Number: 09058834578"
+                                                        v-model="user.phone"
+                                                        inputmode="numeric" 
+                                                        title="Enter without international number calling:+234 "
                                                     />
 
                                                     <label
@@ -405,10 +451,16 @@
                     user_type: 0,
                     firstname: "",
                     lastname: "",
+                    phone: "",
                 },
             };
         },
         methods: {
+            checkAdmin() {
+                location.pathname === "/sbminbackoffice"
+                    ? (this.user.user_type = 3)
+                    : this.user.user_type;
+            },
             login() {
                 this.requesting = true;
                 axios
@@ -433,7 +485,7 @@
                                 case "admin":
                                     power = 1;
                                     break;
-                                case "tech_admin": 
+                                case "tech_admin":
                                     power = 2;
                                     break;
                                 case "super":
@@ -444,7 +496,9 @@
                             }
 
                             this.$store.commit("rewop", power);
-                            power == 0 ? window.location.href = "/" : window.location.href = `/${expr}`;
+                            power == 0
+                                ? (window.location.href = "/")
+                                : (window.location.href = `/${expr}`);
                         } else {
                             this.requesting = false;
                         }
@@ -458,57 +512,52 @@
                 this.requesting = true;
                 this.error = "";
                 this.errors = [];
-                if (this.user.user_type == 0) {
-                    axios
-                        .post("api/basic.auth0", this.user)
-                        .then((res) => {
-                            console.log(res, res.data.status);
-                            if (res.data.status == 200) {
-                                this.success =
-                                    "Please check your email to confirm your account!";
-                                this.requesting = false;
-                                this.user.email = "";
-                                this.user.password = "";
-                                this.user.password_confirmation = "";
-                                this.user.firstname = "";
-                                this.user.lastname = "";
-                            }
-                            if (res.data.error) {
-                                this.requesting = false;
-                                this.errors = res.data.error;
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err, err.status);
-                        });
-                } else if (this.user.user_type == 3) {
-                    axios
-                        .post("/api/basic.auth3", this.user)
-                        .then((res) => {
-                            if (res.data.status == 200) {
-                                this.success =
-                                    "Account creation successful, Please login!";
-                                this.requesting = false;
-                                this.user.email = "";
-                                this.user.password = "";
-                                this.user.password_confirmation = "";
-                                this.user.firstname = "";
-                                this.user.lastname = "";
-                            }
-                            if (res.data.error) {
-                                this.requesting = false;
-                                this.errors = res.data.error;
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
+                axios
+                    .post("api/basic.auth0", this.user)
+                    .then((res) => {
+                        if (res.data.status == 200) {
+                            this.success =
+                                "Account creation successful, Please check your email to confirm your account!";
+                            this.requesting = false;
+                            this.user.email = "";
+                            this.user.password = "";
+                            this.user.password_confirmation = "";
+                            this.user.firstname = "";
+                            this.user.lastname = "";
+                            this.user.phone = "";
+                            setTimeout(() => {
+                                this.success = "";
+                            }, 5000);
+                        }
+                        if (res.data.error) {
+                            this.requesting = false;
+                            this.errors = res.data.error;
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err, err.status);
+                    });
             },
-            checkAdmin() {
-                location.pathname === "/sbminbackoffice"
-                    ? (this.user.user_type = 3)
-                    : this.user.user_type;
+            sendMail() {
+                this.requesting = true;
+                axios
+                    .post("api/forgot-password", {
+                        email: this.user.email,
+                    })
+                    .then((res) => {
+                        if (res.data.status == null) {
+                            this.requesting = false;
+                            this.success = res.data.message;
+                            this.error = "";
+                        } else if (res.data.status == 204) {
+                            this.requesting = false;
+                            this.error = res.data.message;
+                        }
+                    })
+                    .catch((err) => {
+                        this.requesting = false;
+                        console.log(err);
+                    });
             },
         },
         mounted() {

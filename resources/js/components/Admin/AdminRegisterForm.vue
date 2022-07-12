@@ -322,12 +322,12 @@
                             this.requesting = false;
                             this.successState(
                                 true,
-                                this.update ? "Update Successful" : "Administrator Registered Ok"
+                                this.update ? "Update Successful" : "Administrator Registered Ok. Check Email to confirm!"
                             );
                             
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1000);
+                            }, 5000);
                         }
                     })
                     .catch((err) => {

@@ -60,7 +60,7 @@ Vue.component('collection-component', require('./components/General/Products.vue
 Vue.component('contact-component', require('./components/General/Contact.vue').default);
 Vue.component('aboutus-component', require('./components/General/AboutUs.vue').default);
 Vue.component('search_result-component', require('./components/General/SearchResults.vue').default);
-
+Vue.component('reset_password-component', require('./components/General/ResetPassword.vue').default);
 
 Vue.component('admin-component', require('./components/Admin/AdminComponent.vue').default);
 Vue.component('product-component', require('./components/Admin/Product.vue').default);

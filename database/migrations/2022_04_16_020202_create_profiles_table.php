@@ -20,6 +20,7 @@ class CreateProfilesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('phone');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -34,6 +34,8 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:8',
             'firstname' => 'required',
             'lastname' => 'required',
+            'phone' => 'required',
+            'user_type' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors(), 'status' => 401]);
@@ -44,7 +46,7 @@ class AuthController extends Controller
         ]);
         
         $data['password'] = bcrypt($data['password']);
-        $data['user_type'] = \App\Models\User::DEFAULT_TYPE;
+        $data['user_type'] = $request->user_type == 0 ? User::DEFAULT_TYPE : User::SUPER_ADMIN_TYPE;
         $data['activation_token'] = Str::random(60);
         $user = User::create($data);
 
@@ -53,9 +55,10 @@ class AuthController extends Controller
             'lastname',
             'firstname',
             'user_id',
+            'phone',
         );
         $profile['user_id'] = $user->id;
-        $profile = Profile::create($profile);
+        $profile = $request->user_type == 0 ? Profile::create($profile) : Admin::create($profile);
 
         if ($user) {
             $user->notify(new SignUpActivate($data['activation_token']));
@@ -102,13 +105,14 @@ class AuthController extends Controller
 
         
         $user['password'] = bcrypt($user['email']);
+        $user['activation_token'] = Str::random(60);
+
         if ($request->user_type == 2) {
             $user['user_type'] = User::TECH_ADMIN_TYPE;
         }
         else {
             $user['user_type'] = User::ADMIN_TYPE;
         }
-
         $userCreated = User::create($user);
         $data = $request->only([
             'firstname',
@@ -135,54 +139,14 @@ class AuthController extends Controller
             $data['profile_img'] = '/img/profile/'.$name;
         }
         $admin = Admin::create($data);
-        return response()->json([
-            'user' => $userCreated,
-            'token' => $userCreated->createToken('accessToken')->accessToken,
-            'status' => 200
-        ]);
-    }
-
-    public function sAdminRegister(Request $request)
-    {
-        // User Data to validate
-        $validator = Validator::make($request->all(), [
-            'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed|min:8',
-            'user_type' => 'integer',
-            'firstname' => 'required',
-            'lastname' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors(), 'status' => 401]);
-        }
-        $data = $request->only([
-            'email',
-            'password',
-            'user_type',
-        ]);
-        $data['password'] = bcrypt($data['password']);
-        $data['user_type'] = User::SUPER_ADMIN_TYPE;
-        $user = User::create($data);
-
-        // Admin;
-        $profile = $request->only(
-            'lastname',
-            'firstname',
-            'user_id',
-        );
-        $profile['user_id'] = $user->id;
-        $profile = Admin::create($profile);
-        if ($user) {
+        if ($admin) {
+            $userCreated->notify(new SignUpActivate($user['activation_token']));
             return response()->json([
-                'user' => $user,
-                'profile' => $profile,
+                'user' => $userCreated,
+                'token' => $userCreated->createToken('accessToken')->accessToken,
                 'status' => 200
             ]);
         }
-        else {
-            return response('Creation error', 400);
-        }
-        
     }
 
      /**
@@ -230,20 +194,24 @@ class AuthController extends Controller
     public function forgetPass(Request $request) {
         $request->validate(['email' => 'required|email']);
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        try {
+            //code...
+            $user = User::where('email', $request->email)->firstOrFail();
 
-        if ($user) {
-            $token = Str::random(60);
-            $status = DB::table('password_resets')->updateOrInsert(
-                ['email' => $request->email],
-                ['token' => $token],
-                ['created_at' => now()],
-            );
-            $notify =  $user->notify(new ForgotPassword($token));
-        }
-        else {
+            if ($user) {
+                $token = Str::random(60);
+                $status = DB::table('password_resets')->updateOrInsert(
+                    ['email' => $request->email],
+                    ['token' => $token],
+                    ['created_at' => now()],
+                );
+                $notify =  $user->notify(new ForgotPassword($token));
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
             return response(['message' => 'Email does not exist! Check and retry again', 'status' => 204]);
         }
+        
      
         return response()->json(['message' => 'Check your email to reset your password!', 'status' => $notify], 201);
     }
@@ -253,25 +221,26 @@ class AuthController extends Controller
         $request->validate(['password' => 'required|min:8|confirmed']);
         $request->validate(['token' => 'required']);
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        try {
+            $user = User::where('email', $request->email)->firstOrFail();
 
-        if ($user) {
-            $token = Str::random(60);
-            $password = bcrypt($request->password);
-            $status = DB::table('password_resets')->where('token', '=', $request->token)->delete();
-            if ($status == 1) {
-                $update = $user->forceFill(['password' => $password, 'updated_at' => now()])->save();
-                $notify =  $user->notify(new PasswordUpdate());
-               
-                return response()->json(['message' => 'Password Reset successfull!', 'status' => $update], 201);
+            if ($user) {
+                $token = Str::random(60);
+                $password = bcrypt($request->password);
+                $status = DB::table('password_resets')->where('token', '=', $request->token)->delete();
+                if ($status == 1) {
+                    $update = $user->forceFill(['password' => $password, 'updated_at' => now()])->save();
+                    $notify =  $user->notify(new PasswordUpdate());
+                
+                    return response()->json(['message' => 'Password Reset successfull!', 'status' => $notify], 201);
+                }
+                else {
+                    return response()->json(['message' => 'Token Has Expired Or does not Exist!', 'status' => 204]);
+                }
             }
-            else {
-                return response()->json(['message' => 'Token Has Expired Or does not Exist!', 'status' => 204]);
-            }
-        }
-        else {
+        } catch (\Throwable $th) {
+            //throw $th;
             return response(['message' => 'Email does not exist! Check and retry again', 'status' => 204]);
         }
-     
     } 
 }

@@ -113,6 +113,7 @@
                                                                 <th scope="col">
                                                                     Last Order
                                                                 </th>
+                                                                <th scope="col"></th>
                                                                 <th scope="col">
                                                                     <i
                                                                         class="
@@ -204,6 +205,15 @@
                                                                     }}
                                                                 </td>
                                                                 <td></td>
+                                                                <td>
+                                                                    <a href="">
+                                                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                                                    </a>
+
+                                                                    <a :href="'mailto:'">
+                                                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                                    </a>
+                                                                </td>
                                                                 <td>
                                                                     <a
                                                                         href="#!"
