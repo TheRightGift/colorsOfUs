@@ -18,7 +18,8 @@ class BlogController extends Controller
             'title' => 'required|max:300|unique:blogs', 
             'category_id' => 'required',
             'status' => 'required|string',
-            'imageUrl' => 'nullable'           
+            'imageUrl' => 'nullable',
+            'postedBy' => 'nullable',        
 		]);
         return $validator;
     }
@@ -65,6 +66,7 @@ class BlogController extends Controller
                 'title' => $input['title'],
                 'category_id' => $input['category_id'],
                 'status' => $input['status'],
+                'postedBy' => $input['postedBy'],
             ]);
 
             $blog->images()->create([

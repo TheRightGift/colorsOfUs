@@ -11,7 +11,7 @@
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-                        <div v-if="$store.state.user.role_id == ''">
+                        <div v-if="$store.state.user.role_id != null">
                             <div v-if="$store.state.user.role_id == 1">
                                 <order-admin-component />
                             </div>
@@ -19,7 +19,10 @@
                                 <product-admin-component />
                             </div>
                         </div>
-                        <div v-else>
+                        <div v-else class="container">
+                                <img src="/img/loading.png" class="fa-spin" alt="processing Image" width="50px" height="50px" />
+                                <p class="center">Your Interface is being prepared, please check back later</p>
+                                <p class="center">An alternative is to logout and login again OR Contact your superior</p>
                             
                         </div>
                     </div>
@@ -74,6 +77,10 @@
         .flexedItem {
             display: block;
         }
+    }
+    .container {
+        text-align: center;
+        margin-top: 25vh;
     }
 </style>
 <style>

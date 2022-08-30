@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Support\Facades\Validator;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Shippinginfo;
@@ -28,10 +30,10 @@ class ShippinginfoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'user_id' => ['required', 'integer'],
             'lastname' => 'required',
-            'firstname' => 'nullable',
+            'firstname' => 'required',
             'othername' => 'nullable',
             'phone' => 'required',
             'phone2' => 'nullable',
@@ -43,25 +45,14 @@ class ShippinginfoController extends Controller
             'lga_id' => 'required',
             'active' => 'nullable',
         ]);
-        $data = $request->only([
-            'lastname',
-            'firstname',
-            'othername',
-            'phone',
-            'phone2',
-            'city',
-            'state_id',
-            'country',
-            'address',
-            'address2',
-            'postal_code',
-            'lga_id',
-            'active',
-            'created_at' => now(),
-            'user_id',
-        ]);
-        $shippinginfo = Shippinginfo::create($data);
-        return response()->json(['message' => 'New Shippinginfo added.', 'shippinginfo' => $shippinginfo->load('state', 'lga'), 'status' => 'ok']);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+        else {
+            $data = $validator->validated();
+            $shippinginfo = Shippinginfo::create($data);
+            return response()->json(['message' => 'New Shippinginfo added.', 'shippinginfo' => $shippinginfo->load('state', 'lga'), 'status' => 'ok']);
+        }
     }
 
     /**

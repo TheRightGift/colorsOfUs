@@ -206,11 +206,11 @@
                                                                 </td>
                                                                 <td></td>
                                                                 <td>
-                                                                    <a href="">
+                                                                    <a :href="'tel:'+user.profile.phone">
                                                                         <i class="fa fa-phone" aria-hidden="true"></i>
                                                                     </a>
 
-                                                                    <a :href="'mailto:'">
+                                                                    <a :href="'mailto:'+user.email">
                                                                         <i class="fa fa-envelope" aria-hidden="true"></i>
                                                                     </a>
                                                                 </td>

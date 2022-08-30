@@ -45,6 +45,8 @@
                                 order-summary-toggle__text
                                 order-summary-toggle__text--show
                             "
+                            @click="toggleSummary"
+                            v-if="!expanded"
                         >
                             <span>Show order summary</span>
                             <svg
@@ -60,10 +62,12 @@
                             </svg>
                         </span>
                         <span
+                            v-else
                             class="
                                 order-summary-toggle__text
-                                order-summary-toggle__text--hide
+                                order-summary-toggle__text--show
                             "
+                            @click="toggleSummaryOff"
                         >
                             <span>Hide order summary</span>
                             <svg
@@ -96,7 +100,7 @@
                                         skeleton-while-loading
                                     "
                                     data-checkout-payment-due-target="101400"
-                                    >$1,014.00</span
+                                    >&#8358;{{ amountDue }}</span
                                 >
                             </dd>
                         </dl>
@@ -496,7 +500,7 @@
                                                                 field--half
                                                                 field--show-floating-label
                                                             "
-                                                            data-address-field="first_name"
+                                                            :class="{'field--error': testErrors('firstname')}"
                                                         >
                                                             <div
                                                                 class="
@@ -527,7 +531,18 @@
                                                                     required
                                                                 />
                                                             </div>
+                                                            <p
+                                                                class="
+                                                                    field__message
+                                                                    field__message--error
+                                                                "
+                                                                id="error-for-zip"
+                                                                v-if="testErrors('firstname')"
+                                                            >
+                                                                Enter a firstname
+                                                            </p>
                                                         </div>
+
                                                         <div
                                                             class="
                                                                 field
@@ -535,7 +550,7 @@
                                                                 field--half
                                                                 field--show-floating-label
                                                             "
-                                                            data-address-field="last_name"
+                                                            :class="{'field--error': testErrors('lastname')}"
                                                         >
                                                             <div
                                                                 class="
@@ -568,7 +583,18 @@
                                                                     required
                                                                 />
                                                             </div>
+                                                            <p
+                                                                class="
+                                                                    field__message
+                                                                    field__message--error
+                                                                "
+                                                                id="error-for-zip"
+                                                                v-if="testErrors('lastname')"
+                                                            >
+                                                                Enter a lastname
+                                                            </p>
                                                         </div>
+
                                                         <div
                                                             data-address-field="address1"
                                                             data-autocomplete-field-container="true"
@@ -577,6 +603,7 @@
                                                                 field--required
                                                                 field--show-floating-label
                                                             "
+                                                            :class="{'field--error': testErrors('address')}"
                                                         >
                                                             <div
                                                                 class="
@@ -632,7 +659,19 @@
                                                                     you have one
                                                                 </p>
                                                             </div>
+                                                            <p
+                                                                class="
+                                                                    field__message
+                                                                    field__message--error
+                                                                "
+                                                                id="error-for-zip"
+                                                                v-if="testErrors('address')"
+                                                            >
+                                                                Enter a valid
+                                                                address
+                                                            </p>
                                                         </div>
+
                                                         <div
                                                             data-address-field="address2"
                                                             data-autocomplete-field-container="true"
@@ -640,6 +679,7 @@
                                                                 field
                                                                 field--optional
                                                             "
+                                                            :class="{'field--error': testErrors('address2')}"
                                                         >
                                                             <div
                                                                 class="
@@ -672,6 +712,7 @@
                                                                 />
                                                             </div>
                                                         </div>
+
                                                         <div
                                                             data-address-field="city"
                                                             data-autocomplete-field-container="true"
@@ -679,6 +720,7 @@
                                                                 field
                                                                 field--required
                                                             "
+                                                            :class="{'field--error': testErrors('city')}"
                                                         >
                                                             <div
                                                                 class="
@@ -709,6 +751,68 @@
                                                                     "
                                                                 />
                                                             </div>
+                                                            <p
+                                                                class="
+                                                                    field__message
+                                                                    field__message--error
+                                                                "
+                                                                id="error-for-zip"
+                                                                v-if="testErrors('city')"
+                                                            >
+                                                                Enter a valid
+                                                                city
+                                                            </p>
+                                                        </div>
+
+                                                        <div
+                                                            data-address-field="phone"
+                                                            data-autocomplete-field-container="true"
+                                                            class="
+                                                                field
+                                                                field--required
+                                                            "
+                                                            :class="{'field--error': testErrors('phone')}"
+                                                        >
+                                                            <div
+                                                                class="
+                                                                    field__input-wrapper
+                                                                "
+                                                            >
+                                                                <label
+                                                                    class="
+                                                                        field__label
+                                                                        field__label--visible
+                                                                    "
+                                                                    for="checkout_shipping_address_phone"
+                                                                    >Phone</label
+                                                                >
+                                                                <input
+                                                                    placeholder="Phone"
+                                                                    autocomplete="shipping tel"
+                                                                    autocorrect="off"
+                                                                    class="
+                                                                        field__input
+                                                                    "
+                                                                    aria-required="true"
+                                                                    size="30"
+                                                                    type="tel"
+                                                                    v-model="
+                                                                        user.phone
+                                                                    "
+                                                                    required
+                                                                />
+                                                            </div>
+                                                            <p
+                                                                class="
+                                                                    field__message
+                                                                    field__message--error
+                                                                "
+                                                                id="error-for-zip"
+                                                                v-if="testErrors('phone')"
+                                                            >
+                                                                Enter a valid
+                                                                phone number
+                                                            </p>
                                                         </div>
 
                                                         <div
@@ -718,7 +822,7 @@
                                                                 field--show-floating-label
                                                                 field--third
                                                             "
-                                                            data-address-field="country"
+                                                            data-address-field="state"
                                                             data-autocomplete-field-container="true"
                                                         >
                                                             <div
@@ -732,7 +836,7 @@
                                                                         field__label
                                                                         field__label--visible
                                                                     "
-                                                                    for="checkout_shipping_address_country"
+                                                                    for="checkout_shipping_address_state"
                                                                     >State/region</label
                                                                 >
                                                                 <select
@@ -743,6 +847,7 @@
                                                                     "
                                                                     aria-required="true"
                                                                     placeholder="State/region"
+                                                                    required
                                                                     @change="
                                                                         sortLgas
                                                                     "
@@ -787,6 +892,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div
                                                             class="
                                                                 field
@@ -885,12 +991,14 @@
                                                                 Government
                                                             </p>
                                                         </div>
+
                                                         <div
                                                             class="
                                                                 field
                                                                 field--required
                                                                 field--third
                                                             "
+                                                            :class="{'field--error': testErrors('postal_code')}"
                                                             data-address-field="zip"
                                                             data-autocomplete-field-container="true"
                                                         >
@@ -922,67 +1030,20 @@
                                                                     v-model="
                                                                         user.postal_code
                                                                     "
+                                                                    required
                                                                 />
                                                             </div>
-                                                            <!-- <p
+                                                            <p
                                                                 class="
                                                                     field__message
                                                                     field__message--error
                                                                 "
                                                                 id="error-for-zip"
+                                                                v-if="testErrors('postal_code')"
                                                             >
                                                                 Enter a valid
                                                                 ZIP code
-                                                            </p> -->
-                                                        </div>
-                                                        <div
-                                                            class="
-                                                                field
-                                                                field--required
-                                                                field--third
-                                                            "
-                                                            data-address-field="phone"
-                                                            data-autocomplete-field-container="true"
-                                                        >
-                                                            <div
-                                                                class="
-                                                                    field__input-wrapper
-                                                                "
-                                                            >
-                                                                <label
-                                                                    class="
-                                                                        field__label
-                                                                        field__label--visible
-                                                                    "
-                                                                    for="checkout_shipping_address_zip"
-                                                                    >Phone</label
-                                                                >
-                                                                <input
-                                                                    placeholder="Phone"
-                                                                    autocomplete="shipping tel"
-                                                                    autocorrect="off"
-                                                                    class="
-                                                                        field__input
-                                                                        field__input--zip
-                                                                    "
-                                                                    aria-required="true"
-                                                                    size="30"
-                                                                    type="tel"
-                                                                    v-model="
-                                                                        user.phone
-                                                                    "
-                                                                />
-                                                            </div>
-                                                            <!-- <p
-                                                                class="
-                                                                    field__message
-                                                                    field__message--error
-                                                                "
-                                                                id="error-for-zip"
-                                                            >
-                                                                Enter a valid
-                                                                ZIP code
-                                                            </p> -->
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1376,8 +1437,8 @@
                     <div class="sidebar__content">
                         <div
                             id="order-summary"
-                            class="order-summary order-summary--is-collapsed"
-                            data-order-summary=""
+                            class="order-summary"
+                            :class="{'order-summary--is-expanded': expanded, 'order-summary--is-collapsed': !expanded }"
                         >
                             <h2 class="visually-hidden">Order summary</h2>
 
@@ -1623,6 +1684,7 @@
                                             aria-hidden="true"
                                             tabindex="-1"
                                             id="order-summary__scroll-indicator"
+                                            v-if="$store.state.cartCount > 4"
                                         >
                                             Scroll for more items
                                             <svg
@@ -1806,7 +1868,7 @@
                             >
                                 Updated total price:
                                 <span data-checkout-payment-due-target="101400">
-                                    $1,014.00
+                                    &#8358;{{ amountDue }}
                                 </span>
                             </div>
                         </div>
@@ -1957,6 +2019,8 @@
                 amountDue: 0,
                 currency: "NGN",
                 country: "NG",
+                errors: [],
+                expanded: false,
                 flwAmt: 0,
                 flwKey: flwKey,
                 lgas: [],
@@ -2089,8 +2153,16 @@
                                     position: "top-right",
                                 });
                             }
-                            console.log(res);
-                        });
+                            else if (res.data.errors) {
+                                this.requesting = false;
+                                this.errors = res.data.errors;
+                                this.displayErrorText('postal_code')
+                                console.log(res.data.errors)
+                            }
+                            
+                        }).catch(err => {
+                            console.log(err);
+                        })
                     }
                 }
             },
@@ -2098,6 +2170,19 @@
                 this.lgaSorted = this.lgas.filter(
                     (el) => el.state_id == this.user.state
                 );
+            },
+            testErrors(error) {
+                return Object.hasOwn(this.errors, error);;
+            },
+            displayErrorText(error) {
+                const map = Object.getOwnPropertyDescriptor(this.errors, error);
+                console.log(map)
+            },
+            toggleSummary() {
+                this.expanded = true;
+            },
+            toggleSummaryOff() {
+                this.expanded = false;
             },
         },
         mounted() {
@@ -5515,6 +5600,10 @@
         .order-summary--transition,
         .order-summary--is-collapsed {
             overflow: hidden;
+        }
+
+        .order-summary__scroll-indicator {
+            display: none;
         }
     }
 

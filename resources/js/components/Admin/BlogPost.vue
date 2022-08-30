@@ -1004,6 +1004,7 @@
                 this.requesting = true;
                 this.blog.status = this.action == 0 ? 'draft' : 'published';
                 this.blog.imageUrl = this.imageUrl;
+                this.blog.postedBy = this.$store.state.user.lastname + ' ' + this.$store.state.user.lastname;
                 axiosFunction(url, this.blog)
                     .then((res) => {
                         if (res.data.status == 1) {

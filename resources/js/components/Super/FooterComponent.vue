@@ -1,5 +1,5 @@
 <template>
-    <footer class="sticky-footer bg-white">
+    <footer class="sticky-footer bg-white" :class="{'mtTop': $store.state.user.role_id == null}">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
                 <span
@@ -21,3 +21,10 @@
         },
     };
 </script>
+<style scoped>
+@media (max-width: 1023px) {
+    .mtTop {
+        margin-top: 13vh;
+    }
+}
+</style>

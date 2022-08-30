@@ -652,7 +652,7 @@
                     .reverse()
                     .slice(0, 20);
                 let rand = Math.floor(Math.random() * this.products.length);
-                this.homeBgImg = this.products[rand].images[0].url;
+                this.homeBgImg = this.products.length != 0 ? this.products[rand].images[0].url : null;
             },
             moment(arg) {
                 return moment(arg);

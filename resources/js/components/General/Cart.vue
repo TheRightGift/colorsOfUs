@@ -291,6 +291,7 @@
                                                                             data-id=""
                                                                             aria-label="quantity"
                                                                             pattern="[0-9]*"
+                                                                            onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                                                                             v-model="
                                                                                 item.quantity
                                                                             "
@@ -2355,7 +2356,7 @@
                 for (let item of this.$store.state.cart) {
                     total += item.totalPrice;
                 }
-                this.total = total;
+                this.total = parseInt(total);
                 return total.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,

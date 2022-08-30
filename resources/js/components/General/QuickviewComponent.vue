@@ -317,6 +317,7 @@
                                                                 cart-plus-minus-box
                                                             "
                                                             id="quantity"
+                                                            onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                                                         />
                                                         <div
                                                             class="
