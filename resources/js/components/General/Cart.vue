@@ -2354,9 +2354,9 @@
                 let total = 0;
 
                 for (let item of this.$store.state.cart) {
-                    total += item.totalPrice;
+                    total += parseInt(item.totalPrice);
                 }
-                this.total = parseInt(total);
+                this.total = total;
                 return total.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
